@@ -1,0 +1,39 @@
+generated: '2026-07-17'
+method: searched
+source: https://docs.airops.com/api-reference/using-the-api/authentication
+docs: https://docs.airops.com/api-reference/using-the-api/authentication
+summary:
+  types: [http, oauth2]
+  api_key_in: [header]
+  http_schemes: [bearer]
+  oauth2_flows: [authorizationCode]
+schemes:
+- name: apiKeyBearer
+  type: http
+  scheme: bearer
+  location: header
+  header: Authorization
+  format: 'Bearer [example key]'
+  description: >-
+    Workspace API key presented as a Bearer token in the Authorization header for
+    the REST API at api.airops.com. Keys are created and regenerated in Workspace
+    Settings; regenerating immediately invalidates the previous key. Some execute
+    endpoints also accept the key as an auth_token query parameter (webhook flows).
+  applies_to: https://api.airops.com/public_api/*
+- name: oauth2
+  type: oauth2
+  scheme: authorizationCode
+  description: >-
+    OAuth 2.0 authorization-code flow (PKCE S256) used by the hosted MCP server at
+    app.airops.com/mcp and OAuth clients. Discovery published at
+    app.airops.com/.well-known/openid-configuration and /oauth-authorization-server.
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://app.airops.com/oauth/authorize
+    tokenUrl: https://app.airops.com/oauth/token
+    revocationUrl: https://app.airops.com/oauth/revoke
+    introspectionUrl: https://app.airops.com/oauth/introspect
+    userinfoUrl: https://app.airops.com/oauth/userinfo
+    scopes_supported: [api, openid, profile, email]
+    pkce: [S256]
+  applies_to: https://app.airops.com/mcp
