@@ -1,9 +1,32 @@
 aid: airops
 name: AirOps
-description: 'AirOps is a company surfaced as a portfolio company of greylock and added to the API Evangelist
-  network as a stub for enrichment. Sector: applications. This profile is a lead awaiting the enrichment
-  pipeline.'
+description: >-
+  AirOps is a growth platform for AI search and answer engine optimization (AEO)
+  that helps brands measure and improve their visibility across AI assistants and
+  search engines including ChatGPT, Perplexity, Gemini, Claude, and Google. The
+  platform pairs Insights (citation tracking, share-of-voice, sentiment, and
+  competitor intelligence) with Action (Playbooks, Workflows, Grids, and Campaigns
+  that draft and ship content at scale) and Context (Brand Kits and Knowledge
+  Bases). AirOps exposes a public REST API at api.airops.com for executing
+  Workflows/Apps, managing Knowledge Bases, and pulling AEO analytics, a hosted
+  Model Context Protocol (MCP) server at app.airops.com/mcp with roughly ninety
+  tools, incoming webhook triggers, and first-party JavaScript and Python SDKs. It
+  was surfaced as a portfolio company of Greylock and enriched into the API
+  Evangelist network.
 url: https://raw.githubusercontent.com/api-evangelist/airops/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://cdn.prod.website-files.com/61fae48cb5979577435753f6/69fe76ac41d8f24a95a59e72_1200x630-Homepage.jpg
 x-type: company
 x-source: greylock-portfolio
 x-tier: stub
@@ -14,12 +37,108 @@ modified: '2026-07-17'
 tags:
 - Company
 - Applications
-apis: []
+- AI
+- Content
+- SEO
+- AEO
+- Answer Engine Optimization
+- Generative Engine Optimization
+- Workflows
+- MCP
+- Analytics
+apis:
+- name: AirOps API
+  description: >-
+    Public REST API for running AirOps Workflows/Apps (synchronous, asynchronous,
+    and webhook execution), managing executions, interacting with Knowledge Bases
+    (Memory Stores), and reading AEO analytics, citations, prompts, pages, and
+    Brand Kit resources. Authenticated with a workspace API key as an
+    Authorization Bearer token.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  properties:
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/airops-domain-security.yml
 - type: Website
   url: https://www.airops.com/
+- type: DeveloperPortal
+  url: https://docs.airops.com/
+- type: Documentation
+  url: https://docs.airops.com/
+- type: APIReference
+  url: https://docs.airops.com/api-reference/api-reference/executions
+- type: GettingStarted
+  url: https://docs.airops.com/getting-started/readme
+- type: Authentication
+  url: authentication/airops-authentication.yml
+- type: MCPServer
+  url: mcp/airops-mcp.yml
+- type: LLMsTxt
+  url: llms/airops-llms.txt
+- type: WellKnown
+  url: well-known/airops-well-known.yml
+- type: SecurityTxt
+  url: well-known/airops-security.txt
+- type: OAuthScopes
+  url: scopes/airops-scopes.yml
+- type: SDKs
+  url: packages/airops-packages.yml
+- type: Packages
+  url: packages/airops-packages.yml
+- type: Conventions
+  url: conventions/airops-conventions.yml
+- type: ErrorCatalog
+  url: errors/airops-error-codes.yml
+- type: Webhooks
+  url: asyncapi/airops-webhooks.yml
+- type: Lifecycle
+  url: lifecycle/airops-lifecycle.yml
+- type: StatusPage
+  url: https://status.airops.com/
+- type: Conformance
+  url: conformance/airops-conformance.yml
+- type: Blog
+  url: https://www.airops.com/blog
+- type: Pricing
+  url: https://www.airops.com/pricing
+- type: SignUp
+  url: https://app.airops.com/users/sign_up
+- type: Login
+  url: https://app.airops.com/users/sign_in
+- type: TermsOfService
+  url: https://www.airops.com/terms
+- type: PrivacyPolicy
+  url: https://www.airops.com/privacy-policy
+- type: GitHubOrganization
+  url: https://github.com/airopshq
+- type: Support
+  url: https://university.airops.com/
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence
