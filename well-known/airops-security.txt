@@ -1,0 +1,5 @@
+# AirOps security policy (RFC 9116)
+Contact: mailto:platform-engineering@airops.com
+Expires: 2027-07-05T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://app.airops.com/.well-known/security.txt

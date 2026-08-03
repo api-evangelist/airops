@@ -1,0 +1,34 @@
+generated: '2026-07-17'
+method: searched
+type: Webhooks
+source: https://docs.airops.com/actions/workflow-concepts/run-once/trigger/incoming-webhook
+note: >-
+  AirOps documents a webhook surface but does not publish an AsyncAPI document, so
+  this captures the webhook/event catalog (type Webhooks) rather than an AsyncAPI
+  spec. No fabrication of an event schema.
+webhooks:
+- name: incoming-webhook-trigger
+  direction: inbound
+  description: >-
+    Start (trigger) a Workflow by sending an HTTP request to a generated incoming
+    webhook URL for that Workflow.
+  docs: https://docs.airops.com/actions/workflow-concepts/run-once/trigger/incoming-webhook
+- name: webhook-async-execute
+  direction: inbound
+  description: >-
+    Execute an App/Workflow asynchronously via the webhook execute endpoint,
+    authorized with an auth_token query parameter.
+  endpoint: POST /public_api/airops_apps/{app_uuid}/webhook_async_execute
+  docs: https://docs.airops.com/actions/workflow-concepts/run-once/api
+- name: playbook-webhook-trigger
+  direction: inbound
+  description: >-
+    Playbook Triggers include a Webhook trigger (alongside Schedule, Monitor, and
+    AEO Insight triggers) to start Playbooks automatically.
+  docs: https://docs.airops.com/actions/playbooks/triggers
+- name: failure-alert
+  direction: outbound
+  description: >-
+    Receive an alert through Slack or an incoming webhook when a Workflow run
+    fails.
+  docs: https://docs.airops.com/your-workspace/monitoring/alerts

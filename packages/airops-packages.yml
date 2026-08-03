@@ -1,0 +1,29 @@
+generated: '2026-07-17'
+method: searched
+source: npm + PyPI registries and github.com/airopshq
+packages:
+- language: javascript
+  registry: npm
+  name: "@airops/airops-js"
+  version: 2.3.0
+  url: https://www.npmjs.com/package/@airops/airops-js
+  repository: https://github.com/airopshq/airops-js
+  install: npm install @airops/airops-js
+  description: JavaScript/TypeScript SDK for interacting with the AirOps API.
+  official: true
+- language: python
+  registry: pypi
+  name: airops
+  url: https://pypi.org/project/airops/
+  repository: https://github.com/airops/airops-sdk
+  install: pip install airops
+  description: >-
+    AirOps Python SDK for building custom tools that integrate with the AirOps
+    Steps API.
+  official: true
+notes: >-
+  Both client libraries are first-party (published under the AirOps org / point
+  to AirOps repositories). No official Java, .NET, Go, Ruby, PHP, or Rust client
+  library was found on Maven Central, NuGet, pkg.go.dev, RubyGems, Packagist, or
+  crates.io at the time of enrichment. The npm root name "airops" is unrelated
+  (404 / different project); the scoped @airops/airops-js is the official JS SDK.

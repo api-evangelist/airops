@@ -1,0 +1,21 @@
+generated: '2026-07-17'
+method: searched
+source: https://docs.airops.com/api-reference/api-reference/executions
+format: http-status
+envelope:
+  note: >-
+    Errors are signalled via HTTP status codes on the api.airops.com public API.
+    AirOps does not publish an RFC 9457 problem+json contract or a numeric error
+    registry; the codes below are the documented responses on the Executions
+    endpoints.
+errors:
+- status: 200
+  meaning: OK — execution created / returned successfully.
+- status: 204
+  meaning: >-
+    No Content — success with no body (cancel, retry, and feedback endpoints).
+- status: 400
+  meaning: Invalid input — malformed request body or missing required inputs.
+- status: 401
+  meaning: >-
+    Authentication error — missing/invalid API key (Authorization Bearer token).

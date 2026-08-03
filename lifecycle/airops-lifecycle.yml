@@ -1,0 +1,19 @@
+generated: '2026-07-17'
+method: searched
+source: https://docs.airops.com/ + https://status.airops.com/
+versioning:
+  api:
+    scheme: unversioned-path
+    current: public_api
+    note: The public REST API path (/public_api/...) carries no version segment.
+  app:
+    scheme: per-app version_slug
+    note: Each Workflow/App is versioned; version_slug pins the version to execute.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  note: No public deprecation policy or RFC 8594 Sunset/Deprecation header support was found.
+sla:
+  url: null
+  uptime_target: null
+status_page: https://status.airops.com/

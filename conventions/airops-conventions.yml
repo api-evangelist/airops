@@ -1,0 +1,50 @@
+generated: '2026-07-17'
+method: searched
+source: https://docs.airops.com/api-reference
+docs: https://docs.airops.com/actions/workflow-concepts/run-once/api
+conventions:
+  base_url: https://api.airops.com
+  path_style: /public_api/airops_apps/*
+  authentication:
+    style: bearer-api-key
+    header: 'Authorization: Bearer AIROPS_API_KEY'
+    query_alt: auth_token (webhook execute endpoints only)
+    ref: authentication/airops-authentication.yml
+  execution_model:
+    modes:
+    - synchronous:  POST /public_api/airops_apps/{app_uuid}/execute
+    - asynchronous: POST /public_api/airops_apps/{app_uuid}/async_execute
+    - webhook_async: POST /public_api/airops_apps/{app_uuid}/webhook_async_execute
+    poll: GET /public_api/airops_apps/executions/{execution_uuid}
+    cancel: PATCH /public_api/airops_apps/executions/{execution_uuid}/cancel
+    retry: POST /public_api/airops_apps/executions/{execution_uuid}/retry
+    feedback: PATCH /public_api/airops_apps/executions/{execution_uuid}/feedback
+    description: >-
+      Long-running Workflow/App runs are submitted asynchronously and then polled
+      by execution UUID, or delivered via an incoming/outgoing webhook. Inputs are
+      supplied in the request body as an inputs object; an optional version_slug
+      pins the App version.
+  identifiers:
+    app: app_uuid (also referenced as airops_app_id; visible in the app URL)
+    execution: execution_uuid
+  versioning:
+    api: unversioned public_api path (no version segment)
+    app: per-app version_slug selects the App/Workflow version to run
+  error_handling:
+    style: http-status
+    ref: errors/airops-error-codes.yml
+    workflow_level: >-
+      Workflows support branched error handling and a dedicated Error step that
+      throws custom messages terminating the run.
+  webhooks:
+    incoming: Incoming Webhook trigger starts a Workflow.
+    alerts: Failure alerts can be delivered to Slack or an incoming webhook.
+    ref: asyncapi/airops-webhooks.yml
+  idempotency:
+    supported: false
+    note: >-
+      AirOps does not document an idempotency-key header for the public API. Not
+      emitting an Idempotency pointer (no fabrication).
+  rate_limits:
+    documented: false
+    note: No numeric public rate-limit table was found in the API reference.

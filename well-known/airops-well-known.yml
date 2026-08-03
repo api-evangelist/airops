@@ -1,0 +1,29 @@
+generated: '2026-07-17'
+method: searched
+source: live probes of AirOps hosts
+hosts:
+- host: https://app.airops.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: airops-security.txt
+  - path: /.well-known/openid-configuration
+    status: 200
+    file: airops-openid-configuration.json
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: airops-oauth-authorization-server.json
+- host: https://api.airops.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: identical to app.airops.com security.txt (canonical points to app host)
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: airops-api-oauth-authorization-server.json
+- host: https://www.airops.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404

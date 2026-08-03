@@ -1,0 +1,36 @@
+generated: '2026-07-17'
+method: searched
+source: https://app.airops.com/.well-known/openid-configuration
+docs: https://docs.airops.com/mcp/mcp-server
+note: >-
+  Scopes are enumerated from the live OAuth 2.0 / OpenID Connect discovery
+  documents published by AirOps. The OIDC discovery advertises openid/profile/
+  email/api; the OAuth authorization-server metadata advertises the single "api"
+  scope used to authorize the hosted MCP server and API access. AirOps does not
+  publish a granular per-resource scope taxonomy; the REST API is authorized with
+  a workspace-scoped API key rather than fine-grained OAuth scopes.
+schemes:
+- name: oauth2
+  source: https://app.airops.com/.well-known/oauth-authorization-server
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://app.airops.com/oauth/authorize
+    tokenUrl: https://app.airops.com/oauth/token
+    pkce: [S256]
+scopes:
+- scope: api
+  description: Access the AirOps API and workspace resources on behalf of the user.
+  flows: [authorizationCode]
+  sources: [well-known/airops-oauth-authorization-server.json]
+- scope: openid
+  description: OpenID Connect authentication (subject identity).
+  flows: [authorizationCode]
+  sources: [well-known/airops-openid-configuration.json]
+- scope: profile
+  description: Access to the user's basic profile claims.
+  flows: [authorizationCode]
+  sources: [well-known/airops-openid-configuration.json]
+- scope: email
+  description: Access to the user's email claim.
+  flows: [authorizationCode]
+  sources: [well-known/airops-openid-configuration.json]
