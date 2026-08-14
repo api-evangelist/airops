@@ -29,11 +29,11 @@ accessModel:
 image: https://cdn.prod.website-files.com/61fae48cb5979577435753f6/69fe76ac41d8f24a95a59e72_1200x630-Homepage.jpg
 x-type: company
 x-source: greylock-portfolio
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: full-artifact-pass-2026-08-13
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-08-13'
 tags:
 - Company
 - Applications
@@ -46,6 +46,11 @@ tags:
 - Workflows
 - MCP
 - Analytics
+- Agent Skills
+- OpenAPI
+- Knowledge Base
+- Content Marketing
+- Citations
 apis:
 - name: AirOps API
   description: >-
@@ -75,12 +80,24 @@ apis:
     url: asyncapi/airops-webhooks.yml
   - type: Conformance
     url: conformance/airops-conformance.yml
+  - type: OpenAPI
+    url: openapi/airops-api-openapi.yml
+  - type: Overlay
+    url: overlays/airops-api-overlay.yaml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: AgenticAccess
+  url: agentic-access/airops-agentic-access.yml
+- type: VulnerabilityDisclosure
+  url: security/airops-vulnerability-disclosure.yml
 - type: DomainSecurity
   url: security/airops-domain-security.yml
 - type: Website
@@ -121,6 +138,26 @@ common:
   url: https://status.airops.com/
 - type: Conformance
   url: conformance/airops-conformance.yml
+- type: OpenAPI
+  url: openapi/airops-api-openapi.yml
+- type: Overlay
+  url: overlays/airops-api-overlay.yaml
+- type: DataModel
+  url: data-model/airops-data-model.yml
+- type: ToolCrosswalk
+  url: mcp/airops-tool-crosswalk.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Plans
+  url: plans/airops-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/airops-rate-limits.yml
+- type: ChangeLog
+  url: changelog/airops-changelog.yml
+- type: Sandbox
+  url: sandbox/airops-sandbox.yml
+- type: Security
+  url: https://app.airops.com/.well-known/security.txt
 - type: Blog
   url: https://www.airops.com/blog
 - type: Pricing
@@ -138,7 +175,13 @@ common:
 - type: Support
   url: https://university.airops.com/
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 12
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
+  note: >-
+    Contract discovery beat the round-1 "no spec" result: the published OpenAPI
+    3.0.1 was live at https://api.airops.com/public_api/openapi.yaml (under
+    /public_api/, not the host root, which is why the earlier root probes missed
+    it). Seven first-party Agent Skills were also found published in the
+    airopshq GitHub org and saved verbatim.
