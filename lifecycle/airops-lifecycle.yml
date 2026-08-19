@@ -1,19 +1,55 @@
-generated: '2026-07-17'
+generated: '2026-08-13'
 method: searched
-source: https://docs.airops.com/ + https://status.airops.com/
+source: >-
+  https://docs.airops.com/ + https://status.airops.com/ +
+  openapi/airops-api-openapi.yml
 versioning:
   api:
     scheme: unversioned-path
     current: public_api
-    note: The public REST API path (/public_api/...) carries no version segment.
+    declared: info.version "v1" (info.title "API V1")
+    declared_source: openapi/airops-api-openapi.yml
+    note: >-
+      The published OpenAPI declares v1, but no path segment, header or media type
+      carries a version, so there is nothing an integrator can pin to. If AirOps
+      ships a breaking change there is no v2 path to move to and no versioned
+      contract to stay on.
   app:
     scheme: per-app version_slug
-    note: Each Workflow/App is versioned; version_slug pins the version to execute.
+    note: >-
+      Each Workflow/App is versioned and version_slug pins the version to execute
+      (default version when omitted). Customer artifacts are versioned even
+      though the API is not.
+    docs: https://docs.airops.com/actions/workflow-concepts/publishing-and-versioning
 deprecation:
   policy_url: null
   sunset_header: false
-  note: No public deprecation policy or RFC 8594 Sunset/Deprecation header support was found.
+  deprecation_header: false
+  rfc8594: false
+  note: >-
+    No public deprecation policy and no RFC 8594 Sunset/Deprecation header
+    support was found. NOT emitting a Deprecation pointer — no fabrication.
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in the 42-operation OpenAPI carries deprecated: true.
+change_communication:
+  changelog: false
+  release_notes: false
+  ref: changelog/airops-changelog.yml
+  note: >-
+    https://www.airops.com/changelog redirects to the marketing blog; there is no
+    dated changelog. Product announcements arrive as undated blog posts.
 sla:
   url: null
   uptime_target: null
+  note: No published SLA or uptime commitment was found on the public surface.
 status_page: https://status.airops.com/
+support:
+  university: https://university.airops.com/
+  docs: https://docs.airops.com/
+  channels: [Community, Live Chat, Private Slack (Enterprise), Dedicated Account Manager (Enterprise)]
+gaps:
+- No versioned API path and no version negotiation mechanism.
+- No deprecation policy, sunset headers, or breaking-change notice channel.
+- No changelog or release notes for either the REST API or the 76-tool MCP server.
+- No published SLA or uptime target to accompany the status page.

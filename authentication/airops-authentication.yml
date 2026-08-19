@@ -1,7 +1,18 @@
-generated: '2026-07-17'
+generated: '2026-08-13'
 method: searched
 source: https://docs.airops.com/api-reference/using-the-api/authentication
 docs: https://docs.airops.com/api-reference/using-the-api/authentication
+also_derived_from: openapi/airops-api-openapi.yml
+spec_confirmation: >-
+  Confirmed 2026-08-13 against the published OpenAPI harvested from
+  https://api.airops.com/public_api/openapi.yaml. The spec declares exactly one
+  security scheme — components.securitySchemes.bearer (type: http, scheme:
+  bearer) — applied per-operation, with a 401 "Authentication error" response on
+  all 42 operations. There is no document-level `security` default (flagged in
+  overlays/airops-api-overlay.yaml). The OpenAPI does NOT model the OAuth 2.0
+  scheme below: OAuth exists only for the hosted MCP server and is discoverable
+  solely through the /.well-known/ documents, so the two auth surfaces are
+  documented in different places and only this artifact unifies them.
 summary:
   types: [http, oauth2]
   api_key_in: [header]

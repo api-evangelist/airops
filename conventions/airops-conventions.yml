@@ -1,50 +1,173 @@
-generated: '2026-07-17'
+generated: '2026-08-13'
 method: searched
-source: https://docs.airops.com/api-reference
-docs: https://docs.airops.com/actions/workflow-concepts/run-once/api
+source: https://docs.airops.com/developers/api
+docs: https://docs.airops.com/api-reference/using-the-api/authentication
+also_derived_from: openapi/airops-api-openapi.yml
+note: >-
+  Upgraded 2026-08-13 after the published OpenAPI was located at
+  https://api.airops.com/public_api/openapi.yaml and the Insights API guide was
+  read. The AirOps API is really TWO conventions in one host: an execution
+  surface (RPC-shaped, /public_api/airops_apps/*) and an Insights/AEO reporting
+  surface (POST-for-read list/show with a shared filter/sort/fields envelope,
+  /public_api/brand_kits/*). They differ on pagination, response envelope and
+  error vocabulary, so both are recorded.
 conventions:
   base_url: https://api.airops.com
-  path_style: /public_api/airops_apps/*
+  path_style: /public_api/*
+  surfaces:
+  - name: execution
+    path_prefix: /public_api/airops_apps, /public_api/agent_apps, /public_api/vector_stores, /public_api/grids, /public_api/workspace_files
+    style: rpc-over-http
+    note: Verb-shaped sub-paths (execute, async_execute, cancel, retry, feedback, search).
+  - name: insights
+    path_prefix: /public_api/brand_kits
+    style: post-for-read
+    note: >-
+      List and show are POST with a JSON body carrying filters/sort/fields/paging,
+      because the query grammar exceeds what a query string can express. Single
+      reference records are GET by id.
   authentication:
     style: bearer-api-key
     header: 'Authorization: Bearer AIROPS_API_KEY'
-    query_alt: auth_token (webhook execute endpoints only)
+    scheme: components.securitySchemes.bearer (type http, scheme bearer)
+    query_alt: auth_token (WebhookAsyncExecuteApp only, required query parameter)
+    key_management: >-
+      One workspace key, created and regenerated in Workspace Settings.
+      Regenerating immediately invalidates the previous key.
     ref: authentication/airops-authentication.yml
   execution_model:
     modes:
-    - synchronous:  POST /public_api/airops_apps/{app_uuid}/execute
+    - synchronous: POST /public_api/airops_apps/{app_uuid}/execute
     - asynchronous: POST /public_api/airops_apps/{app_uuid}/async_execute
     - webhook_async: POST /public_api/airops_apps/{app_uuid}/webhook_async_execute
+    - agent_chat: POST /public_api/agent_apps/{app_uuid}/chat
+    - agent_chat_async: POST /public_api/agent_apps/{app_uuid}/async_chat
     poll: GET /public_api/airops_apps/executions/{execution_uuid}
     cancel: PATCH /public_api/airops_apps/executions/{execution_uuid}/cancel
     retry: POST /public_api/airops_apps/executions/{execution_uuid}/retry
     feedback: PATCH /public_api/airops_apps/executions/{execution_uuid}/feedback
+    precondition: The App must be PUBLISHED before any execute endpoint will run it.
+    synchronous_timeout: >-
+      10 minutes. The synchronous endpoint also fails when the workspace is at
+      capacity; use async_execute for anything long-running.
+    status_enum: [pending, running, error, success, cancelled, review_needed]
     description: >-
-      Long-running Workflow/App runs are submitted asynchronously and then polled
-      by execution UUID, or delivered via an incoming/outgoing webhook. Inputs are
-      supplied in the request body as an inputs object; an optional version_slug
-      pins the App version.
+      Inputs are supplied in the request body as an `inputs` object; an optional
+      `version_slug` pins the App version. Async runs are queued at the
+      workspace's capacity and polled by execution UUID.
   identifiers:
-    app: app_uuid (also referenced as airops_app_id; visible in the app URL)
-    execution: execution_uuid
+    app: app_uuid (36-char UUID; also referenced as airops_app_id)
+    execution: execution_uuid (36-char UUID)
+    brand_kit: id (integer)
+    memory_store: memory_store_id
+    grid: grid_id + sheet_id
+    note: >-
+      The execution surface addresses by UUID; the Insights surface addresses by
+      integer id. Mixed identifier styles within one API.
+  pagination:
+    style: offset
+    surface: insights list endpoints
+    request: '{ "page": 1, "per_page": 100 }'
+    max_per_page: 100
+    response_fields: [meta.total_count, meta.total_pages]
+    idiom: Loop until page >= total_pages.
+    cursor: false
+    note: >-
+      The execution surface has no documented pagination contract; PaginationMeta
+      appears only on the Brand Kit list response.
+  filtering:
+    location: request body
+    shape: '{ "filters": [ { "field": ..., "operator": ..., "value": ... } ] }'
+    operators:
+      text: [EQUALS, CONTAINS, STARTS_WITH]
+      numeric: [EQ, NEQ, GT, LT, GEQ, LEQ]
+      set: [IN]
+    smart_filters: >-
+      Named server-side filters on some endpoints (e.g. web_pages accepts
+      smart_filter "losing_ai_visibility").
+  sorting:
+    location: request body
+    shape: '{ "sort": "-citation_rate" }'
+    descending_prefix: '-'
+  field_selection:
+    location: request body
+    shape: '{ "fields": ["url", "citations_count", "clicks", "position"] }'
+    note: Sparse fieldsets on the Insights surface; no expansion/include grammar on execution endpoints.
+  expansion:
+    style: include
+    shape: getBrandKit accepts an includes list (product_lines, audiences, content_types, regions, writing_rules, custom_variables, ...)
+    note: Nested-entity expansion is Brand Kit specific.
+  date_ranges:
+    params: [start_date, end_date]
+    format: YYYY-MM-DD
+    default: last 30 days
+    rules:
+    - end_date must be strictly before today (otherwise HTTP 422)
+    - Google Search Console and GA4 metrics lag 4 days
+    data_availability: >-
+      Every metric response carries a data_availability object with
+      earliest_data_date, latest_data_date and requested_period_has_data. Check
+      requested_period_has_data before processing.
+  response_envelope:
+    list: '{ "data": [...], "meta": { "page", "per_page", "total_count", "total_pages" } }'
+    show: '{ "data": { ... } }'
+    execution: '{ "airops_app_execution": { ...Execution } }'
+    note: >-
+      The execution surface wraps its payload in a named key rather than `data`.
+      The two surfaces do not share an envelope.
   versioning:
-    api: unversioned public_api path (no version segment)
-    app: per-app version_slug selects the App/Workflow version to run
+    api:
+      scheme: unversioned-path
+      declared: info.version "v1" / info.title "API V1"
+      note: >-
+        The spec declares v1 but no path or header carries a version, so there is
+        nothing an integrator can pin to.
+    app:
+      scheme: per-app version_slug
+      note: Selects which published App/Workflow version to run.
+    ref: lifecycle/airops-lifecycle.yml
   error_handling:
     style: http-status
+    format: bare JSON, not RFC 9457
+    envelope: '{ "error": "..." }'
+    validation_detail: validation_errors array on 400 responses from the Insights surface
     ref: errors/airops-error-codes.yml
     workflow_level: >-
-      Workflows support branched error handling and a dedicated Error step that
-      throws custom messages terminating the run.
-  webhooks:
-    incoming: Incoming Webhook trigger starts a Workflow.
-    alerts: Failure alerts can be delivered to Slack or an incoming webhook.
-    ref: asyncapi/airops-webhooks.yml
+      Workflows support branched error handling, per-step soft_fail, and a
+      dedicated Error step that throws a custom message terminating the run.
+  request_tracing:
+    request_id_header: null
+    documented: false
+    note: >-
+      No request-id or correlation header is documented or present in the
+      OpenAPI. The execution_uuid is the only handle an integrator can quote back
+      to support, and it exists only for execution endpoints.
   idempotency:
     supported: false
+    header: null
     note: >-
-      AirOps does not document an idempotency-key header for the public API. Not
-      emitting an Idempotency pointer (no fabrication).
+      AirOps documents no idempotency-key header or parameter, and none appears
+      in the 42-operation OpenAPI. Re-POSTing an execute call creates a second
+      execution and consumes tasks again. NOT emitting an Idempotency pointer —
+      no fabrication.
   rate_limits:
     documented: false
-    note: No numeric public rate-limit table was found in the API reference.
+    headers: []
+    ref: rate-limits/airops-rate-limits.yml
+    note: >-
+      No request-rate policy, no 429 contract, no RateLimit-* headers. Quota and
+      result-size caps are recorded in the rate-limits artifact as constraints.
+  webhooks:
+    incoming: Incoming Webhook trigger starts a Workflow.
+    execute: POST /public_api/airops_apps/{app_uuid}/webhook_async_execute?auth_token=...
+    alerts: Failure alerts can be delivered to Slack or an incoming webhook.
+    signing: not documented
+    ref: asyncapi/airops-webhooks.yml
+  content_type: application/json
+  cross_links:
+    authentication: authentication/airops-authentication.yml
+    errors: errors/airops-error-codes.yml
+    lifecycle: lifecycle/airops-lifecycle.yml
+    rate_limits: rate-limits/airops-rate-limits.yml
+    data_model: data-model/airops-data-model.yml
+    openapi: openapi/airops-api-openapi.yml

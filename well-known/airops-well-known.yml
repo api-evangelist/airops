@@ -1,6 +1,12 @@
-generated: '2026-07-17'
+generated: '2026-08-13'
 method: searched
 source: live probes of AirOps hosts
+last_probed: '2026-08-13'
+note: >-
+  AirOps serves a REAL /.well-known/ discovery surface on app.airops.com — an
+  RFC 9116 security.txt plus OIDC discovery and RFC 8414 OAuth authorization
+  server metadata, which is what makes the hosted MCP server independently
+  discoverable. Recorded 404s below are honest absences, not untried paths.
 hosts:
 - host: https://app.airops.com
   documents:
@@ -13,17 +19,62 @@ hosts:
   - path: /.well-known/oauth-authorization-server
     status: 200
     file: airops-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    checked: '2026-08-13'
+    note: >-
+      RFC 9728 protected-resource metadata is NOT served, so an MCP client cannot
+      discover the authorization server from the resource itself; it must be told
+      out of band.
+  - path: /.well-known/agent-card.json
+    status: 404
+    checked: '2026-08-13'
+  - path: /.well-known/agent.json
+    status: 404
+    checked: '2026-08-13'
 - host: https://api.airops.com
   documents:
   - path: /.well-known/security.txt
     status: 200
-    note: identical to app.airops.com security.txt (canonical points to app host)
+    note: identical to app.airops.com security.txt (canonical points to the app host)
   - path: /.well-known/oauth-authorization-server
     status: 200
     file: airops-api-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    checked: '2026-08-13'
+  - path: /.well-known/agent-card.json
+    status: 404
+    checked: '2026-08-13'
+  - path: /.well-known/agent.json
+    status: 404
+    checked: '2026-08-13'
 - host: https://www.airops.com
   documents:
   - path: /.well-known/security.txt
     status: 404
   - path: /.well-known/ai-plugin.json
     status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+    checked: '2026-08-13'
+  - path: /.well-known/agent.json
+    status: 404
+    checked: '2026-08-13'
+- host: https://docs.airops.com
+  documents:
+  - path: /.well-known/agent-card.json
+    status: 404
+    checked: '2026-08-13'
+    note: GitBook docs host; body is the SPA 404 shell, not a document.
+  - path: /.well-known/agent.json
+    status: 404
+    checked: '2026-08-13'
+summary:
+  documents_served: 4
+  api_catalog: false
+  ai_plugin: false
+  agent_card: false
+  note: >-
+    No A2A Agent Card on any AirOps host — nothing was written to a2a/, per the
+    search-only rule. No /.well-known/api-catalog (RFC 9727) is served either.

@@ -1,0 +1,110 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.airops.com/developers/api
+docs:
+- https://docs.airops.com/developers/api
+- https://docs.airops.com/your-workspace/settings/billing
+- https://docs.airops.com/your-workspace/settings/usage
+limit_count: 0
+note: >-
+  AirOps publishes NO request-rate limit — no requests-per-second/minute figure,
+  no 429 contract, and no rate-limit response headers anywhere in the API
+  reference, the Insights API guide, or the OpenAPI (which declares no 429
+  response on any of its 42 operations). What AirOps does publish is a set of
+  QUOTA and RESULT-SIZE caps, recorded below as constraints[] because an agent
+  must plan around them, but they are not rate limits and they are not signalled
+  in response headers. limit_count is therefore 0: an honest zero for the rate
+  limiting an integrator would actually need.
+headers:
+  published: false
+  observed: []
+  note: >-
+    No X-RateLimit-*, RateLimit-* or Retry-After headers are documented. None
+    could be observed on a live unauthenticated response either, because every
+    /public_api/* path answers 401 before any limit is evaluated.
+exhaustion:
+  status_code: null
+  documented: false
+  note: >-
+    No 429 status is documented or declared in the OpenAPI. Quota exhaustion is
+    described as a billing/limit event (executions pause on a hard task limit, or
+    overage is charged), not as an HTTP response contract.
+constraints:
+- name: workspace-task-quota
+  kind: quota
+  scope: per-workspace
+  window: month
+  limit: 20000 tasks (Solo) / 75000 tasks (Pro) / custom (Enterprise)
+  behavior: >-
+    A soft limit emails a notification; a hard limit blocks Workflow and Playbook
+    execution. Solo overage is billed at $0.025 per task.
+  source: https://docs.airops.com/your-workspace/settings/billing
+- name: synchronous-execution-timeout
+  kind: timeout
+  scope: per-request
+  limit: 10 minutes
+  behavior: >-
+    The synchronous execute endpoint fails if the App takes more than 10 minutes
+    to run, or if the workspace is at capacity. Use async_execute instead.
+  operations: [executeApp]
+  source: https://docs.airops.com/api-reference/api-reference/executions
+- name: workspace-execution-capacity
+  kind: concurrency
+  scope: per-workspace
+  limit: not published
+  behavior: >-
+    Asynchronous executions are queued and run "at your workspace's capacity".
+    The numeric capacity is not published.
+  operations: [asyncExecuteApp]
+  source: https://docs.airops.com/api-reference/api-reference/executions
+- name: analytics-row-cap
+  kind: result-size
+  scope: per-query
+  limit: 1000 rows
+  behavior: >-
+    The analytics endpoint caps at 1,000 rows per query; long ranges with
+    high-cardinality dimensions must be windowed.
+  operations: [getBrandKitsAnalytic]
+  source: https://docs.airops.com/developers/api
+- name: analytics-dimension-cap
+  kind: request-shape
+  scope: per-query
+  limit: 3 dimensions
+  behavior: More than 3 dimensions returns HTTP 422.
+  operations: [getBrandKitsAnalytic]
+  source: https://docs.airops.com/developers/api
+- name: analytics-grain-window
+  kind: request-shape
+  scope: per-query
+  limit: 120 days daily / 180 days weekly / 365 days monthly
+  behavior: Exceeding the grain window for the requested date range returns HTTP 422.
+  operations: [getBrandKitsAnalytic]
+  source: https://docs.airops.com/developers/api
+- name: pagination-page-size
+  kind: result-size
+  scope: per-request
+  limit: 100 items per page
+  behavior: >-
+    All list endpoints use offset pagination with a maximum per_page of 100.
+    Responses carry meta.total_count and meta.total_pages.
+  source: https://docs.airops.com/developers/api
+- name: looker-connector-row-cap
+  kind: result-size
+  scope: per-load
+  limit: 500 rows
+  behavior: >-
+    The AirOps Looker Studio community connector returns the top 500 rows per
+    load for Page Performance and Citations.
+  source: https://docs.airops.com/developers/api
+- name: data-freshness-lag
+  kind: freshness
+  scope: per-query
+  limit: end_date must be before today; GSC/GA4 metrics lag 4 days
+  behavior: >-
+    Requests with today's or a future end_date return HTTP 422. Check
+    meta.data_availability.requested_period_has_data before processing.
+  source: https://docs.airops.com/developers/api
+recommendation: >-
+  AirOps should publish a request-rate policy and emit RateLimit-* headers with a
+  429 contract. Today an agent has no runtime signal at all: it can only discover
+  a ceiling by being billed for it or by a hard limit silently pausing execution.

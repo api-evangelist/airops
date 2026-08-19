@@ -1,19 +1,33 @@
-generated: '2026-07-17'
+generated: '2026-08-13'
 method: searched
-source: npm + PyPI registries and github.com/airopshq
+source: registry.npmjs.org + pypi.org + github.com/airopshq
+last_checked: '2026-08-13'
 packages:
 - language: javascript
   registry: npm
   name: "@airops/airops-js"
   version: 2.3.0
+  published: '2024-08-28'
+  releases: 12
   url: https://www.npmjs.com/package/@airops/airops-js
   repository: https://github.com/airopshq/airops-js
   install: npm install @airops/airops-js
   description: JavaScript/TypeScript SDK for interacting with the AirOps API.
   official: true
+  status: stale
+  note: >-
+    DECAY SIGNAL. Latest release 2.3.0 was published 2024-08-28 and the GitHub
+    repo's last push is the same day — roughly two years before this check. In
+    that window AirOps shipped the entire Insights/AEO REST surface (the
+    /public_api/brand_kits/* endpoints are 27 of the 42 operations in the current
+    OpenAPI) and a 76-tool MCP server. The SDK predates all of it, so a JS
+    consumer installing the official client gets the execution endpoints only.
+    Version and date read from registry.npmjs.org metadata.
 - language: python
   registry: pypi
   name: airops
+  version: 0.2.7
+  published: '2026-04-06'
   url: https://pypi.org/project/airops/
   repository: https://github.com/airops/airops-sdk
   install: pip install airops
@@ -21,9 +35,65 @@ packages:
     AirOps Python SDK for building custom tools that integrate with the AirOps
     Steps API.
   official: true
-notes: >-
-  Both client libraries are first-party (published under the AirOps org / point
-  to AirOps repositories). No official Java, .NET, Go, Ruby, PHP, or Rust client
-  library was found on Maven Central, NuGet, pkg.go.dev, RubyGems, Packagist, or
-  crates.io at the time of enrichment. The npm root name "airops" is unrelated
-  (404 / different project); the scoped @airops/airops-js is the official JS SDK.
+  status: current
+  note: >-
+    Version and date read from pypi.org/pypi/airops/json. Project URLs point at
+    airops.com and docs.airops.com, confirming first-party. Scoped to the Steps
+    API (custom tool authoring), not the full public REST surface.
+distribution_channels:
+- kind: claude-code-plugin
+  name: airops
+  version: 1.0.1
+  registry: github
+  url: https://github.com/airopshq/airops-claude-plugin
+  install: Claude Code plugin marketplace (.claude-plugin/marketplace.json)
+  official: true
+  description: >-
+    First-party Claude Code plugin bundling 6 Agent Skills, 4 subagents, a
+    CLAUDE.md brand-voice file, and an .mcp.json wiring the hosted AirOps MCP
+    server. Not a client library — catalogued here because it is a real
+    first-party distribution channel. Contents are captured in skills/.
+  version_source: .claude-plugin/plugin.json
+  published: null
+  published_note: >-
+    GitHub-distributed with no package-registry release; no publish date is
+    exposed. Repository last push 2026-02-08.
+- kind: claude-code-plugin
+  name: airops-plugin
+  registry: github
+  url: https://github.com/airopshq/airops-plugin
+  official: true
+  description: Second first-party plugin repo carrying the aeo-opportunities skill.
+  version: null
+  published: null
+  published_note: GitHub-distributed, no registry release. Repository last push 2026-02-09.
+- kind: looker-studio-connector
+  name: AirOps AEO Connector
+  registry: cdn
+  url: https://lookerstudio.google.com/datasources/create?connectorId=AKfycbwR2EmDc6nXQkCLQNnn8EvUk_Z30Maf8wWD1sK3T13Zoe9LeeEQy3MtK6uzi_sU_1za
+  official: true
+  description: >-
+    Google Looker Studio Community Connector exposing three AirOps data sources
+    (AI Visibility Analytics, Page Performance, Citations).
+  version: null
+  published: null
+  published_note: >-
+    Distributed as a Google Apps Script community connector with an unpinned
+    deployment id. There is no registry metadata endpoint and no version a
+    consumer can pin or verify — they get whatever is currently deployed.
+  docs: https://docs.airops.com/developers/api
+registries_checked:
+  hits: [npm, pypi]
+  misses: [maven-central, nuget, pkg.go.dev, rubygems, packagist, crates.io]
+  note: >-
+    No official Java, .NET, Go, Ruby, PHP or Rust client library was found. The
+    unscoped npm name "airops" is not AirOps (404 / unrelated); the scoped
+    @airops/airops-js is the official JS SDK. @pipedream/airops on npm is a
+    third-party Pipedream component, not first-party.
+gaps:
+- >-
+  Neither SDK covers the Insights/AEO REST surface, which is where the product's
+  current value sits.
+- >-
+  No SDK covers the MCP tool surface; agents reach it over the wire instead,
+  which is arguably correct but leaves non-agent consumers with no client.

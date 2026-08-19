@@ -1,0 +1,70 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://github.com/airopshq/airops-claude-plugin and
+  https://github.com/airopshq/airops-plugin
+note: >-
+  AirOps publishes its own Agent Skills as a first-party Claude Code plugin under
+  the airopshq GitHub org. Every SKILL.md below is saved VERBATIM from the
+  provider's repository — none of these were authored by API Evangelist. The
+  plugin also ships a bundled .mcp.json wiring the hosted AirOps MCP server at
+  https://app.airops.com/mcp, so the skills operate against the same agent
+  surface catalogued in mcp/airops-mcp.yml.
+plugin:
+  name: airops
+  version: 1.0.1
+  description: >-
+    Content marketing playbooks with brand-aware AI agents. Playbooks as skills,
+    brand voice in CLAUDE.md, subagents for writing and validation.
+  author: AirOps
+  repository: https://github.com/airopshq/airops-claude-plugin
+  mcp_servers:
+  - name: airops
+    type: http
+    url: https://app.airops.com/mcp
+  subagents:
+  - ai-search-analyst
+  - content-critic
+  - content-writer
+  - page-analyst
+skills:
+- file: airops-aeo-data-guide.md
+  name: aeo-data-guide
+  description: >-
+    How to think about AirOps AEO data — interpreting metrics, handling ambiguous
+    asks, routing to the right agent.
+  api: mcp/airops-mcp.yml
+  auto_apply: true
+  source: https://github.com/airopshq/airops-claude-plugin/blob/main/skills/aeo-data-guide/SKILL.md
+- file: airops-aeo-opportunities.md
+  name: aeo-opportunities
+  description: >-
+    Find and prioritize answer-engine-optimization opportunities from AirOps
+    Insights data.
+  api: mcp/airops-mcp.yml
+  source: https://github.com/airopshq/airops-plugin/blob/main/skills/aeo-opportunities/SKILL.md
+- file: airops-content-quality-report.md
+  name: content-quality-report
+  description: Produce a content quality report for a page or set of pages.
+  api: mcp/airops-mcp.yml
+  source: https://github.com/airopshq/airops-claude-plugin/blob/main/skills/content-quality-report/SKILL.md
+- file: airops-create-blog.md
+  name: create-blog
+  description: Create an SEO-optimized blog post from a topic or keyword.
+  api: mcp/airops-mcp.yml
+  source: https://github.com/airopshq/airops-claude-plugin/blob/main/skills/create-blog/SKILL.md
+- file: airops-create-comparison.md
+  name: create-comparison
+  description: Create a comparison page between products or categories.
+  api: mcp/airops-mcp.yml
+  source: https://github.com/airopshq/airops-claude-plugin/blob/main/skills/create-comparison/SKILL.md
+- file: airops-create-listicle.md
+  name: create-listicle
+  description: Create a listicle-format article.
+  api: mcp/airops-mcp.yml
+  source: https://github.com/airopshq/airops-claude-plugin/blob/main/skills/create-listicle/SKILL.md
+- file: airops-refresh-content.md
+  name: refresh-content
+  description: Refresh existing content that is losing AI search visibility.
+  api: mcp/airops-mcp.yml
+  source: https://github.com/airopshq/airops-claude-plugin/blob/main/skills/refresh-content/SKILL.md

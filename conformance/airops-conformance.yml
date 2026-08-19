@@ -1,15 +1,37 @@
-generated: '2026-07-17'
+generated: '2026-08-13'
 method: searched
 source: >-
-  live OAuth/OIDC discovery + security.txt on AirOps hosts, and the published API
-  reference
+  live OAuth/OIDC discovery + security.txt on AirOps hosts, the published API
+  reference, and openapi/airops-api-openapi.yml
 standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: >-
+    OpenAPI 3.0.1 document published at
+    https://api.airops.com/public_api/openapi.yaml — 40 paths, 42 operations, 19
+    component schemas, servers[] https://api.airops.com. Harvested verbatim to
+    openapi/_original/airops-openapi.yaml.
+- id: mcp
+  conforms: true
+  evidence: >-
+    Hosted Model Context Protocol server at https://app.airops.com/mcp, streamable
+    HTTP transport, OAuth-authorized. Answers JSON-RPC 2.0 (tools/list returns 401
+    without a token). 76 tools documented at docs.airops.com/developers/tools.
 - id: oauth2
   conforms: true
   evidence: >-
     OAuth 2.0 authorization-server metadata published at
     app.airops.com/.well-known/oauth-authorization-server (authorize/token/revoke/
     introspect endpoints, authorization_code + refresh_token grants, PKCE S256).
+- id: rfc8414-oauth-authorization-server-metadata
+  conforms: true
+  evidence: /.well-known/oauth-authorization-server served on app.airops.com and api.airops.com.
+- id: rfc9728-oauth-protected-resource-metadata
+  conforms: false
+  evidence: >-
+    /.well-known/oauth-protected-resource returns 404 on both app.airops.com and
+    api.airops.com (probed 2026-08-13), so an MCP client cannot discover the
+    authorization server from the protected resource.
 - id: oidc
   conforms: true
   evidence: >-
@@ -24,10 +46,44 @@ standards:
   evidence: /.well-known/security.txt served (Contact, Expires, Canonical, Preferred-Languages).
 - id: http-bearer-auth
   conforms: true
-  evidence: REST API authenticated with Authorization Bearer API key.
+  evidence: >-
+    REST API authenticated with an Authorization Bearer workspace API key;
+    components.securitySchemes.bearer (type http, scheme bearer) in the OpenAPI.
 - id: rfc9457-problem-details
   conforms: false
-  evidence: API signals errors via plain HTTP status codes; no application/problem+json.
+  evidence: >-
+    API signals errors via plain HTTP status codes with a bare {"error": "..."}
+    body; no application/problem+json media type appears in the OpenAPI.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset/Deprecation header support or deprecation policy published.
+- id: rfc6585-429-rate-limiting
+  conforms: false
+  evidence: >-
+    No 429 response declared on any of the 42 operations and no RateLimit-* or
+    Retry-After headers documented.
+- id: a2a-agent-card
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json return 404 on
+    www, app, api and docs hosts (probed 2026-08-13).
+- id: llms-txt
+  conforms: true
+  evidence: >-
+    https://docs.airops.com/llms.txt served (200, 290 lines), plus per-page
+    markdown twins via a .md suffix on every docs URL.
+- id: agent-skills
+  conforms: true
+  evidence: >-
+    Seven first-party Agent Skills published as SKILL.md files with YAML
+    frontmatter in github.com/airopshq/airops-claude-plugin and
+    github.com/airopshq/airops-plugin, distributed as a Claude Code plugin
+    (.claude-plugin/plugin.json, version 1.0.1).
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    Webhooks are documented but no AsyncAPI document is published. See
+    asyncapi/airops-webhooks.yml.
 - id: fhir-r4
   conforms: false
 - id: fapi
@@ -42,5 +98,7 @@ standards:
   conforms: false
 compliance_note: >-
   No published compliance certifications (SOC 2 / ISO 27001 / HIPAA / PCI / etc.)
-  or a trust center were found via probing; no Compliance pointer emitted (no
-  fabrication).
+  and no trust center were found. probe-security-programs.py returned trust=none
+  on 2026-08-13, and no certification claims appear on the pricing, security or
+  enterprise pages. NOT emitting a Compliance pointer — no fabrication. This is a
+  real gap for a platform that ingests customer brand content and site analytics.

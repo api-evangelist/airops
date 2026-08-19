@@ -1,0 +1,246 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/airops-api-openapi.yml
+docs: https://docs.airops.com/developers/api
+note: >-
+  Entity graph derived from the published OpenAPI (components.schemas $refs, path
+  hierarchy, and id-reference fields) and cross-checked against the Insights API
+  data-model table in the docs. Only relationships evidenced by the spec or the
+  provider's own docs are recorded; nothing inferred beyond that.
+roots:
+- Workspace
+- BrandKit
+entities:
+- name: Workspace
+  description: >-
+    The top-level tenant. Not exposed as a REST resource in the published
+    OpenAPI — it appears only as the workspace_id field on Execution and as a
+    workspace_name denormalization on BrandKit. It IS a first-class resource on
+    the MCP surface (list_workspaces).
+  schema: null
+  identifier: workspace_id (integer)
+  surfaces: [mcp]
+- name: App
+  description: >-
+    A published AirOps Workflow / App. Addressed by uuid in the execution paths
+    and carries a versioned active_version_id.
+  schema: App
+  identifier: uuid (string), id
+  path: /public_api/airops_apps/{app_uuid}
+  operations: [getApp]
+- name: Execution
+  description: A single run of an App, holding inputs, output, status, and credit cost.
+  schema: Execution
+  identifier: uuid (string, 36 chars)
+  path: /public_api/airops_apps/executions/{execution_uuid}
+  operations: [getExecution, executeApp, asyncExecuteApp, WebhookAsyncExecuteApp]
+  status_enum: [pending, running, error, success, cancelled, review_needed]
+  feedback_enum: [positive, neutral, negative]
+- name: MemoryStore
+  description: >-
+    Vector store, surfaced in the product as a Knowledge Base. The API path is
+    /public_api/vector_stores/{memory_store_id}.
+  schema: null
+  identifier: memory_store_id
+  path: /public_api/vector_stores/{memory_store_id}
+  aliases: [Knowledge Base, vector_store]
+- name: MemoryStoreDocument
+  description: A document ingested into a Memory Store, with sync status and progress.
+  schema: MemoryStoreDocument
+  identifier: id
+  path: /public_api/vector_stores/{memory_store_id}/vector_store_documents/{memory_store_document_id}
+  operations: [addDocumentToMemoryStore, updateDocumentInMemoryStore, deleteDocumentFromMemoryStore]
+- name: BrandKit
+  description: >-
+    Root resource for the Insights/AEO surface. Everything AEO hangs off a Brand
+    Kit; aeo_enabled gates the AEO endpoints (412 when unconfigured).
+  schema: BrandKit
+  identifier: id (integer)
+  path: /public_api/brand_kits/{id}
+  operations: [listBrandKits, getBrandKit]
+- name: Prompt
+  description: An AI question tracked for a Brand Kit, with mention/citation rates.
+  identifier: id
+  path: /public_api/brand_kits/{brand_kit_id}/prompts/{id}
+  operations: [listBrandKitsPrompts, getBrandKitsPrompt]
+- name: Answer
+  description: >-
+    One provider response to one tracked prompt on one day. The billing unit of
+    the Insights product (see plans/airops-plans-pricing.yml).
+  identifier: id
+  path: /public_api/brand_kits/{brand_kit_id}/answers
+  operations: [listBrandKitsAnswers, getBrandKitsAnswer]
+- name: Citation
+  description: >-
+    A URL cited in an AI answer, scored with influence_score (0-100) plus
+    brand_sentiment and domain_category.
+  identifier: id
+  path: /public_api/brand_kits/{brand_kit_id}/citations
+  operations: [listBrandKitsCitations, getBrandKitsCitation]
+- name: Topic
+  description: Category that organizes prompts.
+  identifier: id
+  path: /public_api/brand_kits/{brand_kit_id}/topics/{id}
+  operations: [listBrandKitsTopics, getBrandKitsTopic]
+- name: Tag
+  description: Label applied to prompts for grouping and filtering.
+  identifier: id
+  path: /public_api/brand_kits/{brand_kit_id}/tags/{id}
+  operations: [listBrandKitsTags, getBrandKitsTag]
+- name: Persona
+  description: Audience profile used when running tracked prompts.
+  identifier: id
+  path: /public_api/brand_kits/{brand_kit_id}/personas/{id}
+  operations: [listBrandKitsPersonas, getBrandKitsPersona]
+- name: Competitor
+  description: Domain monitored for competitive comparison.
+  identifier: id
+  path: /public_api/brand_kits/{brand_kit_id}/competitors/{id}
+  operations: [listBrandKitsCompetitors, getBrandKitsCompetitor]
+- name: WebPage
+  description: >-
+    A tracked page joining AEO citations with Google Search Console and GA4
+    metrics in one record.
+  path: /public_api/brand_kits/{brand_kit_id}/web_pages
+  operations: [listBrandKitsWebPages]
+- name: ContentUpdate
+  description: A recorded publish/refresh event against a tracked page.
+  identifier: id
+  path: /public_api/brand_kits/{brand_kit_id}/content_updates/{id}
+  operations:
+  - listBrandKitsContentUpdates
+  - createBrandKitsContentUpdates
+  - getBrandKitsContentUpdate
+  - destroyBrandKitsContentUpdates
+- name: Grid
+  description: >-
+    Spreadsheet-shaped work surface. REST exposes CSV generate/download per
+    sheet; structured row/cell access is MCP-only.
+  identifier: grid_id, sheet_id
+  path: /public_api/grids/{grid_id}/sheets/{sheet_id}
+- name: WorkspaceFile
+  description: Uploaded file usable as an execution input.
+  path: /public_api/workspace_files
+  operations: [workspaceFileUpload]
+relationships:
+- from: Execution
+  to: App
+  kind: belongs_to
+  via: airops_apps_version_id / app_uuid path parameter
+  evidence: openapi path /public_api/airops_apps/{app_uuid}/execute
+- from: Execution
+  to: Workspace
+  kind: belongs_to
+  via: workspace_id
+  evidence: Execution schema property workspace_id
+- from: App
+  to: Execution
+  kind: has_many
+  via: /public_api/airops_apps/:airops_app_id/executions
+  evidence: openapi path
+- from: MemoryStore
+  to: MemoryStoreDocument
+  kind: has_many
+  via: vector_store_id
+  evidence: MemoryStoreDocument schema property vector_store_id
+- from: MemoryStoreDocument
+  to: MemoryStore
+  kind: belongs_to
+  via: vector_store_id
+  evidence: MemoryStoreDocument schema property vector_store_id
+- from: BrandKit
+  to: Prompt
+  kind: has_many
+  via: brand_kit_id
+  evidence: openapi path + BrandKit.prompts_count
+- from: BrandKit
+  to: Topic
+  kind: has_many
+  via: brand_kit_id
+- from: BrandKit
+  to: Tag
+  kind: has_many
+  via: brand_kit_id
+- from: BrandKit
+  to: Persona
+  kind: has_many
+  via: brand_kit_id
+- from: BrandKit
+  to: Competitor
+  kind: has_many
+  via: brand_kit_id
+  evidence: openapi path + BrandKit.competitors / brand_competitors properties
+- from: BrandKit
+  to: Citation
+  kind: has_many
+  via: brand_kit_id
+- from: BrandKit
+  to: Answer
+  kind: has_many
+  via: brand_kit_id
+- from: BrandKit
+  to: WebPage
+  kind: has_many
+  via: brand_kit_id
+- from: BrandKit
+  to: ContentUpdate
+  kind: has_many
+  via: brand_kit_id
+- from: BrandKit
+  to: Workspace
+  kind: belongs_to
+  via: workspace_name
+  evidence: BrandKit schema property workspace_name (denormalized name, not an id)
+- from: Prompt
+  to: Answer
+  kind: has_many
+  via: prompt filter on the answers list
+  evidence: docs — get_prompt_answers / answers list filtered by prompt
+- from: Prompt
+  to: Topic
+  kind: belongs_to
+  via: topic
+  evidence: 'docs — "Topics: categories that organize your prompts"'
+- from: Answer
+  to: Citation
+  kind: has_many
+  via: answer
+  evidence: 'docs — "Citations: URLs cited in AI answers"'
+- from: ContentUpdate
+  to: WebPage
+  kind: belongs_to
+  via: page url
+  evidence: docs — content updates track publish/refresh per tracked page
+- from: BrandKit
+  to: ProductLine
+  kind: has_many
+  via: product_lines
+  evidence: BrandKit schema property product_lines (inline, no standalone resource)
+- from: BrandKit
+  to: Audience
+  kind: has_many
+  via: audiences
+  evidence: BrandKit schema property audiences (inline, no standalone resource)
+- from: BrandKit
+  to: ContentType
+  kind: has_many
+  via: content_types
+  evidence: BrandKit schema property content_types (inline, no standalone resource)
+envelopes:
+  list:
+    shape: '{ data: [...], meta: PaginationMeta }'
+    schema: BrandKitListResponse
+  show:
+    shape: '{ data: {...} }'
+    schema: BrandKitShowResponse
+  pagination:
+    schema: PaginationMeta
+    fields: [page, per_page, total_count, total_pages]
+gaps:
+- >-
+  Workspace has no REST resource despite being the tenancy root and appearing as
+  workspace_id on Execution.
+- >-
+  The Brand Kit visual-identity and writing-rule entities (palettes, logos,
+  fonts, usage rules) exist as MCP tools but have no schema or path in the
+  published OpenAPI.

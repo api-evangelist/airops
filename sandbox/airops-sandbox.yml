@@ -1,0 +1,69 @@
+generated: '2026-08-13'
+method: searched
+source: https://docs.airops.com/actions/workflow-concepts/testing-and-iteration
+docs:
+- https://docs.airops.com/actions/workflow-concepts/testing-and-iteration
+- https://docs.airops.com/your-workspace/settings/usage
+- https://docs.airops.com/actions/workflow-concepts/publishing-and-versioning
+note: >-
+  AirOps does NOT publish a test-vs-live credential separation. There is one
+  workspace API key and one set of hosts — no test key prefix, no sandbox host,
+  no magic test values, no fixture or trigger tooling. What AirOps does ship is a
+  metered TESTING MODE inside the product: a separate testing-task balance and a
+  draft/published version boundary that keeps unpublished work off the API. Both
+  are recorded below because they are the real substitute for a sandbox here, but
+  neither gives an API consumer a non-production credential.
+test_live_separation:
+  separate_keys: false
+  key_prefixes: []
+  separate_hosts: false
+  note: >-
+    A single workspace API key authorizes api.airops.com; regenerating it
+    immediately invalidates the previous key. There is no test-mode key.
+testing_mode:
+  name: Free Testing Mode
+  scope: Studio / Workflow builder and Playbook editor only — not the public API
+  allowance:
+    testing_tasks_per_month: 50000
+    per: workspace
+    note: >-
+      Available to all workspaces and separate from the production task
+      allocation. Workflow tests and Playbook editor runs consume testing tasks
+      first, then fall back to production tasks once the balance is depleted.
+  granularity:
+  - Test one step at a time (values update per step)
+  - Test all steps at once (values only update on a successful execution)
+  - Test individual steps inside conditional true/false branches
+  reporting: >-
+    Usage -> Testing tasks reports testing consumption separately from production
+    so iteration does not read as a production spike.
+version_isolation:
+  mechanism: draft vs published App versions
+  api_precondition: >-
+    executeApp, asyncExecuteApp and WebhookAsyncExecuteApp all require the App to
+    be PUBLISHED. Unpublished draft work is unreachable from the API, which is
+    the effective isolation boundary between building and production traffic.
+  version_pinning:
+    parameter: version_slug
+    location: request body
+    behavior: >-
+      Pins the App version to execute; the default version is used when omitted.
+      This is the only way an API consumer targets a specific build.
+  docs: https://docs.airops.com/actions/workflow-concepts/publishing-and-versioning
+trial:
+  free_trial_days: 14
+  note: >-
+    The 14-day trial is a commercial evaluation of the full product, not a
+    technical sandbox. See plans/airops-plans-pricing.yml.
+test_values:
+  published: false
+  note: >-
+    No test card numbers, test identifiers, magic values, simulated failures or
+    fixture triggers are published. Nothing is invented here.
+gaps:
+- No test-mode API key or key prefix.
+- No sandbox host or mock server.
+- No published fixtures, magic identifiers, or failure-simulation values.
+- >-
+  Testing Mode is UI-scoped: an API integrator building against api.airops.com
+  has no metered testing path and consumes production tasks from the first call.

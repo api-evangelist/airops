@@ -1,0 +1,56 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.airops.com/changelog
+note: >-
+  AirOps publishes NO dated changelog or release-notes surface. This artifact
+  records that absence with the probes that established it, because "no
+  changelog" is a real and useful measurement for an API consumer who needs to
+  know when a contract moved.
+probes:
+- url: https://www.airops.com/changelog
+  status: 200
+  result: redirect
+  detail: >-
+    Resolves to https://www.airops.com/blog (title "AirOps Blog | AEO & AI Search
+    Insights"). There is no changelog document at this path — it is the marketing
+    blog index.
+- url: https://docs.airops.com/changelog
+  status: 404
+- url: https://docs.airops.com/release-notes
+  status: 404
+- url: https://www.airops.com/release-notes
+  status: 404
+- url: https://www.airops.com/product-updates
+  status: 404
+- url: https://www.airops.com/whats-new
+  status: 404
+scheme: none
+current_version:
+  api: v1
+  source: openapi/airops-api-openapi.yml info.version
+  note: >-
+    The OpenAPI declares info.version "v1" and info.title "API V1", but the paths
+    carry no version segment (/public_api/...), so there is no versioned URL an
+    integrator can pin to. There is no date-stamped or numbered API release
+    history anywhere on the public surface.
+entries: []
+substitutes:
+- name: AirOps Updates (blog category)
+  url: https://www.airops.com/blog
+  kind: marketing-blog
+  note: >-
+    Product announcements are published as undated blog posts under an "AirOps
+    Updates" category alongside events, opinion and best-practice posts. This is
+    an announcement stream, not a changelog: entries carry no version, no date in
+    the index, no breaking-vs-additive marking, and no API scope.
+- name: App version_slug
+  kind: per-resource-versioning
+  note: >-
+    Individual Workflows/Apps are versioned and pinnable via version_slug, so
+    CUSTOMER-authored artifacts have a version history even though the AirOps API
+    itself does not.
+  docs: https://docs.airops.com/actions/workflow-concepts/publishing-and-versioning
+gaps:
+- No dated changelog or release notes for the REST API.
+- No changelog for the MCP server tool surface (76 tools, no version history).
+- No breaking-change or deprecation announcements (see lifecycle/airops-lifecycle.yml).

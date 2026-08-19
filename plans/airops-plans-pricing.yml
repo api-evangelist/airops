@@ -1,0 +1,152 @@
+generated: '2026-08-13'
+method: searched
+source: https://www.airops.com/pricing
+docs:
+- https://www.airops.com/pricing
+- https://docs.airops.com/your-workspace/settings/billing
+- https://docs.airops.com/your-workspace/settings/usage
+plan_count: 3
+currency: USD
+billing_period: month
+note: >-
+  AirOps publishes three named tiers with feature and quota tables, but does NOT
+  publish a monthly price for Pro or Enterprise — both route to "Start for Free" /
+  "Talk to Sales". The only price literals on the page are "starting at $0/month"
+  and the Solo overage rate of $0.025 per task. Quotas below are transcribed
+  verbatim from the plan-comparison table. The billing unit is a "task"; the
+  Insights side meters "Answers", which debit tasks (combined billing) or a
+  separate Answer Credit balance (legacy plans) — see billing_model.
+billing_model:
+  unit: task
+  models:
+  - name: combined-task-billing
+    description: >-
+      Workflows, Playbooks and Insights Answers all draw from one monthly task
+      balance; Answers appear as tasks in Usage.
+  - name: legacy-answer-credits
+    description: >-
+      Workflows and Playbooks use tasks; Insights Answers are metered against a
+      separate Answer Credit balance.
+  answers_formula: platforms x regions x (1 + named personas) x 30 days
+  provider_multipliers:
+  - providers: [chat_gpt, gemini, perplexity, google_ai_mode, google_ai_overview]
+    units_per_answer: 1
+  - providers: [claude]
+    units_per_answer: 4
+  task_accounting:
+  - step: Text input step
+    tasks: 0
+  - step: Code step
+    tasks: max 1 per Workflow run
+  - step: Vector DB call
+    tasks: 1 per call
+  - step: LLM step with your own API key
+    tasks: 1 per call
+  - step: LLM step with an AirOps hosted model
+    tasks: proportional to usage
+  - step: Other API step
+    tasks: 1 per call
+  - step: Output step
+    tasks: 0
+  note: >-
+    Only steps that complete successfully are charged; errored steps are not
+    charged, but embedded Workflows that incur tasks are.
+plans:
+- name: Solo
+  price: 0
+  price_display: "$0 / month (starting at)"
+  currency: USD
+  period: month
+  audience: Individuals building content for one brand or project
+  included:
+    tasks_per_month: 20000
+    tracked_prompts_and_pages: 100
+    brand_kits: 1
+    knowledge_bases: 3
+    users: 1
+    answer_engines: ChatGPT Insights only
+    opportunity_reports: Monthly
+    regions: 1
+    personas: 1
+    data_export: CSV
+    answer_frequency: Daily
+  overage:
+    per_task: 0.025
+    currency: USD
+  support: Community & Live Chat Support; Academy (async) trainings
+  signup: https://app.airops.com/users/sign_up
+- name: Pro
+  price: null
+  price_display: Not published — "Start for Free" / contact required
+  currency: USD
+  period: month
+  audience: Small teams building content for one brand or project
+  recommended: true
+  included:
+    tasks_per_month: 75000
+    tracked_prompts_and_pages: 250
+    brand_kits: 1
+    knowledge_bases: 5
+    users: unlimited
+    answer_engines: Multi-engine Insights
+    opportunity_reports: Weekly
+    regions: 1
+    personas: 1
+    data_export: CSV
+    answer_frequency: Daily
+    integrations: CMS, SEO, AEO, Social & Project integrations
+  support: Community & Live Chat Support; live cohort trainings; priority support
+  signup: https://app.airops.com/users/sign_up
+- name: Enterprise
+  price: null
+  price_display: Custom — "Talk to Sales"
+  currency: USD
+  period: month
+  audience: Organizations building enterprise-grade content and tailored solutions
+  included:
+    tasks_per_month: custom
+    tracked_prompts_and_pages: custom
+    brand_kits: unlimited
+    knowledge_bases: unlimited
+    users: unlimited
+    answer_engines: Multi-engine Insights (Claude available by default)
+    opportunity_reports: Weekly
+    regions: custom (multiple regions, personas and languages)
+    personas: custom
+    data_export: CSV, API
+    answer_frequency: Daily
+    sso: true
+    custom_agent_build: true
+    embedded_content_engineer: true
+    onboarding: 1:1 expert onboarding
+  support: Dedicated account manager; dedicated (virtual or on-site) training
+  contact: https://www.airops.com/pricing
+api_access:
+  note: >-
+    API data export is listed as an Enterprise-tier capability in the plan
+    comparison table ("Data Export: CSV, API" on Enterprise vs "CSV" on Solo and
+    Pro). The workspace API key itself is available from Workspace Settings, but
+    programmatic Insights export is positioned as an Enterprise feature.
+trial:
+  available: true
+  length_days: 14
+  description: >-
+    14-day free trial with access to the paid feature set; no payment details
+    required until the trial ends. Ends when trial tasks run out, the 14 days
+    elapse, or the user upgrades early.
+  testing_credits: >-
+    Each workspace receives free testing credits for building in the Workflow
+    builder before going live (the pricing FAQ cites 50,000 free credits for
+    trial and higher-tier accounts).
+limits_controls:
+  soft_limit: Email notification at a task threshold you set.
+  hard_limit: Blocks Workflow and Playbook execution beyond the threshold you set.
+  configured_at: Usage -> Limits in the workspace settings.
+  protect_answers_tracking: >-
+    Combined-task workspaces can reserve the projected tasks needed for Insights
+    monitoring so tracking continues when other executions are paused.
+legacy_plan_names:
+  note: >-
+    The pricing FAQ still references "Scale" and "Agency" plans, which no longer
+    appear in the plan table. Recorded as an observed inconsistency on the
+    provider's own page, not as current tiers.

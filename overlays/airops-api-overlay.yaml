@@ -1,0 +1,99 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the AirOps API
+  version: 1.0.0
+extends: openapi/airops-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: >-
+  Derived from openapi/_original/airops-openapi.yaml (harvested verbatim from
+  https://api.airops.com/public_api/openapi.yaml) plus the published docs at
+  https://docs.airops.com. This overlay carries API Evangelist enhancements ONLY;
+  the harvested spec is never mutated.
+x-notes:
+  - >-
+    Seven of the 42 operations in the published spec have no operationId. That is
+    the single biggest machine-readability defect in this contract: an agent, an
+    SDK generator and a workflow engine all address operations by operationId, so
+    these seven are effectively unaddressable. The ids proposed below follow the
+    provider's own camelCase convention (getExecution, executeApp, getApp).
+  - >-
+    One path uses Rails-style path syntax — /public_api/airops_apps/:airops_app_id/executions
+    — instead of OpenAPI's {airops_app_id} template. Tooling will treat the colon
+    form as a literal path segment. Flagged, not silently rewritten.
+  - >-
+    The spec declares no 429 response on any operation and publishes no rate-limit
+    headers; see rate-limits/airops-rate-limits.yml.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/provider/airops/
+    x-apievangelist-harvested: '2026-08-13'
+    x-apievangelist-source: https://api.airops.com/public_api/openapi.yaml
+    description: >-
+      Public REST API for the AirOps platform. Covers Workflow/App execution
+      (synchronous, asynchronous and webhook), execution management, Agent chat,
+      workspace file upload, Memory Stores (Knowledge Bases), Grid CSV export,
+      and the Insights/AEO reporting surface rooted on Brand Kits. Authenticated
+      with a workspace API key presented as an Authorization Bearer token.
+    contact:
+      name: AirOps Support
+      url: https://docs.airops.com/
+- target: $
+  update:
+    security:
+    - bearer: []
+    x-apievangelist-note: >-
+      The document declares components.securitySchemes.bearer and applies it
+      per-operation, but has no document-level security. Adding the root default
+      makes the auth requirement explicit for every operation.
+- target: $.paths['/public_api/airops_apps/executions/{execution_uuid}/cancel'].patch
+  update:
+    operationId: cancelExecution
+    x-apievangelist-added: operationId
+- target: $.paths['/public_api/airops_apps/executions/{execution_uuid}/retry'].post
+  update:
+    operationId: retryExecution
+    x-apievangelist-added: operationId
+- target: $.paths['/public_api/airops_apps/executions/{execution_uuid}/feedback'].patch
+  update:
+    operationId: submitExecutionFeedback
+    x-apievangelist-added: operationId
+- target: $.paths['/public_api/airops_apps'].get
+  update:
+    operationId: listApps
+    x-apievangelist-added: operationId
+- target: $.paths['/public_api/airops_apps/:airops_app_id/executions'].get
+  update:
+    operationId: listAppExecutions
+    x-apievangelist-added: operationId
+    x-apievangelist-defect: >-
+      Path uses Rails-style :airops_app_id rather than the OpenAPI template form
+      {airops_app_id}. The correct path is
+      /public_api/airops_apps/{airops_app_id}/executions with a matching path
+      parameter. Reported rather than rewritten — the harvested contract is what
+      the provider serves.
+- target: $.paths['/public_api/grids/{grid_id}/sheets/{sheet_id}/generate_csv'].post
+  update:
+    operationId: generateGridSheetCsv
+    x-apievangelist-added: operationId
+- target: $.paths['/public_api/grids/{grid_id}/sheets/{sheet_id}/download_csv/latest'].get
+  update:
+    operationId: downloadLatestGridSheetCsv
+    x-apievangelist-added: operationId
+- target: $.paths['/public_api/brand_kits/{brand_kit_id}/analytics'].post
+  update:
+    x-apievangelist-constraints:
+      max_dimensions: 3
+      max_rows: 1000
+      grain_windows:
+        daily: 120 days
+        weekly: 180 days
+        monthly: 365 days
+      end_date: must be strictly before today; otherwise 422
+      source: https://docs.airops.com/developers/api
+- target: $.components.schemas.PaginationMeta
+  update:
+    x-apievangelist-note: >-
+      Offset pagination is used by every list endpoint, max per_page 100. Loop
+      until page >= total_pages. See conventions/airops-conventions.yml.

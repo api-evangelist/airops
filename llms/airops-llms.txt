@@ -2,38 +2,23 @@
 
 ## Docs
 
-- [Overview](https://docs.airops.com/getting-started/readme.md): AirOps use cases and AI content workflows: an all-in-one platform for AI search visibility, content refresh, content creation, and detecting content decay across LLMs, replacing multiple point tools.
-- [Core Concepts](https://docs.airops.com/getting-started/readme/readme.md): Core concepts of AirOps, the AI content platform for answer engine optimization (AEO) and SEO: Insights, Actions, and Context, with structured, full-funnel content workflows.
-- [Building your first Playbook](https://docs.airops.com/getting-started/readme/building-your-first-playbook.md): Create and run your first AirOps Playbook
-- [Building your first Workflow](https://docs.airops.com/getting-started/readme/building-your-first-workflow.md)
-- [Overview](https://docs.airops.com/quill/quill.md): Use Quill, the AirOps agent captain, to work across Insights, Brand Kits, Playbooks, and workspace context.
-- [Overview](https://docs.airops.com/campaigns/campaigns.md): Use Campaigns to measure the impact of your AI search work
-- [Create a Campaign](https://docs.airops.com/campaigns/campaigns/create-a-campaign.md): Create a Campaign that connects AI search priorities, action, and measurement
-- [Opportunities](https://docs.airops.com/campaigns/campaigns/opportunities.md): Review Campaign opportunities and move approved work into Action
-- [Action](https://docs.airops.com/campaigns/campaigns/action.md): Use Campaign Action to run accepted opportunities through content work
-- [Measurement](https://docs.airops.com/campaigns/campaigns/measurement.md): Measure Campaign impact across AI search, SEO, traffic, and content updates
-- [Analytics](https://docs.airops.com/insights/insights.md): AirOps Analytics features: AI visibility metrics, citation and mention tracking, sentiment analysis, and competitive positioning across ChatGPT, Gemini, Perplexity, Claude, and more.
-- [Overview](https://docs.airops.com/insights/insights/overview.md): Get a snapshot of your AI search performance across key metrics and platforms
-- [Visibility](https://docs.airops.com/insights/insights/competition.md): Track your visibility metrics over time and analyze performance by topic, platform, and against competitors.
-- [Citations](https://docs.airops.com/insights/insights/citations.md): Track which domains are being cited in AI responses, understand citation patterns, and identify opportunities.
-- [Sentiment](https://docs.airops.com/insights/insights/sentiment.md): Understand how AI platforms portray your brand with theme-based sentiment analysis across AI responses.
-- [Community](https://docs.airops.com/insights/insights/community.md): Track how Reddit and community content is being cited in AI responses.
-- [Traffic](https://docs.airops.com/insights/insights/traffic.md): See how AI crawlers and assistants access your site
-- [Content Updates](https://docs.airops.com/insights/insights/content-updates.md): Track when pages are published or refreshed across your workflows, Grid exports, API, and MCP — audit content updates without manually refreshing pages.
-- [Automated Change Detection](https://docs.airops.com/insights/insights/content-updates/automated-change-detection.md): Detect meaningful changes on your enrolled pages automatically - title rewrites, schema additions, structural updates, and more - without instrumenting your CMS.
-- [Pages](https://docs.airops.com/insights/pages.md): Marry traditional SEO data with AI search performance in a unified view, enabling sophisticated content prioritization strategies.
-- [Prompts](https://docs.airops.com/insights/prompts.md): Gain prompt-level intelligence for answer engine optimization (AEO) or generative engine optimization (GEO): monitor AI search visibility, research new prompts, and find content gaps.
-- [Citations](https://docs.airops.com/insights/citations.md): Discover every URL being cited across AI search responses and filter by brand presence, competitors, domain type, and page type.
-- [Settings](https://docs.airops.com/insights/settings.md): Configure your Insights instance: prompt tags, personas, competitors, and connected integrations.
-- [Cloudflare Logpush Agent Analytics](https://docs.airops.com/insights/settings/cloudflare-logpush-agent-analytics.md): This guide walks you through configuring Cloudflare Logpush to stream HTTP request logs into AirOps for Agent Analytics.
-- [Cloudflare Worker Agent Analytics](https://docs.airops.com/insights/settings/cloudflare-worker-agent-analytics.md): This guide walks you through configuring a Cloudflare Worker to stream request logs into AirOps for Agent Analytics.
-- [CloudFront Agent Analytics](https://docs.airops.com/insights/settings/cloudfront-agent-analytics.md): This guide walks you through configuring Amazon CloudFront real-time logs to stream into AirOps via Amazon Kinesis Data Firehose.
-- [Netlify Agent Analytics](https://docs.airops.com/insights/settings/netlify-agent-analytics.md): Connect your Netlify site to AirOps to track AI bot traffic via Netlify Log Drains.
-- [Vercel Agent Analytics](https://docs.airops.com/insights/settings/vercel-agent-analytics.md): Connect your Vercel project to AirOps to track AI bot traffic via Vercel Log Drains.
-- [API](https://docs.airops.com/insights/api.md): Access your AI visibility data programmatically — build dashboards, automate reports, and integrate AEO metrics into your data stack.
+- [Overview](https://docs.airops.com/readme.md): AirOps use cases and AI content workflows: an all-in-one platform for AI search visibility, content refresh, content creation, and detecting content decay across LLMs, replacing multiple point tools.
+- [Getting Started](https://docs.airops.com/getting-started.md): Learn the AirOps fundamentals and build your first Playbook or Workflow.
+- [Core Concepts](https://docs.airops.com/getting-started/core-concepts.md): Core concepts of AirOps, the AI content platform for answer engine optimization (AEO) and SEO: Insights, Actions, and Context, with structured, full-funnel content workflows.
+- [Building your first Playbook](https://docs.airops.com/getting-started/building-your-first-playbook.md): Create and run your first AirOps Playbook
+- [Building your first Workflow](https://docs.airops.com/getting-started/building-your-first-workflow.md)
+- [AirOps Support](https://docs.airops.com/getting-started/airops-support.md): AirOps offers two levels of support: General and Premium.  Each is available across several channels, depending on how quickly you need an answer and what you're working on.
+- [Quill](https://docs.airops.com/quill.md): Use Quill, the AirOps agent captain, to work across Insights, Brand Kits, Playbooks, and workspace context.
+- [Inbox](https://docs.airops.com/inbox.md): Review AirOps work that needs your attention
+- [Campaigns](https://docs.airops.com/campaigns.md): Use Campaigns to measure the impact of your AI search work
+- [Create a Campaign](https://docs.airops.com/campaigns/create-a-campaign.md): Create a Campaign that connects AI search priorities, action, and measurement
+- [Opportunities](https://docs.airops.com/campaigns/opportunities.md): Review Campaign opportunities and move approved work into Action
+- [Action](https://docs.airops.com/campaigns/action.md): Use Campaign Action to run accepted opportunities through content work
+- [Measurement](https://docs.airops.com/campaigns/measurement.md): Measure Campaign impact across AI search, SEO, traffic, and content updates
 - [Playbooks](https://docs.airops.com/actions/playbooks.md): Build and run Playbooks with natural-language instructions
 - [Create a Playbook](https://docs.airops.com/actions/playbooks/create-a-playbook.md): Start a Playbook from scratch, from a Workflow, or from a template
 - [Build a Playbook](https://docs.airops.com/actions/playbooks/build-a-playbook.md): Define Inputs, Sections, Tools, Artifacts, reviews, and triggers in a Playbook
+- [Artifacts and Collaboration](https://docs.airops.com/actions/playbooks/artifacts.md): Store, review, and reuse persistent Playbook outputs
 - [Tools](https://docs.airops.com/actions/playbooks/tools.md): Give Playbooks the actions they need, from SEO and AEO research to web scraping, image generation, and MCP Connectors
 - [AirOps](https://docs.airops.com/actions/playbooks/tools/airops.md): Use AirOps-native tools for workspace data, AEO and SEO reports, and page scraping
 - [SEO Research](https://docs.airops.com/actions/playbooks/tools/seo-research.md): Use SEO research tools to gather keyword, domain, backlink, and search performance data
@@ -48,18 +33,18 @@
 - [Integrations](https://docs.airops.com/actions/playbooks/integrations.md): Connect Playbooks to Grids, Slack, and CMS publishing
 - [Best Practices](https://docs.airops.com/actions/playbooks/best-practices.md): Practical guidance for creating reliable Playbooks
 - [Troubleshooting](https://docs.airops.com/actions/playbooks/troubleshooting.md): Troubleshoot common Playbook setup and run issues
-- [Workflows](https://docs.airops.com/actions/workflow-concepts.md)
+- [Workflows](https://docs.airops.com/actions/workflow-concepts.md): Structured, AI-powered content workflows: inputs, steps, variables, outputs. Workflows for step-by-step automation, Grids to run Agents at scale, Playbooks for guided content creation and AEO.
 - [Workflow Inputs](https://docs.airops.com/actions/workflow-concepts/application-inputs.md): Define the UI and API input values for your Workflows
 - [Input Types](https://docs.airops.com/actions/workflow-concepts/application-inputs/input-types.md)
 - [Workflow Steps](https://docs.airops.com/actions/workflow-concepts/workflow-steps.md): AirOps Workflow Steps: the building blocks for structured, AI-powered workflow automation — AI, SEO, and answer engine optimization (AEO), content quality, code, data, and CMS integration steps.
 - [AI](https://docs.airops.com/actions/workflow-concepts/workflow-steps/ai-steps.md): Utilize the latest in AI in your Workflows
-- [Prompt LLM](https://docs.airops.com/actions/workflow-concepts/workflow-steps/ai-steps/llm.md): Test and refine prompts for a Large Language Model
-- [Model Selection Guide](https://docs.airops.com/actions/workflow-concepts/workflow-steps/ai-steps/llm/choosing-a-model.md): Determine which large language model to use
+- [Prompt LLM](https://docs.airops.com/actions/workflow-concepts/workflow-steps/ai-steps/llm.md): The AirOps LLM step: prompt models from OpenAI, Anthropic, and Google (or your own keys) with prompt engineering, structured outputs, and MCP tool access.
+- [Model Selection Guide](https://docs.airops.com/actions/workflow-concepts/workflow-steps/ai-steps/llm/choosing-a-model.md): Compare supported models and choose one for a Prompt LLM step
 - [Prompting Guide](https://docs.airops.com/actions/workflow-concepts/workflow-steps/ai-steps/llm/prompt-with-gpt.md): How to prompt with GPT
 - [Transcribe Audio File](https://docs.airops.com/actions/workflow-concepts/workflow-steps/ai-steps/transcription.md): Transcribe audio or video files into text
 - [Web Research](https://docs.airops.com/actions/workflow-concepts/workflow-steps/web-research.md)
 - [Google Search](https://docs.airops.com/actions/workflow-concepts/workflow-steps/web-research/google-search.md): Automate research with a Google Search
-- [Perplexity Deep Research](https://docs.airops.com/actions/workflow-concepts/workflow-steps/web-research/google-search-1.md): Conduct comprehensive AI-powered research with citations
+- [Perplexity Deep Research](https://docs.airops.com/actions/workflow-concepts/workflow-steps/web-research/perplexity-deep-research.md): Conduct comprehensive AI-powered research with citations
 - [Web Page Scrape](https://docs.airops.com/actions/workflow-concepts/workflow-steps/web-research/web-page-scrape.md): Scrape text, markdown or HTML from a website
 - [Code](https://docs.airops.com/actions/workflow-concepts/workflow-steps/logic-steps.md): Apply programmatic and logical functions into your Workflows
 - [Run Code](https://docs.airops.com/actions/workflow-concepts/workflow-steps/logic-steps/code.md): Add custom logic with Javascript or Python
@@ -71,7 +56,7 @@
 - [Condition](https://docs.airops.com/actions/workflow-concepts/workflow-steps/flow/conditional.md): Branch your workflow logic
 - [Iteration](https://docs.airops.com/actions/workflow-concepts/workflow-steps/flow/iteration.md): Execute a step multiple times over a list of objects
 - [Human Review](https://docs.airops.com/actions/workflow-concepts/workflow-steps/flow/human-review.md): Require Human Review of outputs before continuing a workflow
-- [Content Comparison](https://docs.airops.com/actions/workflow-concepts/workflow-steps/flow/content-comparison.md)
+- [Content Comparison](https://docs.airops.com/actions/workflow-concepts/workflow-steps/flow/content-comparison.md): AirOps Content Comparison step: visually diff two HTML versions with accept/reject review, for editorial QA, content quality control, and on-page content refresh.
 - [Error](https://docs.airops.com/actions/workflow-concepts/workflow-steps/flow/error-step.md): Throw custom error messages that terminate the workflow
 - [Data](https://docs.airops.com/actions/workflow-concepts/workflow-steps/memory-steps.md): Search and Write to your Knowledge Bases
 - [Read from Grid](https://docs.airops.com/actions/workflow-concepts/workflow-steps/memory-steps/read-from-grid.md)
@@ -118,7 +103,7 @@
 - [Edit Workflows with Copilot](https://docs.airops.com/actions/workflow-concepts/chat-with-copilot/edit-workflows-with-copilot.md)
 - [Fix Errors with Copilot](https://docs.airops.com/actions/workflow-concepts/chat-with-copilot/fix-errors-with-copilot.md)
 - [Studio Toolbar](https://docs.airops.com/actions/workflow-concepts/studio-toolbar.md)
-- [Logs](https://docs.airops.com/actions/workflow-concepts/testing-and-iteration-1.md)
+- [Logs](https://docs.airops.com/actions/workflow-concepts/workflow-logs.md)
 - [Testing and Iteration](https://docs.airops.com/actions/workflow-concepts/testing-and-iteration.md): Best practices for testing and iterating on your workflow
 - [Running Workflows](https://docs.airops.com/actions/workflow-concepts/run-once.md)
 - [Run in Bulk (Grid)](https://docs.airops.com/actions/workflow-concepts/run-once/run-in-bulk-grid.md)
@@ -129,7 +114,7 @@
 - [Run on a Schedule](https://docs.airops.com/actions/workflow-concepts/run-once/schedule.md): Schedule your workflow to run on a recurring basis
 - [Error Handling](https://docs.airops.com/actions/workflow-concepts/run-once/error-handling.md): Continue workflow using branched logic if the step returns an error
 - [Publishing and Versioning](https://docs.airops.com/actions/workflow-concepts/publishing-and-versioning.md): Track changes and productionize apps with versions
-- [Grids](https://docs.airops.com/actions/grids.md)
+- [Grids](https://docs.airops.com/actions/grids.md): AirOps Grids: a spreadsheet-style hub to run Playbooks and Workflows in bulk, creating, refreshing, and optimizing content (including AEO) across hundreds of pages, then publish to your CMS.
 - [Create a Grid](https://docs.airops.com/actions/grids/create-a-grid.md)
 - [Start with a Template](https://docs.airops.com/actions/grids/create-a-grid/start-with-a-template.md): AirOps Grid templates for answer engine optimization (AEO), AI-powered content workflows, and technical SEO, including content briefs, article refreshes, AEO scorecards, and page schemas.
 - [Import from Webflow](https://docs.airops.com/actions/grids/create-a-grid/import-from-webflow.md)
@@ -137,29 +122,57 @@
 - [Import from Sanity](https://docs.airops.com/actions/grids/create-a-grid/import-from-sanity.md)
 - [Import from Wordpress](https://docs.airops.com/actions/grids/create-a-grid/import-from-wordpress.md)
 - [Import from Google Search Console](https://docs.airops.com/actions/grids/create-a-grid/import-from-google-search-console.md)
-- [Add Columns in the Grid](https://docs.airops.com/actions/grids/add-columns-in-the-grid.md)
-- [Run Workflows in the Grid](https://docs.airops.com/actions/grids/run-workflows-in-grid.md)
+- [Add Columns in the Grid](https://docs.airops.com/actions/grids/add-columns-in-the-grid.md): Add data, Artifact, and Brand Kit columns to a Grid
+- [Run Workflows in the Grid](https://docs.airops.com/actions/grids/run-workflows-in-grid.md): Run AirOps workflows in a Grid to scale AI-powered content operations: process rows in bulk, schedule recurring runs, and run content creation, refresh, and AEO workflows across hundreds of pages.
 - [Add Workflow Column](https://docs.airops.com/actions/grids/run-workflows-in-grid/add-workflow-column.md)
 - [Run Workflow Column](https://docs.airops.com/actions/grids/run-workflows-in-grid/run-workflow-column.md)
-- [Schedule Workflow Column](https://docs.airops.com/actions/grids/run-workflows-in-grid/run-workflow-column-1.md)
+- [Schedule Workflow Column](https://docs.airops.com/actions/grids/run-workflows-in-grid/schedule-workflow-column.md)
 - [Map Workflow Outputs](https://docs.airops.com/actions/grids/run-workflows-in-grid/map-workflow-outputs.md)
 - [Review Workflow Run Metadata](https://docs.airops.com/actions/grids/run-workflows-in-grid/review-workflow-run-metadata.md)
-- [Review Content in the Grid](https://docs.airops.com/actions/grids/review-content-in-the-grid.md)
+- [Review Content in the Grid](https://docs.airops.com/actions/grids/review-content-in-the-grid.md): Review, score, edit, and collaborate on content in a Grid
 - [Review Markdown Content](https://docs.airops.com/actions/grids/review-content-in-the-grid/review-markdown-content.md)
 - [Review HTML Content](https://docs.airops.com/actions/grids/review-content-in-the-grid/review-html-content.md)
 - [Compare Content Difference](https://docs.airops.com/actions/grids/review-content-in-the-grid/compare-content-difference.md)
-- [Publish to CMS from Grid](https://docs.airops.com/actions/grids/publish-to-cms-from-grid.md)
+- [Real-time Collaboration](https://docs.airops.com/actions/grids/review-content-in-the-grid/collaboration.md)
+- [Content Review and Quality Scores](https://docs.airops.com/actions/grids/review-content-in-the-grid/content-review.md): Automatically score generated content for AI Discoverability and Brand Adherence
+- [Publish to CMS from Grid](https://docs.airops.com/actions/grids/publish-to-cms-from-grid.md): Map Grid columns to Webflow, Sanity, and Contentful for publishing
 - [Google Search Console Analytics in Grid](https://docs.airops.com/actions/grids/pull-analytics-in-the-grid.md)
 - [Searching and Filtering](https://docs.airops.com/actions/grids/searching-and-filtering.md)
 - [Export as CSV](https://docs.airops.com/actions/grids/export-data.md)
-- [Run Quality Scoring on your Output](https://docs.airops.com/actions/grids/run-content-review-on-your-output.md)
-- [Brand Kits](https://docs.airops.com/context/brand-kit.md): Define your brand attributes and use them as variables in your workflow
+- [Analytics](https://docs.airops.com/insights/analytics.md): AirOps Analytics features: AI visibility metrics, citation and mention tracking, sentiment analysis, and competitive positioning across ChatGPT, Gemini, Perplexity, Claude, and more.
+- [Overview](https://docs.airops.com/insights/analytics/overview.md): Get a snapshot of your AI search performance across key metrics and platforms
+- [Visibility](https://docs.airops.com/insights/analytics/competition.md): Track your visibility metrics over time and analyze performance by topic, platform, and against competitors.
+- [Citations](https://docs.airops.com/insights/analytics/citations.md): Track which domains are being cited in AI responses, understand citation patterns, and identify opportunities.
+- [Sentiment](https://docs.airops.com/insights/analytics/sentiment.md): Understand how AI platforms portray your brand with theme-based sentiment analysis across AI responses.
+- [Dashboards](https://docs.airops.com/insights/analytics/dashboards.md): Build custom dashboards to monitor the AI search metrics and segments that matter to your team.
+- [Settings](https://docs.airops.com/insights/analytics/settings.md): Set up AI search visibility tracking for AEO or GEO across ChatGPT, Gemini, Perplexity, and Claude, and configure personas, competitors, tags, and Google Search Console and Analytics integrations.
+- [ChatGPT Ads Manager](https://docs.airops.com/insights/analytics/settings/chatgpt-ads-manager.md): Connect your ChatGPT Ads account to AirOps to report spend, impressions, and clicks in Insights.
+- [Google Analytics 4](https://docs.airops.com/insights/analytics/settings/google-analytics-4.md): Connect Google Analytics 4 to enrich Pages with traffic, engagement, and selected conversion data.
+- [Onsite](https://docs.airops.com/insights/onsite.md): Review how your pages perform and how AI systems interact with your site.
+- [Pages](https://docs.airops.com/insights/onsite/pages.md): Marry traditional SEO data with AI search performance in a unified view, enabling sophisticated content prioritization strategies.
+- [Agent Analytics](https://docs.airops.com/insights/onsite/traffic.md): See how AI crawlers and assistants access your site
+- [Cloudflare Logpush](https://docs.airops.com/insights/onsite/traffic/cloudflare-logpush-agent-analytics.md): This guide walks you through configuring Cloudflare Logpush to stream HTTP request logs into AirOps for Agent Analytics.
+- [Cloudflare Worker](https://docs.airops.com/insights/onsite/traffic/cloudflare-worker-agent-analytics.md): This guide walks you through configuring a Cloudflare Worker to stream request logs into AirOps for Agent Analytics.
+- [CloudFront](https://docs.airops.com/insights/onsite/traffic/cloudfront-agent-analytics.md): This guide walks you through configuring Amazon CloudFront real-time logs to stream into AirOps via Amazon Kinesis Data Firehose.
+- [Netlify](https://docs.airops.com/insights/onsite/traffic/netlify-agent-analytics.md): Connect your Netlify site to AirOps to track AI bot traffic via Netlify Log Drains.
+- [Vercel](https://docs.airops.com/insights/onsite/traffic/vercel-agent-analytics.md): Connect your Vercel project to AirOps to track AI bot traffic via Vercel Log Drains.
+- [Content Updates](https://docs.airops.com/insights/onsite/content-updates.md): Track when pages are published or refreshed across your workflows, Grid exports, API, and MCP. Audit content updates without manually refreshing pages.
+- [Automated Change Detection](https://docs.airops.com/insights/onsite/content-updates/automated-change-detection.md): Detect meaningful changes on your enrolled pages automatically - title rewrites, schema additions, structural updates, and more - without instrumenting your CMS.
+- [Offsite](https://docs.airops.com/insights/offsite.md): Review external sources and communities that influence your AI search presence.
+- [Citations](https://docs.airops.com/insights/offsite/citations.md): AI citation tracking: which content LLMs cite across ChatGPT, Perplexity, and Gemini, filterable by brand presence, competitors, domain type, and page type, plus offsite opportunities.
+- [Community](https://docs.airops.com/insights/offsite/community.md): Track how Reddit and community content is being cited in AI responses.
+- [Paid](https://docs.airops.com/insights/paid.md): Track ChatGPT ad activity across your market and performance from your own connected ChatGPT Ads account.
+- [Prompts](https://docs.airops.com/insights/prompts.md): Monitor tracked prompts and find new questions to add to your AI search visibility program.
+- [Your prompts](https://docs.airops.com/insights/prompts/your-prompts.md): Manage tracked prompts and analyze prompt-level AI search visibility.
+- [Recommended prompts](https://docs.airops.com/insights/prompts/recommended-prompts.md): Review weekly prompt recommendations and explore topics to find prompts on demand.
+- [Opportunities](https://docs.airops.com/insights/opportunities.md): Find recommended ways to improve your AI search visibility
+- [Brand Kits](https://docs.airops.com/context/brand-kit.md): Feed accurate brand data to AI and customize brand voice with centralized context: foundations, product lines, content types, audiences, and regions, for brand consistency and content governance.
 - [Foundations](https://docs.airops.com/context/brand-kit/foundations.md): Global settings that apply across your entire brand
 - [Product Lines](https://docs.airops.com/context/brand-kit/product-lines.md): Define different products or services your brand offers
 - [Content Types](https://docs.airops.com/context/brand-kit/content-types.md): Define the different formats of content you create
 - [Audiences](https://docs.airops.com/context/brand-kit/audiences.md): Define the different target segments you tailor content for
 - [Regions](https://docs.airops.com/context/brand-kit/regions.md): Adapt your brand messaging for different markets and languages
-- [Visual Guidelines](https://docs.airops.com/context/brand-kit/visual-guidelines.md)
+- [Visual Guidelines](https://docs.airops.com/context/brand-kit/visual-guidelines.md): Define visual rules and use-case templates in your Brand Kit
 - [Refresh](https://docs.airops.com/context/brand-kit/refresh.md): Keep your Brand Kit current with scheduled scans and proposed edits
 - [Using Brand Kits](https://docs.airops.com/context/brand-kit/using-brand-kits.md): How to use Brand Kits in your workflows and Grids
 - [Knowledge Bases](https://docs.airops.com/context/memory-stores.md): Semantically search your knowledge, documents, and data with Knowledge Bases
@@ -177,63 +190,64 @@
 - [Knowledge Base Search](https://docs.airops.com/context/memory-stores/knowledge-base-search.md)
 - [Knowledge Base Metadata](https://docs.airops.com/context/memory-stores/memory-stores-metadata.md): Filter when searching a Knowledge Base
 - [Knowledge Base API](https://docs.airops.com/context/memory-stores/memory-stores-api.md): Interact directly with your Knowledge Bases
-- [Integrations](https://docs.airops.com/context/overview.md)
-- [CMS](https://docs.airops.com/context/overview/integrations.md): Integrate workflows with content management systems
-- [Builder.io](https://docs.airops.com/context/overview/integrations/builder-io.md): Integrate your Workflow with Builder.io
-- [ContentStack](https://docs.airops.com/context/overview/integrations/contentstack.md): Integrate your Workflow with ContentStack
-- [Contentful](https://docs.airops.com/context/overview/integrations/contentful.md): Integrate your Workflow with Contentful
-- [Craft CMS](https://docs.airops.com/context/overview/integrations/craft-cms.md): Integrate your Workflow with Craft CMS
-- [Framer](https://docs.airops.com/context/overview/integrations/framer.md): Integrate your Workflow with Framer
-- [Ghost](https://docs.airops.com/context/overview/integrations/ghost.md): Integrate your Workflow with Ghost
-- [HubSpot CMS](https://docs.airops.com/context/overview/integrations/hubspot-cms.md): Integrate your Workflow with HubSpot CMS
-- [Sanity](https://docs.airops.com/context/overview/integrations/sanity.md): The Sanity Integration allows you to list, create, update, and query content on your Sanity.io site.
-- [Strapi](https://docs.airops.com/context/overview/integrations/strapi.md): Integrate your Workflow with Strapi
-- [Storyblok](https://docs.airops.com/context/overview/integrations/storyblok.md): Integrate your Workflow with Storyblok
-- [Webflow](https://docs.airops.com/context/overview/integrations/webflow.md): Integrate your Workflow with Webflow
-- [WordPress](https://docs.airops.com/context/overview/integrations/wordpress.md): Integrate your Workflow with WordPress
-- [Shopify](https://docs.airops.com/context/overview/integrations/shopify.md)
-- [Localization](https://docs.airops.com/context/overview/localization.md)
-- [Crowdin](https://docs.airops.com/context/overview/localization/crowdin.md): Integrate your Workflow with Crowdin
-- [Communication](https://docs.airops.com/context/overview/communication.md)
-- [Gmail](https://docs.airops.com/context/overview/communication/gmail.md): Integrate your Workflow with Gmail
-- [Slack](https://docs.airops.com/context/overview/communication/slack.md): Integrate your Workflow with Slack
-- [Company Context](https://docs.airops.com/context/overview/company-context.md)
-- [Gong](https://docs.airops.com/context/overview/company-context/gong.md): Integrate with Gong to retrieve call data, transcripts, and manage call records in your workflows
-- [Social](https://docs.airops.com/context/overview/social.md)
-- [YouTube](https://docs.airops.com/context/overview/social/youtube.md)
-- [Reddit](https://docs.airops.com/context/overview/social/reddit.md)
-- [Project Management](https://docs.airops.com/context/overview/project-management.md)
-- [Airtable](https://docs.airops.com/context/overview/project-management/airtable.md): Integrate your Workflow with Airtable
-- [Asana](https://docs.airops.com/context/overview/project-management/asana.md): Integrate your Workflow with Asana
-- [ClickUp](https://docs.airops.com/context/overview/project-management/clickup.md): Integrate your Workflow with ClickUp
-- [Google Docs](https://docs.airops.com/context/overview/project-management/google-docs.md): Integrate your Workflow with Google Docs
-- [Google Sheets](https://docs.airops.com/context/overview/project-management/google-sheets.md): Integrate your Workflow with Google Sheets
-- [Monday.com](https://docs.airops.com/context/overview/project-management/monday.md): Integrate your Workflow with Monday.com
-- [Notion](https://docs.airops.com/context/overview/project-management/notion.md): Integrate your Workflow with Notion
-- [Wrike](https://docs.airops.com/context/overview/project-management/wrike.md): Integrate your Workflow with Wrike
+- [Overview](https://docs.airops.com/integrations/overview.md): AirOps integrations: connect your CMS, analytics and business data sources, localization, communication, and project management tools to publish content and run connected content workflows.
+- [CMS](https://docs.airops.com/integrations/overview/integrations.md): Integrate workflows with content management systems
+- [Builder.io](https://docs.airops.com/integrations/overview/integrations/builder-io.md): Integrate your Workflow with Builder.io
+- [ContentStack](https://docs.airops.com/integrations/overview/integrations/contentstack.md): Integrate your Workflow with ContentStack
+- [Contentful](https://docs.airops.com/integrations/overview/integrations/contentful.md): Integrate your Workflow with Contentful
+- [Craft CMS](https://docs.airops.com/integrations/overview/integrations/craft-cms.md): Integrate your Workflow with Craft CMS
+- [Framer](https://docs.airops.com/integrations/overview/integrations/framer.md): Integrate your Workflow with Framer
+- [Ghost](https://docs.airops.com/integrations/overview/integrations/ghost.md): Integrate your Workflow with Ghost
+- [HubSpot CMS](https://docs.airops.com/integrations/overview/integrations/hubspot-cms.md): Integrate your Workflow with HubSpot CMS
+- [Sanity](https://docs.airops.com/integrations/overview/integrations/sanity.md): The Sanity Integration allows you to list, create, update, and query content on your Sanity.io site.
+- [Strapi](https://docs.airops.com/integrations/overview/integrations/strapi.md): Integrate your Workflow with Strapi
+- [Storyblok](https://docs.airops.com/integrations/overview/integrations/storyblok.md): Integrate your Workflow with Storyblok
+- [Webflow](https://docs.airops.com/integrations/overview/integrations/webflow.md): Integrate your Workflow with Webflow
+- [WordPress](https://docs.airops.com/integrations/overview/integrations/wordpress.md): Integrate your Workflow with WordPress
+- [Shopify](https://docs.airops.com/integrations/overview/integrations/shopify.md)
+- [Localization](https://docs.airops.com/integrations/overview/localization.md)
+- [Crowdin](https://docs.airops.com/integrations/overview/localization/crowdin.md): Integrate your Workflow with Crowdin
+- [Communication](https://docs.airops.com/integrations/overview/communication.md)
+- [Gmail](https://docs.airops.com/integrations/overview/communication/gmail.md): Integrate your Workflow with Gmail
+- [Slack](https://docs.airops.com/integrations/overview/communication/slack.md): Integrate your Workflow with Slack
+- [Company Context](https://docs.airops.com/integrations/overview/company-context.md)
+- [Gong](https://docs.airops.com/integrations/overview/company-context/gong.md): Integrate with Gong to retrieve call data, transcripts, and manage call records in your workflows
+- [Social](https://docs.airops.com/integrations/overview/social.md)
+- [YouTube](https://docs.airops.com/integrations/overview/social/youtube.md)
+- [Reddit](https://docs.airops.com/integrations/overview/social/reddit.md)
+- [Project Management](https://docs.airops.com/integrations/overview/project-management.md)
+- [Airtable](https://docs.airops.com/integrations/overview/project-management/airtable.md): Integrate your Workflow with Airtable
+- [Asana](https://docs.airops.com/integrations/overview/project-management/asana.md): Integrate your Workflow with Asana
+- [ClickUp](https://docs.airops.com/integrations/overview/project-management/clickup.md): Integrate your Workflow with ClickUp
+- [Google Docs](https://docs.airops.com/integrations/overview/project-management/google-docs.md): Integrate your Workflow with Google Docs
+- [Google Sheets](https://docs.airops.com/integrations/overview/project-management/google-sheets.md): Integrate your Workflow with Google Sheets
+- [Monday.com](https://docs.airops.com/integrations/overview/project-management/monday.md): Integrate your Workflow with Monday.com
+- [Notion](https://docs.airops.com/integrations/overview/project-management/notion.md): Integrate your Workflow with Notion
+- [Wrike](https://docs.airops.com/integrations/overview/project-management/wrike.md): Integrate your Workflow with Wrike
 - [Workspace Setup](https://docs.airops.com/your-workspace/workspaces.md): Create and manage unique AirOps environments
 - [Organizing Your Workspace](https://docs.airops.com/your-workspace/workspaces/organizing-your-workspace.md)
 - [Folders](https://docs.airops.com/your-workspace/workspaces/folders.md)
-- [Settings and Billing](https://docs.airops.com/your-workspace/workspaces-1.md): Create and manage unique AirOps environments
-- [Billing](https://docs.airops.com/your-workspace/workspaces-1/billing.md): Manage your billing preferences
-- [Use your own LLM API Keys](https://docs.airops.com/your-workspace/workspaces-1/byo-key.md)
-- [Secrets](https://docs.airops.com/your-workspace/workspaces-1/secrets.md): Centrally store and manage credentials, API keys, and other secrets.
-- [Integration Authentications](https://docs.airops.com/your-workspace/workspaces-1/authentications.md): Expose integration authentication credentials for use in workflow templates.
+- [Settings and Billing](https://docs.airops.com/your-workspace/settings.md): Create and manage unique AirOps environments
+- [Billing](https://docs.airops.com/your-workspace/settings/billing.md): Understand your plan, billing units, and usage limits
+- [Usage](https://docs.airops.com/your-workspace/settings/usage.md): Track production, testing, and Answers usage across your workspace
+- [Use your own LLM API Keys](https://docs.airops.com/your-workspace/settings/byo-key.md): Which LLMs AirOps supports and how to bring your own model keys: connect OpenAI, Anthropic, and Google Gemini API keys to use your own models in LLM, transcription, and image steps.
+- [Secrets](https://docs.airops.com/your-workspace/settings/secrets.md): Centrally store and manage credentials, API keys, and other secrets.
+- [Integration Authentications](https://docs.airops.com/your-workspace/settings/authentications.md): Expose integration authentication credentials for use in workflow templates.
 - [Access and Permissions](https://docs.airops.com/your-workspace/team.md): Manage and invite team members
 - [Okta SSO Configuration](https://docs.airops.com/your-workspace/team/okta-sso.md): Configure Okta single sign-on for AirOps with OAuth 2.0/OIDC.
-- [Monitoring](https://docs.airops.com/your-workspace/monitoring.md): Monitor task usage, workflow analytics, alerts, and run history across your workspace.
-- [Task Usage](https://docs.airops.com/your-workspace/monitoring/task-usage.md): Track Workflow, Playbook, and testing task usage across your workspace
+- [Monitoring](https://docs.airops.com/your-workspace/monitoring.md): Monitor workflow analytics, alerts, and run history across your workspace.
 - [Analytics](https://docs.airops.com/your-workspace/monitoring/analytics.md): AirOps offers tracking in for the form of its Analytics page.
 - [Alerts](https://docs.airops.com/your-workspace/monitoring/alerts.md): Receive alerts through Slack or an incoming webhook when your Workflow fails
 - [Run History](https://docs.airops.com/your-workspace/monitoring/run-history.md): Monitor your Workflows with run history
-- [Overview](https://docs.airops.com/mcp/mcp-server.md): Connect AI assistants to your AirOps workspace using MCP
-- [MCP Connectors](https://docs.airops.com/mcp/mcp-connectors.md): Connect external MCP servers to your workspace and give LLM steps access to external tools.
-- [Claude Connector](https://docs.airops.com/mcp/claude-connector.md): Native AirOps integration for Claude with Interactive Apps
-- [Getting Started](https://docs.airops.com/mcp/getting-started.md): Setup instructions for AI assistants using MCP
-- [Use Cases](https://docs.airops.com/mcp/use-cases.md): Example use cases and best practices for using AirOps with Claude
-- [Tools](https://docs.airops.com/mcp/tools.md): Reference for all AirOps MCP tools
-- [FAQ](https://docs.airops.com/mcp/faq.md): Frequently asked questions about AirOps MCP and Claude Connector
-- [Ethical AI and IP Production](https://docs.airops.com/about/ethical-ai-and-ip-production.md)
+- [Insights API](https://docs.airops.com/developers/api.md): The AirOps Insights API: an AEO and AI citation tracking API with programmatic access to mention rate, share of voice, citations, and page performance, for custom dashboards, ETL, and reporting.
+- [MCP Overview](https://docs.airops.com/developers/mcp-server.md): Connect AI assistants to your AirOps workspace using MCP
+- [MCP Connectors](https://docs.airops.com/developers/mcp-connectors.md): Connect external MCP servers to your workspace and give LLM steps access to external tools.
+- [Claude Connector](https://docs.airops.com/developers/claude-connector.md): Native AirOps integration for Claude with Interactive Apps
+- [Getting Started](https://docs.airops.com/developers/getting-started.md): Setup instructions for AI assistants using MCP
+- [Use Cases](https://docs.airops.com/developers/use-cases.md): AirOps use cases with your AI assistant: manage your Brand Kit, report on AI visibility, find pages losing AI citations and prompt gaps, and create action grids from Claude.
+- [Tools](https://docs.airops.com/developers/tools.md): The AirOps MCP server tools reference: give Claude, Cursor, and other AI assistants programmatic access to AEO analytics, Brand Kits, Grids, and Knowledge Bases in your AirOps workspace.
+- [FAQ](https://docs.airops.com/developers/faq.md): Frequently asked questions about AirOps MCP and Claude Connector
+- [Ethical AI and IP Production](https://docs.airops.com/about/ethical-ai-and-ip-production.md): AirOps ethical AI and IP protection: unbiased, explainable AI output, content moderation, SOC 2 Type II, data segregation, and no persistent storage of customer data.
 - [Principles](https://docs.airops.com/about/principles.md)
 - [Security and Compliance](https://docs.airops.com/about/security-and-compliance.md): AirOps security: SOC 2 Type II compliance, data protection practices, AI output accuracy, and model provider data retention.
 
@@ -269,7 +283,7 @@ This documentation is published with GitBook. GitBook is the documentation platf
 If you need additional information, you can query the documentation dynamically by asking a question.
 Perform an HTTP GET request on a page URL with the `ask` query parameter:
 ```
-GET https://docs.airops.com/getting-started/readme.md?ask=<question>
+GET https://docs.airops.com/readme.md?ask=<question>
 ```
 The question should be specific, self-contained, and written in natural language.
 The response will contain a direct answer to the question and relevant excerpts and sources from the documentation.

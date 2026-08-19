@@ -1,0 +1,1293 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "API V1",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Executions",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve an execution",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/airops_apps/executions/:execution_uuid",
+            "params": [
+              {
+                "name": "execution_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The execution uuid"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": " Returns the **execution** with the given uuid. You can use this endpoint to check the status of the execution. "
+        },
+        {
+          "info": {
+            "name": "Execute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/airops_apps/:app_uuid/execute",
+            "params": [
+              {
+                "name": "app_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The app uuid, you can find the app uuid by going to the App => Integrate"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": " This endpoint allows you to execute an app. You can use this endpoint to execute an app and get the output of the execution.\n\n Preconditions: the app must be **published**.\n\n\n> This endpoint executes the app immediately and returns the result, unless you are at your current capacity, or your app takes more than 10 minutes to run, in which case it will fail.\n\n If you want to execute an app asynchronously, use the [async_execute](#/paths/~1public_api~1airops_apps~1{app_uuid}~1async_execute/post) "
+        },
+        {
+          "info": {
+            "name": "Async Execute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/airops_apps/:app_uuid/async_execute",
+            "params": [
+              {
+                "name": "app_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The app uuid, you can find the app uuid by going to the App => Integrate"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": " This endpoint allows you to execute an app asynchronously. You can use this endpoint to execute an app and get the execution id to check the status of the execution.\n\n Preconditions: the app must be **published**.\n\n\n> Executions created through this endpoint will be queued and executed at your workspace's capacity.\n\n If you want to execute an app immediately, use the [execute](#/paths/~1public_api~1airops_apps~1{app_uuid}~1execute/post) endpoint.\n\n "
+        },
+        {
+          "info": {
+            "name": "Webhook Async Execute",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/airops_apps/:app_uuid/webhook_async_execute",
+            "params": [
+              {
+                "name": "app_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The app uuid, you can find the app uuid by going to the App => Integrate"
+              },
+              {
+                "name": "auth_token",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": " This endpoint allows you to execute an app asynchronously as a webhook for an external service.\n\n The payload of the request will be mapped to the first input of your app.\n\n Preconditions: the app must be **published**.\n\n More information on how to use this endpoint can be found [here](https://airops.gitbook.io/docs/execute/advanced/incoming-webhook). "
+        },
+        {
+          "info": {
+            "name": "Cancel an execution",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.airops.com/public_api/airops_apps/executions/:execution_uuid/cancel",
+            "params": [
+              {
+                "name": "execution_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The execution uuid"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": " This endpoint allows you to cancel an execution.\n\n Preconditions: the execution must be in the **pending** or **running** status.\n\n "
+        },
+        {
+          "info": {
+            "name": "Retry an execution",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/airops_apps/executions/:execution_uuid/retry",
+            "params": [
+              {
+                "name": "execution_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The execution uuid"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": " This endpoint allows you to retry an execution from the last failed step.\n\n Preconditions: the execution must be in the **error** status.\n\n "
+        },
+        {
+          "info": {
+            "name": "Rate an execution",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.airops.com/public_api/airops_apps/executions/:execution_uuid/feedback",
+            "params": [
+              {
+                "name": "execution_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The execution uuid"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": " This endpoint allows you to rate an execution.\n\n Preconditions: the execution must be in the **success** status.\n\n "
+        },
+        {
+          "info": {
+            "name": "Retrieve all executions for an Airops app",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/airops_apps/:airops_app_id/executions",
+            "params": [
+              {
+                "name": "airops_app_id",
+                "value": "",
+                "type": "query",
+                "description": "The Airops app ID to fetch executions from"
+              },
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "The cursor value to use for pagination"
+              },
+              {
+                "name": "items",
+                "value": "",
+                "type": "query",
+                "description": "The amount of items to fetch"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Returns all the **executions** for a given Airops app. You can use this endpoint to check the status/input/output of all the executions.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Apps",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve all apps",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/airops_apps",
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": " Returns all the **apps**. "
+        },
+        {
+          "info": {
+            "name": "Retrieve an app",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/airops_apps/:app_uuid",
+            "params": [
+              {
+                "name": "app_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The app uuid, you can find the app uuid by going to the App => Integrate"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": " Returns the **app** with the given uuid. "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Agent",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Chat",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/agent_apps/:app_uuid/chat",
+            "params": [
+              {
+                "name": "app_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The app uuid, you can find the app uuid by going to the App => Integrate"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "This endpoint allows you to send a message (chat) to an Agent app. You can include inputs with your message which will be passed to the app.\n"
+        },
+        {
+          "info": {
+            "name": "Async Chat",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/agent_apps/:app_uuid/async_chat",
+            "params": [
+              {
+                "name": "app_uuid",
+                "value": "",
+                "type": "path",
+                "description": "The app uuid, you can find the app uuid by going to the App => Integrate"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "This endpoint allows you to send a message (chat) to an Agent app asynchronously, without waiting for the response. You can include inputs with your message which will be passed to the app.\n"
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Files",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Upload",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/workspace_files",
+            "body": {
+              "type": "multipart-form",
+              "data": [
+                {
+                  "name": "file",
+                  "type": "text",
+                  "value": ""
+                }
+              ]
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": " This endpoint allows you to upload a file to the workspace.\nYou can use this endpoint to upload a file and get the id of the file to use as an input in an app. "
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Grids",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate CSV",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/grids/:grid_id/sheets/:sheet_id/generate_csv",
+            "params": [
+              {
+                "name": "grid_id",
+                "value": "",
+                "type": "path",
+                "description": "The Grid id"
+              },
+              {
+                "name": "sheet_id",
+                "value": "",
+                "type": "path",
+                "description": "The Sheet id"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Generate a CSV file from a sheet asynchronously."
+        },
+        {
+          "info": {
+            "name": "Download Latest CSV",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/grids/:grid_id/sheets/:sheet_id/download_csv/latest",
+            "params": [
+              {
+                "name": "grid_id",
+                "value": "",
+                "type": "path",
+                "description": "The Grid id"
+              },
+              {
+                "name": "sheet_id",
+                "value": "",
+                "type": "path",
+                "description": "The Sheet id"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Downloads the latest generated CSV file for a sheet. This endpoint redirects to the CSV file URL if a successful generation exists, or returns a 404 error if no CSV has been generated yet."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Memory Stores",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/vector_stores/:memory_store_id/search",
+            "params": [
+              {
+                "name": "memory_store_id",
+                "value": "",
+                "type": "path",
+                "description": "The Memory Store id"
+              },
+              {
+                "name": "query",
+                "value": "",
+                "type": "query",
+                "description": "The query to search for"
+              },
+              {
+                "name": "topk",
+                "value": "",
+                "type": "query",
+                "description": "The number of results to return"
+              },
+              {
+                "name": "filter",
+                "value": "",
+                "type": "query",
+                "description": "The filter to apply to the search. See https://docs.airops.com/basic-setup/memory-stores/memory-stores-metadata#how-to-filter-on-metadata for more information."
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Perform a search on a memory store."
+        },
+        {
+          "info": {
+            "name": "Add Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/vector_stores/:memory_store_id/vector_store_documents",
+            "params": [
+              {
+                "name": "memory_store_id",
+                "value": "",
+                "type": "path",
+                "description": "The Memory Store id"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add a document to a memory store."
+        },
+        {
+          "info": {
+            "name": "Update Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.airops.com/public_api/vector_stores/:memory_store_id/vector_store_documents/:memory_store_document_id",
+            "params": [
+              {
+                "name": "memory_store_id",
+                "value": "",
+                "type": "path",
+                "description": "The Memory Store id"
+              },
+              {
+                "name": "memory_store_document_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Update a document in a memory store."
+        },
+        {
+          "info": {
+            "name": "Delete Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.airops.com/public_api/vector_stores/:memory_store_id/vector_store_documents/:memory_store_document_id",
+            "params": [
+              {
+                "name": "memory_store_id",
+                "value": "",
+                "type": "path",
+                "description": "The Memory Store id"
+              },
+              {
+                "name": "memory_store_document_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Delete a document from a memory store."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Brand Kits",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Brand Kits",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/list",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Brand Kits for AEO operations — provides the brand_kit_id required by all AEO tools (analytics, prompts, pages, citations, reports, grids, topics, personas)."
+        },
+        {
+          "info": {
+            "name": "Get Brand Kit",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/brand_kits/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Brand Kits for AEO operations — provides the brand_kit_id required by all AEO tools (analytics, prompts, pages, citations, reports, grids, topics, personas)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Prompts",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Prompts",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/prompts/list",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Questions are the AI prompts that can be asked about a brand. They are used to get AI answers with citations and mentions."
+        },
+        {
+          "info": {
+            "name": "Get Prompt",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/prompts/:id",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Questions are the AI prompts that can be asked about a brand. They are used to get AI answers with citations and mentions."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Topics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Topics",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/topics/list",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Topics are the categories of questions that can be asked about a Brand Kit. They are used to group questions together and to create a taxonomy of questions."
+        },
+        {
+          "info": {
+            "name": "Get Topic",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/topics/:id",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Topics are the categories of questions that can be asked about a Brand Kit. They are used to group questions together and to create a taxonomy of questions."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Personas",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Personas",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/personas/list",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Personas are the characters that can be used to ask questions about a brand. They are used to get AI answers with citations and mentions."
+        },
+        {
+          "info": {
+            "name": "Get Persona",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/personas/:id",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Personas are the characters that can be used to ask questions about a brand. They are used to get AI answers with citations and mentions."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Citations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Citations",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/citations/list",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Citations (URLs) with detailed metrics including influence score. Shows individual URLs being cited in AI answers with page-level context."
+        },
+        {
+          "info": {
+            "name": "Get Citation",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/citations/show",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Citations (URLs) with detailed metrics including influence score. Shows individual URLs being cited in AI answers with page-level context."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Competitors",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Competitors",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/competitors/list",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Competitors are the companies that are competing with the brand. They are used to track the performance of the brand against its competitors."
+        },
+        {
+          "info": {
+            "name": "Get Competitor",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/competitors/:id",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Competitors are the companies that are competing with the brand. They are used to track the performance of the brand against its competitors."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Web Pages",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Web Pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/web_pages/list",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Web page metrics are the daily metrics of citations, clicks, impressions, traffic, and configured GA4 key events for a specific web page."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Analytic",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/analytics",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Query analytics data for a Brand Kit with flexible metrics, dimensions, and filters."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Sentiment Theme Answers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get Sentiment Theme Answer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/sentiment_theme_answers",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Get individual AI answers with sentiment details for a specific theme."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Content Updates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Content Updates",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/content_updates/list",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Track content updates."
+        },
+        {
+          "info": {
+            "name": "Create Content Updates",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/content_updates",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Track content updates."
+        },
+        {
+          "info": {
+            "name": "Get Content Update",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/content_updates/:id",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Track content updates."
+        },
+        {
+          "info": {
+            "name": "Destroy Content Updates",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/content_updates/:id",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Track content updates."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Tags",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/tags/list",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Tags are user-defined labels applied to prompts within a Brand Kit. They are typically used to filter analytics by arbitrary groupings (e.g. priority, campaign, theme) that go beyond topics."
+        },
+        {
+          "info": {
+            "name": "Get Tag",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/tags/:id",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The resource ID"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Tags are user-defined labels applied to prompts within a Brand Kit. They are typically used to filter analytics by arbitrary groupings (e.g. priority, campaign, theme) that go beyond topics."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Answers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List Answers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/answers/list",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Individual AI answers with their cited URLs and brand/competitor mentions."
+        },
+        {
+          "info": {
+            "name": "Get Answer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.airops.com/public_api/brand_kits/:brand_kit_id/answers/show",
+            "params": [
+              {
+                "name": "brand_kit_id",
+                "value": "",
+                "type": "path",
+                "description": "The Brand Kit ID"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Individual AI answers with their cited URLs and brand/competitor mentions."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
