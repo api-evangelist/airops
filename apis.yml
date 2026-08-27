@@ -69,16 +69,16 @@ tags_raw:
 - Content Marketing
 - Citations
 apis:
-- name: AirOps API
-  description: >-
-    Public REST API for running AirOps Workflows/Apps (synchronous, asynchronous,
-    and webhook execution), managing executions, interacting with Knowledge Bases
-    (Memory Stores), and reading AEO analytics, citations, prompts, pages, and
-    Brand Kit resources. Authenticated with a workspace API key as an
-    Authorization Bearer token.
+- aid: airops:airops-agent-api
+  name: AirOps Agent API
+  description: An endpoint for interacting with Agent apps using chat messages.
   humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
   baseURL: https://api.airops.com
+  tags:
+  - Agent
   properties:
+  - type: OpenAPI
+    url: openapi/airops-agent-api-openapi.yml
   - type: Documentation
     url: https://docs.airops.com/
   - type: APIReference
@@ -97,10 +97,553 @@ apis:
     url: asyncapi/airops-webhooks.yml
   - type: Conformance
     url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-analytics-api
+  name: AirOps Analytics API
+  description: The Analytics API from AirOps — 1 operation(s) for analytics.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Analytics
+  properties:
   - type: OpenAPI
-    url: openapi/airops-api-openapi.yml
-  - type: Overlay
-    url: overlays/airops-api-overlay.yaml
+    url: openapi/airops-analytics-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-answers-api
+  name: AirOps Answers API
+  description: The Answers API from AirOps — 2 operation(s) for answers.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Answers
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-answers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-apps-api
+  name: AirOps Apps API
+  description: Endpoints for listing and retrieving app information.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Apps
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-apps-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-brand-kits-api
+  name: AirOps Brand Kits API
+  description: Endpoints for managing brand kits and their associated resources.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Brand Kits
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-brand-kits-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-citations-api
+  name: AirOps Citations API
+  description: The Citations API from AirOps — 2 operation(s) for citations.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Citations
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-citations-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-competitors-api
+  name: AirOps Competitors API
+  description: The Competitors API from AirOps — 2 operation(s) for competitors.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Competitors
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-competitors-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-content-updates-api
+  name: AirOps Content Updates API
+  description: The Content Updates API from AirOps — 3 operation(s) for content updates.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Content Updates
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-content-updates-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-executions-api
+  name: AirOps Executions API
+  description: >-
+    An execution is a single run of an app, it contains the inputs, outputs, and status of the run, and
+    can be used to check the status of the run.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Executions
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-executions-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-files-api
+  name: AirOps Files API
+  description: Endpoints for managing workspace files.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Files
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-files-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-grids-api
+  name: AirOps Grids API
+  description: Endpoints for working with grid data and CSV exports.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Grids
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-grids-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-memory-stores-api
+  name: AirOps Memory Stores API
+  description: Endpoints for managing memory stores (vector stores) and document search.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Memory Stores
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-memory-stores-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-personas-api
+  name: AirOps Personas API
+  description: The Personas API from AirOps — 2 operation(s) for personas.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Personas
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-personas-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-prompts-api
+  name: AirOps Prompts API
+  description: The Prompts API from AirOps — 2 operation(s) for prompts.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Prompts
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-prompts-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-sentiment-theme-answers-api
+  name: AirOps Sentiment Theme Answers API
+  description: >-
+    The Sentiment Theme Answers API from AirOps — 1 operation(s) for sentiment theme answers.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Sentiment Theme Answers
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-sentiment-theme-answers-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-tags-api
+  name: AirOps Tags API
+  description: The Tags API from AirOps — 2 operation(s) for tags.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-tags-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-topics-api
+  name: AirOps Topics API
+  description: The Topics API from AirOps — 2 operation(s) for topics.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Topics
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-topics-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
+  - type: DataModel
+    url: data-model/airops-data-model.yml
+  - type: RateLimits
+    url: rate-limits/airops-rate-limits.yml
+- aid: airops:airops-web-pages-api
+  name: AirOps Web Pages API
+  description: The Web Pages API from AirOps — 1 operation(s) for web pages.
+  humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
+  baseURL: https://api.airops.com
+  tags:
+  - Web Pages
+  properties:
+  - type: OpenAPI
+    url: openapi/airops-web-pages-api-openapi.yml
+  - type: Documentation
+    url: https://docs.airops.com/
+  - type: APIReference
+    url: https://docs.airops.com/api-reference/api-reference/executions
+  - type: Authentication
+    url: https://docs.airops.com/api-reference/using-the-api/authentication
+  - type: Authentication
+    url: authentication/airops-authentication.yml
+  - type: OAuthScopes
+    url: scopes/airops-scopes.yml
+  - type: ErrorCatalog
+    url: errors/airops-error-codes.yml
+  - type: Conventions
+    url: conventions/airops-conventions.yml
+  - type: Webhooks
+    url: asyncapi/airops-webhooks.yml
+  - type: Conformance
+    url: conformance/airops-conformance.yml
   - type: DataModel
     url: data-model/airops-data-model.yml
   - type: RateLimits
