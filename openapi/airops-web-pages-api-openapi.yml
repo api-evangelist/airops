@@ -1,0 +1,642 @@
+openapi: 3.2.0
+info:
+  title: V1 Web Pages API
+  version: v1
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Web Pages
+  x-parent: Brand Kits
+paths:
+  /public_api/brand_kits/{brand_kit_id}/web_pages/list:
+    post:
+      summary: List Web Pages
+      description: Web page metrics are the daily metrics of citations, clicks, impressions, traffic, and configured GA4 key events for a specific web page.
+      tags:
+      - Web Pages
+      operationId: listBrandKitsWebPages
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Unique identifier for the web page
+                        web_page_id:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Web page ID (same as id)
+                        url:
+                          type:
+                          - string
+                          - 'null'
+                          description: Full URL of the web page
+                        folder_name:
+                          type:
+                          - string
+                          - 'null'
+                          description: First path segment of the URL (folder/section)
+                        primary_keyword:
+                          type:
+                          - string
+                          - 'null'
+                          description: Primary keyword associated with this page
+                        tracked:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: Whether the page is tracked and scraped to track content changes
+                        citations_count:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Number of citations this page received
+                        citations_count_diff:
+                          type:
+                          - number
+                          - 'null'
+                          description: Percentage change in citations vs comparison period
+                        citation_rate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Ratio of citing answers to total answers with citations
+                        citation_rate_diff:
+                          type:
+                          - number
+                          - 'null'
+                          description: Absolute change in citation rate vs comparison period
+                        prompts_count:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Number of unique prompts citing this page
+                        prompts_count_diff:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Change in prompts count vs comparison period
+                        clicks:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Google Search Console clicks
+                        clicks_diff:
+                          type:
+                          - number
+                          - 'null'
+                          description: Percentage change in clicks vs comparison period
+                        impressions:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Google Search Console impressions
+                        impressions_diff:
+                          type:
+                          - number
+                          - 'null'
+                          description: Percentage change in impressions vs comparison period
+                        ctr:
+                          type:
+                          - number
+                          - 'null'
+                          description: Click-through rate (clicks/impressions)
+                        ctr_diff:
+                          type:
+                          - number
+                          - 'null'
+                          description: Absolute change in CTR vs comparison period
+                        position:
+                          type:
+                          - number
+                          - 'null'
+                          description: Average search position
+                        position_diff:
+                          type:
+                          - number
+                          - 'null'
+                          description: Percentage change in position vs comparison period
+                        traffic:
+                          type:
+                          - integer
+                          - 'null'
+                          description: GA4 active users
+                        traffic_diff:
+                          type:
+                          - number
+                          - 'null'
+                          description: Percentage change in traffic vs comparison period
+                        sessions:
+                          type:
+                          - integer
+                          - 'null'
+                          description: GA4 sessions count
+                        sessions_diff:
+                          type:
+                          - number
+                          - 'null'
+                          description: GA4 Percentage change in sessions vs comparison period
+                        engagement:
+                          type:
+                          - integer
+                          - 'null'
+                          description: GA4 engaged sessions
+                        engagement_diff:
+                          type:
+                          - number
+                          - 'null'
+                          description: GA4Percentage change in engagement vs comparison period
+                        average_session_engagement:
+                          type:
+                          - number
+                          - 'null'
+                          description: GA4 Average session duration in seconds
+                        average_session_engagement_diff:
+                          type:
+                          - number
+                          - 'null'
+                          description: GA4 Percentage change in average session duration vs comparison period
+                        events:
+                          type:
+                          - array
+                          - 'null'
+                          items:
+                            type: object
+                          description: Configured GA4 key events for this page. Each event includes event_name, event_count, and event_diff.
+                        amplitude_events:
+                          type:
+                          - array
+                          - 'null'
+                          items:
+                            type: object
+                          description: Configured Amplitude events for this page. Each event includes event_name, totals, and totals_diff.
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      per_page:
+                        type: integer
+                      total_count:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      data_availability:
+                        type: object
+                        description: Information about data availability for the brand kit
+                        properties:
+                          earliest_data_date:
+                            type:
+                            - string
+                            - 'null'
+                            description: Date of the first completed analysis (ISO 8601). Null if none exist.
+                          latest_data_date:
+                            type:
+                            - string
+                            - 'null'
+                            description: Date of the most recent completed analysis (ISO 8601). Null if none exist.
+                          requested_period_has_data:
+                            type: boolean
+                            description: Whether any completed analyses exist within the requested date range
+                required:
+                - data
+                - meta
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand_kit_id:
+                  type: integer
+                  description: ID of the brand kit to retrieve web page metrics for
+                smart_filter:
+                  type: string
+                  description: 'Apply a predefined filter preset.
+
+
+                    **Available presets:**
+
+                    - **almost_page_one**: Pages ranking 10-20
+
+                    - **losing_clicks**: Pages losing clicks despite stable rankings
+
+                    - **rankings_slipping**: Pages declining in SERP
+
+                    - **losing_ai_visibility**: Pages losing AI citations
+
+                    - **citation_rate_decline**: Pages losing citation rate
+
+                    - **stale_pages**: Pages not updated in 6 months'
+                  enum:
+                  - almost_page_one
+                  - losing_clicks
+                  - rankings_slipping
+                  - losing_ai_visibility
+                  - citation_rate_decline
+                  - stale_pages
+                start_date:
+                  type: string
+                  description: Start date for analysis period (ISO 8601 format, defaults to 1 month ago)
+                end_date:
+                  type: string
+                  description: End date for analysis period (ISO 8601 format, defaults to today)
+                event_names:
+                  type: array
+                  description: Optional configured GA4 key event names to include. If omitted, all active key events configured for the brand kit are included.
+                  items:
+                    type: string
+                amplitude_event_names:
+                  type: array
+                  description: Optional configured Amplitude event names to include. If omitted, all active Amplitude events configured for the brand kit are included when the feature is enabled.
+                  items:
+                    type: string
+                filters:
+                  type: array
+                  description: 'Filter results. Nested fields (e.g. `writing_rules.text`) filter within an included association and require that association in `includes`.
+
+
+                    **Available fields:**
+
+                    - **clicks** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by GSC clicks count
+
+                    - **impressions** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by GSC impressions count
+
+                    - **ctr** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by click-through rate
+
+                    - **position** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by average search position
+
+                    - **citations_count** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by citation count
+
+                    - **citation_rate** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by citation rate
+
+                    - **prompts_count** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by prompts count
+
+                    - **traffic** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by GA4 traffic
+
+                    - **sessions** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by GA4 sessions
+
+                    - **engagement** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by GA4 engaged sessions
+
+                    - **average_session_engagement** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by average session duration
+
+                    - **clicks_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by clicks change percentage
+
+                    - **impressions_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by impressions change percentage
+
+                    - **ctr_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by CTR change
+
+                    - **position_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by position change percentage
+
+                    - **citations_count_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by citations change percentage
+
+                    - **citation_rate_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by citation rate change
+
+                    - **prompts_count_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by prompts count change
+
+                    - **traffic_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by traffic change percentage
+
+                    - **sessions_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by sessions change percentage
+
+                    - **engagement_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by engagement change percentage
+
+                    - **average_session_engagement_diff** (EQ, NEQ, GT, LT, GEQ, LEQ): Filter by average session duration change
+
+                    - **last_refreshed_at** (LEQ): Filter by pages last refreshed before a preset window. Valid values: 1m, 3m, 6m, 1y.
+
+                    - **url** (EQUALS, CONTAINS, STARTS_WITH, IN): Filter by page URL. Use CONTAINS for partial match.
+
+                    - **folder_name** (EQUALS, CONTAINS, STARTS_WITH, IN): Filter by folder/section name
+
+                    - **primary_keyword** (EQUALS, CONTAINS, STARTS_WITH, IN): Filter by primary keyword
+
+                    - **session_source** (EQUALS, CONTAINS, STARTS_WITH, IN): Filter by GA4 session source. Valid values: (direct), google, chatgpt.com, perplexity.ai, perplexity, reddit.com, gemini.google.com, youtube.com, linkedin, linkedin.com, lnkd.in, bing, claude.ai
+
+                    - **session_medium** (EQUALS, CONTAINS, STARTS_WITH, IN): Filter by GA4 session medium. Valid values: organic, cpc, email, social, direct, referral
+
+                    - **tracked** (EQ): Filter by tracked status'
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                        enum:
+                        - clicks
+                        - impressions
+                        - ctr
+                        - position
+                        - citations_count
+                        - citation_rate
+                        - prompts_count
+                        - traffic
+                        - sessions
+                        - engagement
+                        - average_session_engagement
+                        - clicks_diff
+                        - impressions_diff
+                        - ctr_diff
+                        - position_diff
+                        - citations_count_diff
+                        - citation_rate_diff
+                        - prompts_count_diff
+                        - traffic_diff
+                        - sessions_diff
+                        - engagement_diff
+                        - average_session_engagement_diff
+                        - last_refreshed_at
+                        - url
+                        - folder_name
+                        - primary_keyword
+                        - session_source
+                        - session_medium
+                        - tracked
+                        description: 'Field to filter on. clicks: Filter by GSC clicks count; impressions: Filter by GSC impressions count; ctr: Filter by click-through rate; position: Filter by average search position; citations_count: Filter by citation count; citation_rate: Filter by citation rate; prompts_count: Filter by prompts count; traffic: Filter by GA4 traffic; sessions: Filter by GA4 sessions; engagement: Filter by GA4 engaged sessions; average_session_engagement: Filter by average session duration; clicks_diff: Filter by clicks change percentage; impressions_diff: Filter by impressions change percentage; ctr_diff: Filter by CTR change; position_diff: Filter by position change percentage; citations_count_diff: Filter by citations change percentage; citation_rate_diff: Filter by citation rate change; prompts_count_diff: Filter by prompts count change; traffic_diff: Filter by traffic change percentage; sessions_diff: Filter by sessions change percentage; engagement_diff: Filter by engagement change percentage; average_session_engagement_diff: Filter by average session duration change; last_refreshed_at: Filter by pages last refreshed before a preset window. Valid values: 1m, 3m, 6m, 1y.; url: Filter by page URL. Use CONTAINS for partial match.; folder_name: Filter by folder/section name; primary_keyword: Filter by primary keyword; session_source: Filter by GA4 session source. Valid values: (direct), google, chatgpt.com, perplexity.ai, perplexity, reddit.com, gemini.google.com, youtube.com, linkedin, linkedin.com, lnkd.in, bing, claude.ai; session_medium: Filter by GA4 session medium. Valid values: organic, cpc, email, social, direct, referral; tracked: Filter by tracked status'
+                      operator:
+                        type: string
+                        enum:
+                        - EQ
+                        - NEQ
+                        - GT
+                        - LT
+                        - GEQ
+                        - LEQ
+                        - EQUALS
+                        - CONTAINS
+                        - STARTS_WITH
+                        - IN
+                        description: 'Filter operator.
+
+
+                          - **EQ/EQUALS**: Exact match
+
+                          - **NEQ**: Not equal
+
+                          - **GT/GEQ/LT/LEQ**: Numeric/date comparisons
+
+                          - **CONTAINS**: Partial text match
+
+                          - **STARTS_WITH**: Text prefix match
+
+                          - **IN**: Match any value in array
+
+                          - **HAS_ALL**: (tags filter) match only items having every listed value
+
+                          - **NOT_IN**: (tags filter) match only items having none of the listed values'
+                      value:
+                        description: Filter value (type depends on field and operator)
+                    required:
+                    - field
+                    - operator
+                    - value
+                fields:
+                  type: array
+                  description: 'Select additional fields to return.
+
+
+                    **Optional fields:**
+
+                    - **id**: Unique identifier for the web page
+
+                    - **web_page_id**: Web page ID (same as id)
+
+                    - **url**: Full URL of the web page
+
+                    - **folder_name**: First path segment of the URL (folder/section)
+
+                    - **primary_keyword**: Primary keyword associated with this page
+
+                    - **tracked**: Whether the page is tracked and scraped to track content changes
+
+                    - **citations_count**: Number of citations this page received
+
+                    - **citations_count_diff**: Percentage change in citations vs comparison period
+
+                    - **citation_rate**: Ratio of citing answers to total answers with citations
+
+                    - **citation_rate_diff**: Absolute change in citation rate vs comparison period
+
+                    - **prompts_count**: Number of unique prompts citing this page
+
+                    - **prompts_count_diff**: Change in prompts count vs comparison period
+
+                    - **clicks**: Google Search Console clicks
+
+                    - **clicks_diff**: Percentage change in clicks vs comparison period
+
+                    - **impressions**: Google Search Console impressions
+
+                    - **impressions_diff**: Percentage change in impressions vs comparison period
+
+                    - **ctr**: Click-through rate (clicks/impressions)
+
+                    - **ctr_diff**: Absolute change in CTR vs comparison period
+
+                    - **position**: Average search position
+
+                    - **position_diff**: Percentage change in position vs comparison period
+
+                    - **traffic**: GA4 active users
+
+                    - **traffic_diff**: Percentage change in traffic vs comparison period
+
+                    - **sessions**: GA4 sessions count
+
+                    - **sessions_diff**: GA4 Percentage change in sessions vs comparison period
+
+                    - **engagement**: GA4 engaged sessions
+
+                    - **engagement_diff**: GA4Percentage change in engagement vs comparison period
+
+                    - **average_session_engagement**: GA4 Average session duration in seconds
+
+                    - **average_session_engagement_diff**: GA4 Percentage change in average session duration vs comparison period
+
+                    - **events**: Configured GA4 key events for this page. Each event includes event_name, event_count, and event_diff.
+
+                    - **amplitude_events**: Configured Amplitude events for this page. Each event includes event_name, totals, and totals_diff.'
+                  items:
+                    type: string
+                    enum:
+                    - id
+                    - web_page_id
+                    - url
+                    - folder_name
+                    - primary_keyword
+                    - tracked
+                    - citations_count
+                    - citations_count_diff
+                    - citation_rate
+                    - citation_rate_diff
+                    - prompts_count
+                    - prompts_count_diff
+                    - clicks
+                    - clicks_diff
+                    - impressions
+                    - impressions_diff
+                    - ctr
+                    - ctr_diff
+                    - position
+                    - position_diff
+                    - traffic
+                    - traffic_diff
+                    - sessions
+                    - sessions_diff
+                    - engagement
+                    - engagement_diff
+                    - average_session_engagement
+                    - average_session_engagement_diff
+                    - events
+                    - amplitude_events
+                sort:
+                  type: string
+                  enum:
+                  - url
+                  - -url
+                  - folder_name
+                  - -folder_name
+                  - citations_count
+                  - -citations_count
+                  - citations_count_diff
+                  - -citations_count_diff
+                  - citation_rate
+                  - -citation_rate
+                  - citation_rate_diff
+                  - -citation_rate_diff
+                  - prompts_count
+                  - -prompts_count
+                  - prompts_count_diff
+                  - -prompts_count_diff
+                  - clicks
+                  - -clicks
+                  - clicks_diff
+                  - -clicks_diff
+                  - impressions
+                  - -impressions
+                  - impressions_diff
+                  - -impressions_diff
+                  - ctr
+                  - -ctr
+                  - ctr_diff
+                  - -ctr_diff
+                  - position
+                  - -position
+                  - position_diff
+                  - -position_diff
+                  - traffic
+                  - -traffic
+                  - traffic_diff
+                  - -traffic_diff
+                  - sessions
+                  - -sessions
+                  - sessions_diff
+                  - -sessions_diff
+                  - engagement
+                  - -engagement
+                  - engagement_diff
+                  - -engagement_diff
+                  - average_session_engagement
+                  - -average_session_engagement
+                  - average_session_engagement_diff
+                  - -average_session_engagement_diff
+                  description: 'Sort field. Prefix with - for descending.
+
+
+                    **Available sort fields:**
+
+                    - **url/-url**: Sort alphabetically by URL
+
+                    - **folder_name/-folder_name**: Sort alphabetically by folder name
+
+                    - **citations_count/-citations_count**: Sort by citation count
+
+                    - **citations_count_diff/-citations_count_diff**: Sort by citation change
+
+                    - **citation_rate/-citation_rate**: Sort by citation rate
+
+                    - **citation_rate_diff/-citation_rate_diff**: Sort by citation rate change
+
+                    - **prompts_count/-prompts_count**: Sort by prompts count
+
+                    - **prompts_count_diff/-prompts_count_diff**: Sort by prompts count change
+
+                    - **clicks/-clicks**: Sort by GSC clicks
+
+                    - **clicks_diff/-clicks_diff**: Sort by clicks change
+
+                    - **impressions/-impressions**: Sort by GSC impressions
+
+                    - **impressions_diff/-impressions_diff**: Sort by impressions change
+
+                    - **ctr/-ctr**: Sort by click-through rate
+
+                    - **ctr_diff/-ctr_diff**: Sort by CTR change
+
+                    - **position/-position**: Sort by search position
+
+                    - **position_diff/-position_diff**: Sort by position change
+
+                    - **traffic/-traffic**: Sort by GA4 traffic
+
+                    - **traffic_diff/-traffic_diff**: Sort by traffic change
+
+                    - **sessions/-sessions**: Sort by GA4 sessions
+
+                    - **sessions_diff/-sessions_diff**: Sort by sessions change
+
+                    - **engagement/-engagement**: Sort by GA4 engagement
+
+                    - **engagement_diff/-engagement_diff**: Sort by engagement change
+
+                    - **average_session_engagement/-average_session_engagement**: Sort by avg session duration
+
+                    - **average_session_engagement_diff/-average_session_engagement_diff**: Sort by avg session duration change'
+                  default: -citations_count
+                page:
+                  type: integer
+                  default: 1
+                  description: Page number
+                per_page:
+                  type: integer
+                  default: 25
+                  maximum: 100
+                  description: Items per page
+              required:
+              - brand_kit_id
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

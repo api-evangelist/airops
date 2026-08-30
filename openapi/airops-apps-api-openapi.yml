@@ -1,0 +1,125 @@
+openapi: 3.2.0
+info:
+  title: V1 Apps API
+  version: v1
+  description: Endpoints for listing and retrieving app information.
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Apps
+  description: Endpoints for listing and retrieving app information.
+paths:
+  /public_api/airops_apps:
+    get:
+      summary: Retrieve all apps
+      description: ' Returns all the **apps**. '
+      tags:
+      - Apps
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Apps found
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/App'
+              example:
+              - $ref: '#/components/examples/App/value'
+        '401':
+          description: Authentication error
+  /public_api/airops_apps/{app_uuid}:
+    get:
+      summary: Retrieve an app
+      description: ' Returns the **app** with the given uuid. '
+      tags:
+      - Apps
+      operationId: getApp
+      parameters:
+      - $ref: '#/components/parameters/app_uuid'
+      security:
+      - bearer: []
+      responses:
+        '401':
+          description: Authentication error
+        '200':
+          description: App found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/App'
+              example:
+                $ref: '#/components/examples/App/value'
+components:
+  parameters:
+    app_uuid:
+      name: app_uuid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The app uuid, you can find the app uuid by going to the App => Integrate
+  examples:
+    App:
+      value:
+        id: 297
+        name: my draft
+        description: draft
+        background_color: '#fea'
+        created_at: 2023-06-20 00:49:56.696000+00:00
+        updated_at: 2023-10-24 11:26:21.820000+00:00
+        active_version_id: 44
+        emoji: ''
+        public: false
+        uuid: 6d2f4e0b-1a1d-49ae-8034-ba56f932119e
+        readme: ''
+  schemas:
+    App:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 297
+        name:
+          type: string
+          example: my draft
+        description:
+          type: string
+          example: draft
+        background_color:
+          type: string
+          example: '#fea'
+        created_at:
+          type: string
+          format: date-time
+          example: 2023-06-20 00:49:56.696000+00:00
+        updated_at:
+          type: string
+          format: date-time
+          example: 2023-10-24 11:26:21.820000+00:00
+        active_version_id:
+          type: integer
+          example: 44
+        emoji:
+          type: string
+          example: ''
+        public:
+          type: boolean
+          example: false
+        uuid:
+          type: string
+          maxLength: 36
+          minLength: 36
+          example: 6d2f4e0b-1a1d-49ae-8034-ba56f932119e
+        readme:
+          type: string
+          example: ''
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

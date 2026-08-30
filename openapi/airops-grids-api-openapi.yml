@@ -1,0 +1,93 @@
+openapi: 3.2.0
+info:
+  title: V1 Grids API
+  version: v1
+  description: Endpoints for working with grid data and CSV exports.
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Grids
+  description: Endpoints for working with grid data and CSV exports.
+paths:
+  /public_api/grids/{grid_id}/sheets/{sheet_id}/generate_csv:
+    post:
+      summary: Generate CSV
+      description: Generate a CSV file from a sheet asynchronously.
+      tags:
+      - Grids
+      security:
+      - bearer: []
+      parameters:
+      - $ref: '#/components/parameters/grid_id'
+        description: The Grid id
+      - $ref: '#/components/parameters/sheet_id'
+        description: The Sheet id
+      responses:
+        '200':
+          description: Job to generate CSV created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  job_id:
+                    type: integer
+                    example: 230
+                    description: The id of the job
+              example:
+                id: 230
+        '401':
+          description: Authentication error
+  /public_api/grids/{grid_id}/sheets/{sheet_id}/download_csv/latest:
+    get:
+      summary: Download Latest CSV
+      description: Downloads the latest generated CSV file for a sheet. This endpoint redirects to the CSV file URL if a successful generation exists, or returns a 404 error if no CSV has been generated yet.
+      tags:
+      - Grids
+      security:
+      - bearer: []
+      parameters:
+      - $ref: '#/components/parameters/grid_id'
+        description: The Grid ID
+      - $ref: '#/components/parameters/sheet_id'
+        description: The Sheet ID
+      responses:
+        '302':
+          description: Redirects to the CSV download URL
+        '404':
+          description: Latest CSV not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: We could not find the latest CSV for this grid.
+              example:
+                error: We could not find the latest CSV for this grid.
+        '401':
+          description: Authentication error
+components:
+  parameters:
+    sheet_id:
+      name: sheet_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The Sheet id
+    grid_id:
+      name: grid_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The Grid id
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

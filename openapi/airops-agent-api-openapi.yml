@@ -1,0 +1,254 @@
+openapi: 3.2.0
+info:
+  title: V1 Agent API
+  version: v1
+  description: An endpoint for interacting with Agent apps using chat messages.
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Agent
+  description: An endpoint for interacting with Agent apps using chat messages.
+paths:
+  /public_api/agent_apps/{app_uuid}/chat:
+    post:
+      summary: Chat
+      description: 'This endpoint allows you to send a message (chat) to an Agent app. You can include inputs with your message which will be passed to the app.
+
+        '
+      tags:
+      - Agent
+      operationId: chatWithAgent
+      parameters:
+      - $ref: '#/components/parameters/app_uuid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatPayload'
+              required:
+              - message
+            example:
+              message: Hello, how are you?
+              inputs:
+                name: John Doe
+      security:
+      - bearer: []
+      responses:
+        '401':
+          description: Authentication error
+        '200':
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    $ref: '#/components/schemas/ChatResponse/properties/result'
+                  airops_app_execution:
+                    $ref: '#/components/schemas/Execution'
+              example:
+                result:
+                  $ref: '#/components/examples/ChatResponse/value/result'
+                airops_app_execution:
+                  $ref: '#/components/examples/Execution/value'
+  /public_api/agent_apps/{app_uuid}/async_chat:
+    post:
+      summary: Async Chat
+      description: 'This endpoint allows you to send a message (chat) to an Agent app asynchronously, without waiting for the response. You can include inputs with your message which will be passed to the app.
+
+        '
+      tags:
+      - Agent
+      operationId: asyncChatWithAgent
+      parameters:
+      - $ref: '#/components/parameters/app_uuid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                message:
+                  type: string
+                  example: Hello, how are you?
+                  description: The message to send to the agent.
+                inputs:
+                  type: object
+                  description: Optional inputs to send along with the message.
+                  example:
+                    name: John Doe
+                  additionalProperties: true
+              required:
+              - message
+            example:
+              message: Hello, how are you?
+              inputs:
+                name: John Doe
+      security:
+      - bearer: []
+      responses:
+        '401':
+          description: Authentication error
+        '200':
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  session_id:
+                    $ref: '#/components/schemas/ChatPayload/properties/session_id'
+                  airops_app_execution:
+                    $ref: '#/components/schemas/Execution'
+              example:
+                session_id:
+                  $ref: '#/components/examples/ChatPayload/value/session_id'
+                airops_app_execution:
+                  $ref: '#/components/examples/Execution/value'
+components:
+  examples:
+    ChatResponse:
+      value:
+        result:
+          message: Hello, how are you?.
+          session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
+    ChatPayload:
+      value:
+        message: Hello, how are you?.
+        session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
+        inputs:
+          name: John Doe
+    Execution:
+      value:
+        id: 22
+        status: success
+        airops_apps_version_id: 21
+        conversation_id: 23
+        credits_used: 34
+        error_code: null
+        error_message: null
+        feedback: positive
+        inputs:
+          name: John Doe
+        output:
+          greet: Hello John Doe!
+        runtime: 34
+        source: null
+        uuid: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
+        workspace_id: 1
+        createdAt: 2024-02-01 16:39:28.161000+00:00
+        updatedAt: 2024-02-01 16:39:28.161000+00:00
+  schemas:
+    ChatPayload:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Hello, I need help with this.
+          description: The message to send to the agent
+        session_id:
+          type: string
+          example: 23iu3h23-34n43yib4-3243n34b4-34n434h
+          description: The session id of the chat. Use the session_id to send a message to an existing conversation. If not present, a new session will be created after sending the first message.
+        inputs:
+          type: object
+          additionalProperties: true
+          description: Optional inputs to send along with the message.
+          example:
+            name: John Doe
+    Execution:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - pending
+          - running
+          - error
+          - success
+          - cancelled
+          - review_needed
+          example: success
+        airops_apps_version_id:
+          type: integer
+          example: 21
+        conversation_id:
+          type: string
+          example: 23
+        credits_used:
+          type: integer
+          example: 34
+        error_code:
+          type: string
+          example: null
+        error_message:
+          example: null
+        feedback:
+          type: string
+          enum:
+          - positive
+          - neutral
+          - negative
+        inputs:
+          type: object
+          example:
+            name: John Doe
+        output:
+          type: object
+          example:
+            greet: Hello John Doe!
+        runtime:
+          type: integer
+          example: 34
+          description: The time it took to execute the app in seconds
+        source:
+          type: string
+        uuid:
+          type: string
+          maxLength: 36
+          minLength: 36
+          example: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
+        workspace_id:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          format: date-time
+          example: 2024-02-01 16:39:28.161000+00:00
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2024-02-01 16:39:28.161000+00:00
+      required:
+      - id
+      - status
+      - createdAt
+      - updatedAt
+    ChatResponse:
+      type: object
+      properties:
+        result:
+          type: object
+          additionalProperties: true
+          description: The result from calling the agent
+          example:
+            response: How can I help you?
+            session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
+  parameters:
+    app_uuid:
+      name: app_uuid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The app uuid, you can find the app uuid by going to the App => Integrate
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

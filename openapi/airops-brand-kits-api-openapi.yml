@@ -1,0 +1,639 @@
+openapi: 3.2.0
+info:
+  title: V1 Brand Kits API
+  version: v1
+  description: Endpoints for managing brand kits and their associated resources.
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Brand Kits
+  description: Endpoints for managing brand kits and their associated resources.
+paths:
+  /public_api/brand_kits/list:
+    post:
+      summary: List Brand Kits
+      description: Brand Kits for AEO operations — provides the brand_kit_id required by all AEO tools (analytics, prompts, pages, citations, reports, grids, topics, personas).
+      tags:
+      - Brand Kits
+      operationId: listBrandKits
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Unique identifier for the Brand Kit
+                        workspace_name:
+                          type:
+                          - string
+                          - 'null'
+                          description: Name of the workspace this Brand Kit belongs to
+                        brand_name:
+                          type:
+                          - string
+                          - 'null'
+                          description: Name of the brand
+                        brand_url:
+                          type:
+                          - string
+                          - 'null'
+                          description: URL of the brand website
+                        brand_about:
+                          type:
+                          - string
+                          - 'null'
+                          description: Description/overview of the brand
+                        brand_customer:
+                          type:
+                          - string
+                          - 'null'
+                          description: Description of the target customer
+                        brand_competitors:
+                          type:
+                          - string
+                          - 'null'
+                          description: Information about brand competitors
+                        brand_point_of_view:
+                          type:
+                          - string
+                          - 'null'
+                          description: The brand's unique perspective or stance
+                        writing_persona:
+                          type:
+                          - string
+                          - 'null'
+                          description: The persona/voice used in brand writing
+                        writing_tone:
+                          type:
+                          - string
+                          - 'null'
+                          description: The tone of voice for brand content
+                        writing_cta:
+                          type:
+                          - string
+                          - 'null'
+                          description: Default call-to-action text
+                        writing_cta_url:
+                          type:
+                          - string
+                          - 'null'
+                          description: URL for call-to-action links
+                        writing_rules:
+                          type:
+                          - string
+                          - 'null'
+                          description: Writing rules and guidelines
+                        writing_sample_title:
+                          type:
+                          - string
+                          - 'null'
+                          description: Title of the writing sample
+                        writing_sample_outline:
+                          type:
+                          - string
+                          - 'null'
+                          description: Outline of the writing sample
+                        writing_sample_body:
+                          type:
+                          - string
+                          - 'null'
+                          description: Body content of the writing sample
+                        writing_sample_url:
+                          type:
+                          - string
+                          - 'null'
+                          description: URL reference for the writing sample
+                        primary_color:
+                          type:
+                          - string
+                          - 'null'
+                          description: 'Primary brand color (hex format, e.g., #FF5733)'
+                        secondary_color:
+                          type:
+                          - string
+                          - 'null'
+                          description: Secondary brand color (hex format)
+                        accent_color:
+                          type:
+                          - string
+                          - 'null'
+                          description: Accent brand color (hex format)
+                        header_case:
+                          type:
+                          - string
+                          - 'null'
+                          description: Header case style (title_case, sentence_case, or custom)
+                        header_case_custom_value:
+                          type:
+                          - string
+                          - 'null'
+                          description: Custom header case rules (when header_case is custom)
+                        countries:
+                          type:
+                          - array
+                          - 'null'
+                          items:
+                            type: string
+                          description: Array of country codes for brand targeting (e.g., ["US", "GB", "CA"])
+                        aeo_enabled:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: Whether AEO is enabled for the Brand Kit
+                        prompts_count:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Number of prompts/questions associated with this Brand Kit
+                        created_at:
+                          type:
+                          - string
+                          - 'null'
+                          description: When the Brand Kit was created
+                        updated_at:
+                          type:
+                          - string
+                          - 'null'
+                          description: When the Brand Kit was last updated
+                        product_lines:
+                          type:
+                          - array
+                          - 'null'
+                          description: Included product_lines collection (when requested via includes param)
+                          items:
+                            type: object
+                        competitors:
+                          type:
+                          - array
+                          - 'null'
+                          description: Included competitors collection (when requested via includes param)
+                          items:
+                            type: object
+                        audiences:
+                          type:
+                          - array
+                          - 'null'
+                          description: Included audiences collection (when requested via includes param)
+                          items:
+                            type: object
+                        content_types:
+                          type:
+                          - array
+                          - 'null'
+                          description: Included content_types collection (when requested via includes param)
+                          items:
+                            type: object
+                      required:
+                      - id
+                      - brand_name
+                      - workspace_name
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      per_page:
+                        type: integer
+                      total_count:
+                        type: integer
+                      total_pages:
+                        type: integer
+                required:
+                - data
+                - meta
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workspace_id:
+                  type: integer
+                  description: ID of the workspace to retrieve brand kits from. If not provided, returns brand kits from all workspaces the user belongs to.
+                filters:
+                  type: array
+                  description: 'Filter results. Nested fields (e.g. `writing_rules.text`) filter within an included association and require that association in `includes`.
+
+
+                    **Available fields:**
+
+                    - **workspace_name** (EQUALS, CONTAINS): Filter by workspace name
+
+                    - **brand_name** (EQUALS, CONTAINS): Filter by brand name
+
+                    - **brand_url** (EQUALS, CONTAINS): Filter by brand URL
+
+                    - **created_at** (EQ, GT, LT, GEQ, LEQ): Filter by creation date
+
+                    - **aeo_enabled** (EQ): Filter by whether AEO is enabled for the Brand Kit'
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                        enum:
+                        - workspace_name
+                        - brand_name
+                        - brand_url
+                        - created_at
+                        - aeo_enabled
+                        description: 'Field to filter on. workspace_name: Filter by workspace name; brand_name: Filter by brand name; brand_url: Filter by brand URL; created_at: Filter by creation date; aeo_enabled: Filter by whether AEO is enabled for the Brand Kit'
+                      operator:
+                        type: string
+                        enum:
+                        - EQUALS
+                        - CONTAINS
+                        - EQ
+                        - GT
+                        - LT
+                        - GEQ
+                        - LEQ
+                        description: 'Filter operator.
+
+
+                          - **EQ/EQUALS**: Exact match
+
+                          - **NEQ**: Not equal
+
+                          - **GT/GEQ/LT/LEQ**: Numeric/date comparisons
+
+                          - **CONTAINS**: Partial text match
+
+                          - **STARTS_WITH**: Text prefix match
+
+                          - **IN**: Match any value in array
+
+                          - **HAS_ALL**: (tags filter) match only items having every listed value
+
+                          - **NOT_IN**: (tags filter) match only items having none of the listed values'
+                      value:
+                        description: Filter value (type depends on field and operator)
+                    required:
+                    - field
+                    - operator
+                    - value
+                includes:
+                  type: array
+                  description: 'Include related resources.
+
+
+                    **Available includes:**
+
+                    - **product_lines**: Include product lines for this Brand Kit
+
+                    - **competitors**: Include competitor analysis
+
+                    - **audiences**: Include target audiences for this Brand Kit
+
+                    - **content_types**: Include content types configuration'
+                  items:
+                    type: string
+                    enum:
+                    - product_lines
+                    - competitors
+                    - audiences
+                    - content_types
+                fields:
+                  type: array
+                  description: 'Select additional fields to return.
+
+
+                    Default fields (id, brand_name, workspace_name) are always included.
+
+
+                    **Optional fields:**
+
+                    - **brand_url**: URL of the brand website
+
+                    - **brand_about**: Description/overview of the brand
+
+                    - **brand_customer**: Description of the target customer
+
+                    - **brand_competitors**: Information about brand competitors
+
+                    - **brand_point_of_view**: The brand''s unique perspective or stance
+
+                    - **writing_persona**: The persona/voice used in brand writing
+
+                    - **writing_tone**: The tone of voice for brand content
+
+                    - **writing_cta**: Default call-to-action text
+
+                    - **writing_cta_url**: URL for call-to-action links
+
+                    - **writing_rules**: Writing rules and guidelines
+
+                    - **writing_sample_title**: Title of the writing sample
+
+                    - **writing_sample_outline**: Outline of the writing sample
+
+                    - **writing_sample_body**: Body content of the writing sample
+
+                    - **writing_sample_url**: URL reference for the writing sample
+
+                    - **primary_color**: Primary brand color (hex format, e.g., #FF5733)
+
+                    - **secondary_color**: Secondary brand color (hex format)
+
+                    - **accent_color**: Accent brand color (hex format)
+
+                    - **header_case**: Header case style (title_case, sentence_case, or custom)
+
+                    - **header_case_custom_value**: Custom header case rules (when header_case is custom)
+
+                    - **countries**: Array of country codes for brand targeting (e.g., ["US", "GB", "CA"])
+
+                    - **aeo_enabled**: Whether AEO is enabled for the Brand Kit
+
+                    - **prompts_count**: Number of prompts/questions associated with this Brand Kit
+
+                    - **created_at**: When the Brand Kit was created
+
+                    - **updated_at**: When the Brand Kit was last updated'
+                  items:
+                    type: string
+                    enum:
+                    - brand_url
+                    - brand_about
+                    - brand_customer
+                    - brand_competitors
+                    - brand_point_of_view
+                    - writing_persona
+                    - writing_tone
+                    - writing_cta
+                    - writing_cta_url
+                    - writing_rules
+                    - writing_sample_title
+                    - writing_sample_outline
+                    - writing_sample_body
+                    - writing_sample_url
+                    - primary_color
+                    - secondary_color
+                    - accent_color
+                    - header_case
+                    - header_case_custom_value
+                    - countries
+                    - aeo_enabled
+                    - prompts_count
+                    - created_at
+                    - updated_at
+                sort:
+                  type: string
+                  enum:
+                  - brand_name
+                  - -brand_name
+                  - created_at
+                  - -created_at
+                  - prompts_count
+                  - -prompts_count
+                  description: 'Sort field. Prefix with - for descending.
+
+
+                    **Available sort fields:**
+
+                    - **brand_name/-brand_name**: Sort alphabetically by brand name
+
+                    - **created_at/-created_at**: Sort by creation date
+
+                    - **prompts_count/-prompts_count**: Sort by number of prompts/questions'
+                page:
+                  type: integer
+                  default: 1
+                  description: Page number
+                per_page:
+                  type: integer
+                  default: 25
+                  maximum: 100
+                  description: Items per page
+  /public_api/brand_kits/{id}:
+    get:
+      summary: Get Brand Kit
+      description: Brand Kits for AEO operations — provides the brand_kit_id required by all AEO tools (analytics, prompts, pages, citations, reports, grids, topics, personas).
+      tags:
+      - Brand Kits
+      operationId: getBrandKit
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Unique identifier for the Brand Kit
+                      workspace_name:
+                        type:
+                        - string
+                        - 'null'
+                        description: Name of the workspace this Brand Kit belongs to
+                      brand_name:
+                        type:
+                        - string
+                        - 'null'
+                        description: Name of the brand
+                      brand_url:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL of the brand website
+                      brand_about:
+                        type:
+                        - string
+                        - 'null'
+                        description: Description/overview of the brand
+                      brand_customer:
+                        type:
+                        - string
+                        - 'null'
+                        description: Description of the target customer
+                      brand_competitors:
+                        type:
+                        - string
+                        - 'null'
+                        description: Information about brand competitors
+                      brand_point_of_view:
+                        type:
+                        - string
+                        - 'null'
+                        description: The brand's unique perspective or stance
+                      writing_persona:
+                        type:
+                        - string
+                        - 'null'
+                        description: The persona/voice used in brand writing
+                      writing_tone:
+                        type:
+                        - string
+                        - 'null'
+                        description: The tone of voice for brand content
+                      writing_cta:
+                        type:
+                        - string
+                        - 'null'
+                        description: Default call-to-action text
+                      writing_cta_url:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL for call-to-action links
+                      writing_rules:
+                        type:
+                        - string
+                        - 'null'
+                        description: Writing rules and guidelines
+                      writing_sample_title:
+                        type:
+                        - string
+                        - 'null'
+                        description: Title of the writing sample
+                      writing_sample_outline:
+                        type:
+                        - string
+                        - 'null'
+                        description: Outline of the writing sample
+                      writing_sample_body:
+                        type:
+                        - string
+                        - 'null'
+                        description: Body content of the writing sample
+                      writing_sample_url:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL reference for the writing sample
+                      primary_color:
+                        type:
+                        - string
+                        - 'null'
+                        description: 'Primary brand color (hex format, e.g., #FF5733)'
+                      secondary_color:
+                        type:
+                        - string
+                        - 'null'
+                        description: Secondary brand color (hex format)
+                      accent_color:
+                        type:
+                        - string
+                        - 'null'
+                        description: Accent brand color (hex format)
+                      header_case:
+                        type:
+                        - string
+                        - 'null'
+                        description: Header case style (title_case, sentence_case, or custom)
+                      header_case_custom_value:
+                        type:
+                        - string
+                        - 'null'
+                        description: Custom header case rules (when header_case is custom)
+                      countries:
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                        description: Array of country codes for brand targeting (e.g., ["US", "GB", "CA"])
+                      aeo_enabled:
+                        type:
+                        - boolean
+                        - 'null'
+                        description: Whether AEO is enabled for the Brand Kit
+                      prompts_count:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Number of prompts/questions associated with this Brand Kit
+                      created_at:
+                        type:
+                        - string
+                        - 'null'
+                        description: When the Brand Kit was created
+                      updated_at:
+                        type:
+                        - string
+                        - 'null'
+                        description: When the Brand Kit was last updated
+                      product_lines:
+                        type:
+                        - array
+                        - 'null'
+                        description: Included product_lines collection (when requested via includes param)
+                        items:
+                          type: object
+                      competitors:
+                        type:
+                        - array
+                        - 'null'
+                        description: Included competitors collection (when requested via includes param)
+                        items:
+                          type: object
+                      audiences:
+                        type:
+                        - array
+                        - 'null'
+                        description: Included audiences collection (when requested via includes param)
+                        items:
+                          type: object
+                      content_types:
+                        type:
+                        - array
+                        - 'null'
+                        description: Included content_types collection (when requested via includes param)
+                        items:
+                          type: object
+                required:
+                - data
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The resource ID
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

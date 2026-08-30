@@ -1,0 +1,291 @@
+openapi: 3.2.0
+info:
+  title: V1 Analytics API
+  version: v1
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Analytics
+  x-parent: Brand Kits
+paths:
+  /public_api/brand_kits/{brand_kit_id}/analytics:
+    post:
+      summary: Get Analytic
+      description: Query analytics data for a Brand Kit with flexible metrics, dimensions, and filters.
+      tags:
+      - Analytics
+      operationId: getBrandKitsAnalytic
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: Query results with requested dimensions and metrics
+                    items:
+                      type: object
+                  meta:
+                    type: object
+                    properties:
+                      row_count:
+                        type: integer
+                        description: Number of rows returned in this response
+                      total_count:
+                        type: integer
+                        description: Total number of rows available across all pages (ignores limit/offset)
+                      execution_time_ms:
+                        type: integer
+                        description: Query execution time in milliseconds
+                      start_date:
+                        type: string
+                        description: Actual start date used for the query (YYYY-MM-DD), including defaults
+                      end_date:
+                        type: string
+                        description: Actual end date used for the query (YYYY-MM-DD), including defaults
+                      data_availability:
+                        type: object
+                        description: Information about data availability for the brand kit
+                        properties:
+                          earliest_data_date:
+                            type:
+                            - string
+                            - 'null'
+                            description: Date of the first completed analysis (ISO 8601). Null if none exist.
+                          latest_data_date:
+                            type:
+                            - string
+                            - 'null'
+                            description: Date of the most recent completed analysis (ISO 8601). Null if none exist.
+                          requested_period_has_data:
+                            type: boolean
+                            description: Whether any completed analyses exist within the requested date range
+                  error:
+                    type: string
+                    description: Error message if query failed
+                  query:
+                    type: object
+                    description: Summary of the query parameters used
+                    properties:
+                      metrics:
+                        type: array
+                        items:
+                          type: string
+                      dimensions:
+                        type: array
+                        items:
+                          type: string
+                      filters:
+                        type: object
+                      grain:
+                        type: string
+                      limit:
+                        type: integer
+                      offset:
+                        type: integer
+                  chart_image_url:
+                    type:
+                    - string
+                    - 'null'
+                    description: QuickChart.io URL for visualizing the data. Useful for displaying charts or embedding in Notion/Google docs, etc. DO NOT DISPLAY THIS IMAGE DIRECTLY TO THE USER. Null when no data is available to visualize.
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                brand_kit_id:
+                  type: integer
+                  description: The Brand Kit ID to query analytics for
+                metrics:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - mention_rate
+                    - positive_answer_rate
+                    - share_of_voice
+                    - citation_rate
+                    - citation_share
+                    - citation_count
+                    - sentiment_score
+                    - average_position
+                    - answer_count
+                    - first_mention_rate
+                  description: 'Metrics to calculate. Options: mention_rate (brand mention frequency, 0-100), positive_answer_rate (percentage of answers where your brand is positively mentioned, out of all answers where you have been mentioned and sentiment is determined; null when unavailable), share_of_voice (percentage of total mentions, 0-100), citation_rate (citation frequency, 0-100), citation_share (relative citation volume, 0-100), citation_count (total citations), sentiment_score (0-100, negative to positive; null when unavailable), average_position (ranking placement), answer_count (total responses), first_mention_rate (first position frequency, 0-100)'
+                dimensions:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - date
+                    - provider
+                    - topic
+                    - country
+                    - persona
+                    - domain
+                    - competitor
+                    - domain_category
+                    - theme
+                  description: Dimensions to group by (max 3).
+                grain:
+                  type: string
+                  enum:
+                  - daily
+                  - weekly
+                  - monthly
+                  - total
+                  description: 'Time granularity for aggregation. Default: total'
+                start_date:
+                  type: string
+                  description: 'Start date (YYYY-MM-DD). Default: 7 days ago'
+                end_date:
+                  type: string
+                  description: End date (YYYY-MM-DD). Defaults to yesterday. Must be before today because today's data may still be processing and is incomplete — yesterday is used to ensure robust, complete data. Leave blank unless a specific date is requested.
+                providers:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - chat_gpt
+                    - gemini
+                    - perplexity
+                    - google_ai_mode
+                    - google_ai_overview
+                    - claude
+                    - grok
+                    - microsoft_copilot
+                  description: Filter by AI providers
+                topics:
+                  type: array
+                  items:
+                    type: integer
+                  description: Filter by topic IDs
+                tags:
+                  description: Filter by tags. A bare array of tag IDs matches ANY (IN). An object {"operator":"IN"|"HAS_ALL"|"NOT_IN","value":[ids]} selects the operator; HAS_ALL matches only items tagged with every listed tag; NOT_IN matches only items tagged with none of the listed tags.
+                  anyOf:
+                  - type: array
+                    items:
+                      type: integer
+                  - type: object
+                    properties:
+                      operator:
+                        type: string
+                        enum:
+                        - IN
+                        - HAS_ALL
+                        - NOT_IN
+                      value:
+                        type: array
+                        items:
+                          type: integer
+                    required:
+                    - operator
+                    - value
+                countries:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - AE
+                    - AR
+                    - AT
+                    - AU
+                    - BE
+                    - BR
+                    - CA
+                    - CH
+                    - CL
+                    - CN
+                    - CO
+                    - CZ
+                    - DE
+                    - DK
+                    - ES
+                    - FI
+                    - FR
+                    - GB
+                    - GR
+                    - HR
+                    - HU
+                    - ID
+                    - IE
+                    - IL
+                    - IN
+                    - IS
+                    - IT
+                    - JP
+                    - KR
+                    - MX
+                    - MY
+                    - NL
+                    - 'NO'
+                    - NZ
+                    - PE
+                    - PH
+                    - PL
+                    - PT
+                    - SE
+                    - SG
+                    - TH
+                    - TR
+                    - US
+                    - VN
+                  description: Filter by country codes (ISO 3166-1 alpha-2)
+                personas:
+                  type: array
+                  items:
+                    type: integer
+                  description: Filter by persona IDs
+                themes:
+                  type: array
+                  items:
+                    type: integer
+                  description: Filter sentiment data by theme IDs. Only applies to sentiment_score metric.
+                brand_mentioned:
+                  type: string
+                  enum:
+                  - brand
+                  - category
+                  description: 'Filter by prompt type. Options: category (generic prompts - recommended for accurate visibility metrics), brand (prompts mentioning the brand). Defaults to category if not specified'
+                limit:
+                  type: integer
+                  description: 'Maximum rows to return (1-5000). Default: 100'
+                offset:
+                  type: integer
+                  description: 'Number of records to skip for pagination. Default: 0. Use with limit to page through large result sets.'
+                order_by:
+                  type: string
+                  description: Custom sort order (e.g., "citation_count DESC")
+              required:
+              - brand_kit_id
+              - metrics
+              type: object
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

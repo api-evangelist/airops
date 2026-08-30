@@ -1,0 +1,609 @@
+openapi: 3.2.0
+info:
+  title: V1 Answers API
+  version: v1
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Answers
+  x-parent: Brand Kits
+paths:
+  /public_api/brand_kits/{brand_kit_id}/answers/list:
+    post:
+      summary: List Answers
+      description: Individual AI answers with their cited URLs and brand/competitor mentions.
+      tags:
+      - Answers
+      operationId: listBrandKitsAnswers
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Answer ID
+                        date:
+                          type:
+                          - string
+                          - 'null'
+                          description: Analysis date (YYYY-MM-DD)
+                        text:
+                          type:
+                          - string
+                          - 'null'
+                          description: Answer text. Truncated to 200 chars with ellipsis on list; full on show.
+                        prompt:
+                          type:
+                          - string
+                          - 'null'
+                          description: Prompt (question) text
+                        citations:
+                          type:
+                          - array
+                          - 'null'
+                          items:
+                            type: string
+                          description: URLs cited by the answer (deduped)
+                        mentions:
+                          type:
+                          - array
+                          - 'null'
+                          items:
+                            type: string
+                          description: Brand names mentioned in the answer (self brand + competitors)
+                        persona:
+                          type:
+                          - string
+                          - 'null'
+                          description: Persona name or "default"
+                        provider:
+                          type:
+                          - string
+                          - 'null'
+                          description: AI provider
+                          enum:
+                          - chat_gpt
+                          - gemini
+                          - perplexity
+                          - google_ai_mode
+                          - google_ai_overview
+                          - claude
+                          - grok
+                          - microsoft_copilot
+                          - null
+                        country:
+                          type:
+                          - string
+                          - 'null'
+                          description: ISO alpha-2 country code
+                          enum:
+                          - AE
+                          - AR
+                          - AT
+                          - AU
+                          - BE
+                          - BR
+                          - CA
+                          - CH
+                          - CL
+                          - CN
+                          - CO
+                          - CZ
+                          - DE
+                          - DK
+                          - ES
+                          - FI
+                          - FR
+                          - GB
+                          - GR
+                          - HR
+                          - HU
+                          - ID
+                          - IE
+                          - IL
+                          - IN
+                          - IS
+                          - IT
+                          - JP
+                          - KR
+                          - MX
+                          - MY
+                          - NL
+                          - 'NO'
+                          - NZ
+                          - PE
+                          - PH
+                          - PL
+                          - PT
+                          - SE
+                          - SG
+                          - TH
+                          - TR
+                          - US
+                          - VN
+                          - null
+                        web_search_triggered:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: Whether the AI performed a web search for this answer
+                        brand_mentioned:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: Whether the brand was mentioned in this answer
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      per_page:
+                        type: integer
+                      total_count:
+                        type: integer
+                      total_pages:
+                        type: integer
+                required:
+                - data
+                - meta
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand_kit_id:
+                  type: integer
+                  description: The ID of the Brand Kit
+                start_date:
+                  type: string
+                  description: Start date (ISO 8601) on aeo_analyses.created_at. Defaults to 30 days ago.
+                end_date:
+                  type: string
+                  description: End date (ISO 8601) on aeo_analyses.created_at. Defaults to today.
+                prompt_id:
+                  type: integer
+                  description: Filter answers by a single prompt (question) ID.
+                providers:
+                  type: array
+                  description: Filter by AI providers.
+                  items:
+                    type: string
+                    enum:
+                    - chat_gpt
+                    - gemini
+                    - perplexity
+                    - google_ai_mode
+                    - google_ai_overview
+                    - claude
+                    - grok
+                    - microsoft_copilot
+                countries:
+                  type: array
+                  description: Filter by ISO alpha-2 country codes.
+                  items:
+                    type: string
+                    enum:
+                    - AE
+                    - AR
+                    - AT
+                    - AU
+                    - BE
+                    - BR
+                    - CA
+                    - CH
+                    - CL
+                    - CN
+                    - CO
+                    - CZ
+                    - DE
+                    - DK
+                    - ES
+                    - FI
+                    - FR
+                    - GB
+                    - GR
+                    - HR
+                    - HU
+                    - ID
+                    - IE
+                    - IL
+                    - IN
+                    - IS
+                    - IT
+                    - JP
+                    - KR
+                    - MX
+                    - MY
+                    - NL
+                    - 'NO'
+                    - NZ
+                    - PE
+                    - PH
+                    - PL
+                    - PT
+                    - SE
+                    - SG
+                    - TH
+                    - TR
+                    - US
+                    - VN
+                brand_mentioned:
+                  type: boolean
+                  description: When set, filter to answers where the brand was (or was not) mentioned.
+                fields:
+                  type: array
+                  description: 'Select additional fields to return.
+
+
+                    **Optional fields:**
+
+                    - **id**: Answer ID
+
+                    - **date**: Analysis date (YYYY-MM-DD)
+
+                    - **text**: Answer text. Truncated to 200 chars with ellipsis on list; full on show.
+
+                    - **prompt**: Prompt (question) text
+
+                    - **citations**: URLs cited by the answer (deduped)
+
+                    - **mentions**: Brand names mentioned in the answer (self brand + competitors)
+
+                    - **persona**: Persona name or "default"
+
+                    - **provider**: AI provider
+
+                    - **country**: ISO alpha-2 country code
+
+                    - **web_search_triggered**: Whether the AI performed a web search for this answer
+
+                    - **brand_mentioned**: Whether the brand was mentioned in this answer'
+                  items:
+                    type: string
+                    enum:
+                    - id
+                    - date
+                    - text
+                    - prompt
+                    - citations
+                    - mentions
+                    - persona
+                    - provider
+                    - country
+                    - web_search_triggered
+                    - brand_mentioned
+                page:
+                  type: integer
+                  default: 1
+                  description: Page number
+                per_page:
+                  type: integer
+                  default: 25
+                  maximum: 100
+                  description: Items per page
+              required:
+              - brand_kit_id
+  /public_api/brand_kits/{brand_kit_id}/answers/show:
+    post:
+      summary: Get Answer
+      description: Individual AI answers with their cited URLs and brand/competitor mentions.
+      tags:
+      - Answers
+      operationId: getBrandKitsAnswer
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Answer ID
+                      date:
+                        type:
+                        - string
+                        - 'null'
+                        description: Analysis date (YYYY-MM-DD)
+                      text:
+                        type:
+                        - string
+                        - 'null'
+                        description: Answer text. Truncated to 200 chars with ellipsis on list; full on show.
+                      prompt:
+                        type:
+                        - string
+                        - 'null'
+                        description: Prompt (question) text
+                      citations:
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                        description: URLs cited by the answer (deduped)
+                      mentions:
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: string
+                        description: Brand names mentioned in the answer (self brand + competitors)
+                      persona:
+                        type:
+                        - string
+                        - 'null'
+                        description: Persona name or "default"
+                      provider:
+                        type:
+                        - string
+                        - 'null'
+                        description: AI provider
+                        enum:
+                        - chat_gpt
+                        - gemini
+                        - perplexity
+                        - google_ai_mode
+                        - google_ai_overview
+                        - claude
+                        - grok
+                        - microsoft_copilot
+                        - null
+                      country:
+                        type:
+                        - string
+                        - 'null'
+                        description: ISO alpha-2 country code
+                        enum:
+                        - AE
+                        - AR
+                        - AT
+                        - AU
+                        - BE
+                        - BR
+                        - CA
+                        - CH
+                        - CL
+                        - CN
+                        - CO
+                        - CZ
+                        - DE
+                        - DK
+                        - ES
+                        - FI
+                        - FR
+                        - GB
+                        - GR
+                        - HR
+                        - HU
+                        - ID
+                        - IE
+                        - IL
+                        - IN
+                        - IS
+                        - IT
+                        - JP
+                        - KR
+                        - MX
+                        - MY
+                        - NL
+                        - 'NO'
+                        - NZ
+                        - PE
+                        - PH
+                        - PL
+                        - PT
+                        - SE
+                        - SG
+                        - TH
+                        - TR
+                        - US
+                        - VN
+                        - null
+                      web_search_triggered:
+                        type:
+                        - boolean
+                        - 'null'
+                        description: Whether the AI performed a web search for this answer
+                      brand_mentioned:
+                        type:
+                        - boolean
+                        - 'null'
+                        description: Whether the brand was mentioned in this answer
+                required:
+                - data
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand_kit_id:
+                  type: integer
+                  description: The ID of the Brand Kit
+                start_date:
+                  type: string
+                  description: Start date (ISO 8601) on aeo_analyses.created_at. Defaults to 30 days ago.
+                end_date:
+                  type: string
+                  description: End date (ISO 8601) on aeo_analyses.created_at. Defaults to today.
+                prompt_id:
+                  type: integer
+                  description: Filter answers by a single prompt (question) ID.
+                providers:
+                  type: array
+                  description: Filter by AI providers.
+                  items:
+                    type: string
+                    enum:
+                    - chat_gpt
+                    - gemini
+                    - perplexity
+                    - google_ai_mode
+                    - google_ai_overview
+                    - claude
+                    - grok
+                    - microsoft_copilot
+                countries:
+                  type: array
+                  description: Filter by ISO alpha-2 country codes.
+                  items:
+                    type: string
+                    enum:
+                    - AE
+                    - AR
+                    - AT
+                    - AU
+                    - BE
+                    - BR
+                    - CA
+                    - CH
+                    - CL
+                    - CN
+                    - CO
+                    - CZ
+                    - DE
+                    - DK
+                    - ES
+                    - FI
+                    - FR
+                    - GB
+                    - GR
+                    - HR
+                    - HU
+                    - ID
+                    - IE
+                    - IL
+                    - IN
+                    - IS
+                    - IT
+                    - JP
+                    - KR
+                    - MX
+                    - MY
+                    - NL
+                    - 'NO'
+                    - NZ
+                    - PE
+                    - PH
+                    - PL
+                    - PT
+                    - SE
+                    - SG
+                    - TH
+                    - TR
+                    - US
+                    - VN
+                brand_mentioned:
+                  type: boolean
+                  description: When set, filter to answers where the brand was (or was not) mentioned.
+                id:
+                  type: integer
+                  description: Resource ID
+                fields:
+                  type: array
+                  description: 'Select specific fields to return.
+
+
+                    **Available fields:**
+
+                    - **id**: Answer ID
+
+                    - **date**: Analysis date (YYYY-MM-DD)
+
+                    - **text**: Answer text. Truncated to 200 chars with ellipsis on list; full on show.
+
+                    - **prompt**: Prompt (question) text
+
+                    - **citations**: URLs cited by the answer (deduped)
+
+                    - **mentions**: Brand names mentioned in the answer (self brand + competitors)
+
+                    - **persona**: Persona name or "default"
+
+                    - **provider**: AI provider
+
+                    - **country**: ISO alpha-2 country code
+
+                    - **web_search_triggered**: Whether the AI performed a web search for this answer
+
+                    - **brand_mentioned**: Whether the brand was mentioned in this answer'
+                  items:
+                    type: string
+                    enum:
+                    - id
+                    - date
+                    - text
+                    - prompt
+                    - citations
+                    - mentions
+                    - persona
+                    - provider
+                    - country
+                    - web_search_triggered
+                    - brand_mentioned
+              required:
+              - brand_kit_id
+              - id
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

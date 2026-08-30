@@ -1,0 +1,875 @@
+openapi: 3.2.0
+info:
+  title: V1 Citations API
+  version: v1
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Citations
+  x-parent: Brand Kits
+paths:
+  /public_api/brand_kits/{brand_kit_id}/citations/list:
+    post:
+      summary: List Citations
+      description: Citations (URLs) with detailed metrics including influence score. Shows individual URLs being cited in AI answers with page-level context.
+      tags:
+      - Citations
+      operationId: listBrandKitsCitations
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        url:
+                          type:
+                          - string
+                          - 'null'
+                          description: The cited URL
+                        domain:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Domain ID
+                        domain_name:
+                          type:
+                          - string
+                          - 'null'
+                          description: Name of the domain
+                        domain_category:
+                          type:
+                          - string
+                          - 'null'
+                          description: 'Category: Owned, Competitors, Social, etc.'
+                        logo_url:
+                          type:
+                          - string
+                          - 'null'
+                          description: URL to the domain logo
+                        citation_count:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Total number of citations for this URL
+                        citation_count_trend:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Change in citation count vs previous period
+                        citation_share:
+                          type:
+                          - number
+                          - 'null'
+                          description: Percentage of total citations (0-100)
+                        citation_share_trend:
+                          type:
+                          - number
+                          - 'null'
+                          description: Change in citation share vs previous period
+                        citation_rate:
+                          type:
+                          - number
+                          - 'null'
+                          description: Percentage of answers citing this URL (0-100)
+                        citation_rate_trend:
+                          type:
+                          - number
+                          - 'null'
+                          description: Change in citation rate vs previous period
+                        influence_score:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Overall influence score (0-100)
+                        influence_score_breakdown:
+                          type:
+                          - object
+                          - 'null'
+                          description: 'Breakdown: coverage_score, impact_score, da_score'
+                        page_type:
+                          type:
+                          - string
+                          - 'null'
+                          description: Type of page
+                          enum:
+                          - homepage
+                          - product_page
+                          - collection_page
+                          - pricing_page
+                          - informational_article
+                          - documentation
+                          - listicle_article
+                          - comparison_page
+                          - support_article
+                          - review_page
+                          - forum_thread
+                          - social_media_post
+                          - video_page
+                          - news_article
+                          - case_study
+                          - marketplace_listing
+                          - landing_page
+                          - deal_page
+                          - other
+                          - null
+                        brand_mentioned:
+                          type:
+                          - boolean
+                          - 'null'
+                          description: Whether brand is mentioned on the page
+                        brand_sentiment:
+                          type:
+                          - string
+                          - 'null'
+                          description: Sentiment toward brand on the page
+                          enum:
+                          - negative
+                          - neutral
+                          - positive
+                          - null
+                        mentioned_competitor_domains:
+                          type:
+                          - array
+                          - 'null'
+                          items:
+                            type: object
+                          description: Competitors mentioned on the page
+                        domain_authority:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Domain authority score
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      per_page:
+                        type: integer
+                      total_count:
+                        type: integer
+                      total_pages:
+                        type: integer
+                      data_availability:
+                        type: object
+                        description: Information about data availability for the brand kit
+                        properties:
+                          earliest_data_date:
+                            type:
+                            - string
+                            - 'null'
+                            description: Date of the first completed analysis (ISO 8601). Null if none exist.
+                          latest_data_date:
+                            type:
+                            - string
+                            - 'null'
+                            description: Date of the most recent completed analysis (ISO 8601). Null if none exist.
+                          requested_period_has_data:
+                            type: boolean
+                            description: Whether any completed analyses exist within the requested date range
+                required:
+                - data
+                - meta
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand_kit_id:
+                  type: integer
+                  description: The ID of the Brand Kit
+                tags:
+                  type: object
+                  description: 'Filter by tags. Object form { "operator": "IN" | "HAS_ALL" | "NOT_IN", "value": [tag ids] }. IN matches items tagged with ANY of the tags; HAS_ALL matches only items tagged with ALL; NOT_IN matches only items tagged with NONE.'
+                  properties:
+                    operator:
+                      type: string
+                      description: IN matches items tagged with ANY of the tags; HAS_ALL matches only items tagged with ALL of them; NOT_IN matches only items tagged with NONE of them.
+                      enum:
+                      - IN
+                      - HAS_ALL
+                      - NOT_IN
+                    value:
+                      type: array
+                      description: Tag IDs to filter by.
+                      items:
+                        type: integer
+                  required:
+                  - operator
+                  - value
+                start_date:
+                  type: string
+                  description: Start date for metrics (ISO 8601). Defaults to 1 month ago.
+                end_date:
+                  type: string
+                  description: End date for metrics (ISO 8601). Defaults to today.
+                providers:
+                  type: array
+                  description: Filter metrics by AI providers
+                  items:
+                    type: string
+                    enum:
+                    - chat_gpt
+                    - gemini
+                    - perplexity
+                    - google_ai_mode
+                    - google_ai_overview
+                    - claude
+                    - grok
+                    - microsoft_copilot
+                countries:
+                  type: array
+                  description: Filter metrics by country codes
+                  items:
+                    type: string
+                    enum:
+                    - AE
+                    - AR
+                    - AT
+                    - AU
+                    - BE
+                    - BR
+                    - CA
+                    - CH
+                    - CL
+                    - CN
+                    - CO
+                    - CZ
+                    - DE
+                    - DK
+                    - ES
+                    - FI
+                    - FR
+                    - GB
+                    - GR
+                    - HR
+                    - HU
+                    - ID
+                    - IE
+                    - IL
+                    - IN
+                    - IS
+                    - IT
+                    - JP
+                    - KR
+                    - MX
+                    - MY
+                    - NL
+                    - 'NO'
+                    - NZ
+                    - PE
+                    - PH
+                    - PL
+                    - PT
+                    - SE
+                    - SG
+                    - TH
+                    - TR
+                    - US
+                    - VN
+                personas:
+                  type: array
+                  description: Filter metrics by persona IDs
+                  items:
+                    type: integer
+                filters:
+                  type: array
+                  description: 'Filter results. Nested fields (e.g. `writing_rules.text`) filter within an included association and require that association in `includes`.
+
+
+                    **Available fields:**
+
+                    - **domain_category** (EQUALS, IN): Filter by domain category
+
+                    - **domain_id** (EQ, IN): Filter by domain ID
+
+                    - **topic_id** (EQ, IN): Filter by topic ID
+
+                    - **brand_mentioned** (EQUALS): Filter by query type: brand or category
+
+                    - **page_type** (EQUALS): Filter by page type
+
+                    - **brand_referenced** (EQ): Filter by whether brand is referenced on the citing page
+
+                    - **brand_sentiment** (EQUALS): Filter by brand sentiment
+
+                    - **mentioned_competitor_domains** (IN): Filter by competitor domain IDs mentioned on the citing page
+
+                    - **url** (CONTAINS): Filter by case-insensitive substring match on the citation URL. Matches against the normalized URL (without scheme or www).'
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                        enum:
+                        - domain_category
+                        - domain_id
+                        - topic_id
+                        - brand_mentioned
+                        - page_type
+                        - brand_referenced
+                        - brand_sentiment
+                        - mentioned_competitor_domains
+                        - url
+                        description: 'Field to filter on. domain_category: Filter by domain category (values: Social, Communities, Reviews, Media, Educational, Marketplaces, Products, Affiliates, Other, Owned, Competitors, No Category); domain_id: Filter by domain ID; topic_id: Filter by topic ID; brand_mentioned: Filter by query type: brand or category (values: brand, category); page_type: Filter by page type (values: homepage, product_page, collection_page, pricing_page, informational_article, documentation, listicle_article, comparison_page, support_article, review_page, forum_thread, social_media_post, video_page, news_article, case_study, marketplace_listing, landing_page, deal_page, other); brand_referenced: Filter by whether brand is referenced on the citing page; brand_sentiment: Filter by brand sentiment (values: negative, neutral, positive); mentioned_competitor_domains: Filter by competitor domain IDs mentioned on the citing page; url: Filter by case-insensitive substring match on the citation URL. Matches against the normalized URL (without scheme or www).'
+                      operator:
+                        type: string
+                        enum:
+                        - EQUALS
+                        - IN
+                        - EQ
+                        - CONTAINS
+                        description: 'Filter operator.
+
+
+                          - **EQ/EQUALS**: Exact match
+
+                          - **NEQ**: Not equal
+
+                          - **GT/GEQ/LT/LEQ**: Numeric/date comparisons
+
+                          - **CONTAINS**: Partial text match
+
+                          - **STARTS_WITH**: Text prefix match
+
+                          - **IN**: Match any value in array
+
+                          - **HAS_ALL**: (tags filter) match only items having every listed value
+
+                          - **NOT_IN**: (tags filter) match only items having none of the listed values'
+                      value:
+                        description: Filter value (type depends on field and operator)
+                    required:
+                    - field
+                    - operator
+                    - value
+                fields:
+                  type: array
+                  description: 'Select additional fields to return.
+
+
+                    **Optional fields:**
+
+                    - **url**: The cited URL
+
+                    - **domain**: Domain ID
+
+                    - **domain_name**: Name of the domain
+
+                    - **domain_category**: Category: Owned, Competitors, Social, etc.
+
+                    - **logo_url**: URL to the domain logo
+
+                    - **citation_count**: Total number of citations for this URL
+
+                    - **citation_count_trend**: Change in citation count vs previous period
+
+                    - **citation_share**: Percentage of total citations (0-100)
+
+                    - **citation_share_trend**: Change in citation share vs previous period
+
+                    - **citation_rate**: Percentage of answers citing this URL (0-100)
+
+                    - **citation_rate_trend**: Change in citation rate vs previous period
+
+                    - **influence_score**: Overall influence score (0-100)
+
+                    - **influence_score_breakdown**: Breakdown: coverage_score, impact_score, da_score
+
+                    - **page_type**: Type of page
+
+                    - **brand_mentioned**: Whether brand is mentioned on the page
+
+                    - **brand_sentiment**: Sentiment toward brand on the page
+
+                    - **mentioned_competitor_domains**: Competitors mentioned on the page
+
+                    - **domain_authority**: Domain authority score'
+                  items:
+                    type: string
+                    enum:
+                    - url
+                    - domain
+                    - domain_name
+                    - domain_category
+                    - logo_url
+                    - citation_count
+                    - citation_count_trend
+                    - citation_share
+                    - citation_share_trend
+                    - citation_rate
+                    - citation_rate_trend
+                    - influence_score
+                    - influence_score_breakdown
+                    - page_type
+                    - brand_mentioned
+                    - brand_sentiment
+                    - mentioned_competitor_domains
+                    - domain_authority
+                sort:
+                  type: string
+                  enum:
+                  - citation_count
+                  - -citation_count
+                  - citation_share
+                  - -citation_share
+                  - citation_rate
+                  - -citation_rate
+                  - influence_score
+                  - -influence_score
+                  description: 'Sort field. Prefix with - for descending.
+
+
+                    **Available sort fields:**
+
+                    - **citation_count/-citation_count**: Sort by citation count
+
+                    - **citation_share/-citation_share**: Sort by citation share percentage
+
+                    - **citation_rate/-citation_rate**: Sort by citation rate percentage
+
+                    - **influence_score/-influence_score**: Sort by influence score'
+                page:
+                  type: integer
+                  default: 1
+                  description: Page number
+                per_page:
+                  type: integer
+                  default: 25
+                  maximum: 100
+                  description: Items per page
+              required:
+              - brand_kit_id
+  /public_api/brand_kits/{brand_kit_id}/citations/show:
+    post:
+      summary: Get Citation
+      description: Citations (URLs) with detailed metrics including influence score. Shows individual URLs being cited in AI answers with page-level context.
+      tags:
+      - Citations
+      operationId: getBrandKitsCitation
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      url:
+                        type:
+                        - string
+                        - 'null'
+                        description: The cited URL
+                      domain:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Domain ID
+                      domain_name:
+                        type:
+                        - string
+                        - 'null'
+                        description: Name of the domain
+                      domain_category:
+                        type:
+                        - string
+                        - 'null'
+                        description: 'Category: Owned, Competitors, Social, etc.'
+                      logo_url:
+                        type:
+                        - string
+                        - 'null'
+                        description: URL to the domain logo
+                      citation_count:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Total number of citations for this URL
+                      citation_count_trend:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Change in citation count vs previous period
+                      citation_share:
+                        type:
+                        - number
+                        - 'null'
+                        description: Percentage of total citations (0-100)
+                      citation_share_trend:
+                        type:
+                        - number
+                        - 'null'
+                        description: Change in citation share vs previous period
+                      citation_rate:
+                        type:
+                        - number
+                        - 'null'
+                        description: Percentage of answers citing this URL (0-100)
+                      citation_rate_trend:
+                        type:
+                        - number
+                        - 'null'
+                        description: Change in citation rate vs previous period
+                      influence_score:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Overall influence score (0-100)
+                      influence_score_breakdown:
+                        type:
+                        - object
+                        - 'null'
+                        description: 'Breakdown: coverage_score, impact_score, da_score'
+                      page_type:
+                        type:
+                        - string
+                        - 'null'
+                        description: Type of page
+                        enum:
+                        - homepage
+                        - product_page
+                        - collection_page
+                        - pricing_page
+                        - informational_article
+                        - documentation
+                        - listicle_article
+                        - comparison_page
+                        - support_article
+                        - review_page
+                        - forum_thread
+                        - social_media_post
+                        - video_page
+                        - news_article
+                        - case_study
+                        - marketplace_listing
+                        - landing_page
+                        - deal_page
+                        - other
+                        - null
+                      brand_mentioned:
+                        type:
+                        - boolean
+                        - 'null'
+                        description: Whether brand is mentioned on the page
+                      brand_sentiment:
+                        type:
+                        - string
+                        - 'null'
+                        description: Sentiment toward brand on the page
+                        enum:
+                        - negative
+                        - neutral
+                        - positive
+                        - null
+                      mentioned_competitor_domains:
+                        type:
+                        - array
+                        - 'null'
+                        items:
+                          type: object
+                        description: Competitors mentioned on the page
+                      domain_authority:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Domain authority score
+                required:
+                - data
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand_kit_id:
+                  type: integer
+                  description: The ID of the Brand Kit
+                tags:
+                  type: object
+                  description: 'Filter by tags. Object form { "operator": "IN" | "HAS_ALL" | "NOT_IN", "value": [tag ids] }. IN matches items tagged with ANY of the tags; HAS_ALL matches only items tagged with ALL; NOT_IN matches only items tagged with NONE.'
+                  properties:
+                    operator:
+                      type: string
+                      description: IN matches items tagged with ANY of the tags; HAS_ALL matches only items tagged with ALL of them; NOT_IN matches only items tagged with NONE of them.
+                      enum:
+                      - IN
+                      - HAS_ALL
+                      - NOT_IN
+                    value:
+                      type: array
+                      description: Tag IDs to filter by.
+                      items:
+                        type: integer
+                  required:
+                  - operator
+                  - value
+                start_date:
+                  type: string
+                  description: Start date for metrics (ISO 8601). Defaults to 1 month ago.
+                end_date:
+                  type: string
+                  description: End date for metrics (ISO 8601). Defaults to today.
+                providers:
+                  type: array
+                  description: Filter metrics by AI providers
+                  items:
+                    type: string
+                    enum:
+                    - chat_gpt
+                    - gemini
+                    - perplexity
+                    - google_ai_mode
+                    - google_ai_overview
+                    - claude
+                    - grok
+                    - microsoft_copilot
+                countries:
+                  type: array
+                  description: Filter metrics by country codes
+                  items:
+                    type: string
+                    enum:
+                    - AE
+                    - AR
+                    - AT
+                    - AU
+                    - BE
+                    - BR
+                    - CA
+                    - CH
+                    - CL
+                    - CN
+                    - CO
+                    - CZ
+                    - DE
+                    - DK
+                    - ES
+                    - FI
+                    - FR
+                    - GB
+                    - GR
+                    - HR
+                    - HU
+                    - ID
+                    - IE
+                    - IL
+                    - IN
+                    - IS
+                    - IT
+                    - JP
+                    - KR
+                    - MX
+                    - MY
+                    - NL
+                    - 'NO'
+                    - NZ
+                    - PE
+                    - PH
+                    - PL
+                    - PT
+                    - SE
+                    - SG
+                    - TH
+                    - TR
+                    - US
+                    - VN
+                personas:
+                  type: array
+                  description: Filter metrics by persona IDs
+                  items:
+                    type: integer
+                id:
+                  type: integer
+                  description: Resource ID
+                filters:
+                  type: array
+                  description: 'Filter results. Nested fields (e.g. `writing_rules.text`) filter within an included association and require that association in `includes`.
+
+
+                    **Available fields:**
+
+                    - **domain_category** (EQUALS, IN): Filter by domain category
+
+                    - **domain_id** (EQ, IN): Filter by domain ID
+
+                    - **topic_id** (EQ, IN): Filter by topic ID
+
+                    - **brand_mentioned** (EQUALS): Filter by query type: brand or category
+
+                    - **page_type** (EQUALS): Filter by page type
+
+                    - **brand_referenced** (EQ): Filter by whether brand is referenced on the citing page
+
+                    - **brand_sentiment** (EQUALS): Filter by brand sentiment
+
+                    - **mentioned_competitor_domains** (IN): Filter by competitor domain IDs mentioned on the citing page
+
+                    - **url** (CONTAINS): Filter by case-insensitive substring match on the citation URL. Matches against the normalized URL (without scheme or www).'
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                        enum:
+                        - domain_category
+                        - domain_id
+                        - topic_id
+                        - brand_mentioned
+                        - page_type
+                        - brand_referenced
+                        - brand_sentiment
+                        - mentioned_competitor_domains
+                        - url
+                        description: 'Field to filter on. domain_category: Filter by domain category (values: Social, Communities, Reviews, Media, Educational, Marketplaces, Products, Affiliates, Other, Owned, Competitors, No Category); domain_id: Filter by domain ID; topic_id: Filter by topic ID; brand_mentioned: Filter by query type: brand or category (values: brand, category); page_type: Filter by page type (values: homepage, product_page, collection_page, pricing_page, informational_article, documentation, listicle_article, comparison_page, support_article, review_page, forum_thread, social_media_post, video_page, news_article, case_study, marketplace_listing, landing_page, deal_page, other); brand_referenced: Filter by whether brand is referenced on the citing page; brand_sentiment: Filter by brand sentiment (values: negative, neutral, positive); mentioned_competitor_domains: Filter by competitor domain IDs mentioned on the citing page; url: Filter by case-insensitive substring match on the citation URL. Matches against the normalized URL (without scheme or www).'
+                      operator:
+                        type: string
+                        enum:
+                        - EQUALS
+                        - IN
+                        - EQ
+                        - CONTAINS
+                        description: 'Filter operator.
+
+
+                          - **EQ/EQUALS**: Exact match
+
+                          - **NEQ**: Not equal
+
+                          - **GT/GEQ/LT/LEQ**: Numeric/date comparisons
+
+                          - **CONTAINS**: Partial text match
+
+                          - **STARTS_WITH**: Text prefix match
+
+                          - **IN**: Match any value in array
+
+                          - **HAS_ALL**: (tags filter) match only items having every listed value
+
+                          - **NOT_IN**: (tags filter) match only items having none of the listed values'
+                      value:
+                        description: Filter value (type depends on field and operator)
+                    required:
+                    - field
+                    - operator
+                    - value
+                fields:
+                  type: array
+                  description: 'Select specific fields to return.
+
+
+                    **Available fields:**
+
+                    - **url**: The cited URL
+
+                    - **domain**: Domain ID
+
+                    - **domain_name**: Name of the domain
+
+                    - **domain_category**: Category: Owned, Competitors, Social, etc.
+
+                    - **logo_url**: URL to the domain logo
+
+                    - **citation_count**: Total number of citations for this URL
+
+                    - **citation_count_trend**: Change in citation count vs previous period
+
+                    - **citation_share**: Percentage of total citations (0-100)
+
+                    - **citation_share_trend**: Change in citation share vs previous period
+
+                    - **citation_rate**: Percentage of answers citing this URL (0-100)
+
+                    - **citation_rate_trend**: Change in citation rate vs previous period
+
+                    - **influence_score**: Overall influence score (0-100)
+
+                    - **influence_score_breakdown**: Breakdown: coverage_score, impact_score, da_score
+
+                    - **page_type**: Type of page
+
+                    - **brand_mentioned**: Whether brand is mentioned on the page
+
+                    - **brand_sentiment**: Sentiment toward brand on the page
+
+                    - **mentioned_competitor_domains**: Competitors mentioned on the page
+
+                    - **domain_authority**: Domain authority score'
+                  items:
+                    type: string
+                    enum:
+                    - url
+                    - domain
+                    - domain_name
+                    - domain_category
+                    - logo_url
+                    - citation_count
+                    - citation_count_trend
+                    - citation_share
+                    - citation_share_trend
+                    - citation_rate
+                    - citation_rate_trend
+                    - influence_score
+                    - influence_score_breakdown
+                    - page_type
+                    - brand_mentioned
+                    - brand_sentiment
+                    - mentioned_competitor_domains
+                    - domain_authority
+              required:
+              - brand_kit_id
+              - id
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

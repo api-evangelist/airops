@@ -1,0 +1,189 @@
+openapi: 3.2.0
+info:
+  title: V1 Sentiment Theme Answers API
+  version: v1
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Sentiment Theme Answers
+  x-parent: Brand Kits
+paths:
+  /public_api/brand_kits/{brand_kit_id}/sentiment_theme_answers:
+    post:
+      summary: Get Sentiment Theme Answer
+      description: Get individual AI answers with sentiment details for a specific theme.
+      tags:
+      - Sentiment Theme Answers
+      operationId: getBrandKitsSentimentThemeAnswer
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  answers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        answer_id:
+                          type: integer
+                        query_id:
+                          type: integer
+                        provider:
+                          type: string
+                        sentiment:
+                          type: string
+                          enum:
+                          - positive
+                          - neutral
+                          - negative
+                        confidence:
+                          type: number
+                        date:
+                          type: string
+                        answer_text:
+                          type: string
+                  pagination:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      per_page:
+                        type: integer
+                      total_count:
+                        type: integer
+                      total_pages:
+                        type: integer
+                  error:
+                    type: string
+                    description: Error message if query failed
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                brand_kit_id:
+                  type: integer
+                  description: The Brand Kit ID
+                sentiment_theme_id:
+                  type: integer
+                  description: The sentiment theme ID to drill into. Use query_analytics with dimensions=[theme] to discover available theme IDs first.
+                start_date:
+                  type: string
+                  description: 'Start date (YYYY-MM-DD). Default: 30 days ago'
+                end_date:
+                  type: string
+                  description: End date (YYYY-MM-DD). Defaults to yesterday. Must be before today.
+                providers:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - chat_gpt
+                    - gemini
+                    - perplexity
+                    - google_ai_mode
+                    - google_ai_overview
+                    - claude
+                    - grok
+                    - microsoft_copilot
+                  description: Filter by AI providers
+                countries:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - AE
+                    - AR
+                    - AT
+                    - AU
+                    - BE
+                    - BR
+                    - CA
+                    - CH
+                    - CL
+                    - CN
+                    - CO
+                    - CZ
+                    - DE
+                    - DK
+                    - ES
+                    - FI
+                    - FR
+                    - GB
+                    - GR
+                    - HR
+                    - HU
+                    - ID
+                    - IE
+                    - IL
+                    - IN
+                    - IS
+                    - IT
+                    - JP
+                    - KR
+                    - MX
+                    - MY
+                    - NL
+                    - 'NO'
+                    - NZ
+                    - PE
+                    - PH
+                    - PL
+                    - PT
+                    - SE
+                    - SG
+                    - TH
+                    - TR
+                    - US
+                    - VN
+                  description: Filter by country codes (ISO 3166-1 alpha-2)
+                topics:
+                  type: array
+                  items:
+                    type: integer
+                  description: Filter by topic IDs
+                personas:
+                  type: array
+                  items:
+                    type: integer
+                  description: Filter by persona IDs
+                page:
+                  type: integer
+                  description: 'Page number. Default: 1'
+                per_page:
+                  type: integer
+                  description: 'Results per page (1-50). Default: 10'
+              required:
+              - brand_kit_id
+              - sentiment_theme_id
+              type: object
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

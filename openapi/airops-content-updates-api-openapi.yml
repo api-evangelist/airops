@@ -1,0 +1,580 @@
+openapi: 3.2.0
+info:
+  title: V1 Content Updates API
+  version: v1
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Content Updates
+  x-parent: Brand Kits
+paths:
+  /public_api/brand_kits/{brand_kit_id}/content_updates/list:
+    post:
+      summary: List Content Updates
+      description: Track content updates.
+      tags:
+      - Content Updates
+      operationId: listBrandKitsContentUpdates
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Unique identifier for the content update
+                        url:
+                          type:
+                          - string
+                          - 'null'
+                          description: The URL associated with the content update
+                        type:
+                          type:
+                          - string
+                          - 'null'
+                          description: Type of content update
+                          enum:
+                          - page_published
+                          - page_refreshed
+                          - null
+                        source:
+                          type:
+                          - string
+                          - 'null'
+                          description: Source that created the content update
+                          enum:
+                          - track_event_step
+                          - wordpress_native_cms_integration
+                          - webflow_native_cms_integration
+                          - shopify_native_cms_integration
+                          - ghost_native_cms_integration
+                          - webflow_grid_export
+                          - wordpress_grid_export
+                          - mcp
+                          - api
+                          - web_page_change_tracking
+                          - null
+                        brand_kit_id:
+                          type:
+                          - integer
+                          - 'null'
+                          description: ID of the associated Brand Kit
+                        workspace_id:
+                          type:
+                          - integer
+                          - 'null'
+                          description: ID of the associated workspace
+                        created_at:
+                          type:
+                          - string
+                          - 'null'
+                          description: When the content update was created
+                        updated_at:
+                          type:
+                          - string
+                          - 'null'
+                          description: When the content update was last updated
+                        change_detection:
+                          type:
+                          - object
+                          - 'null'
+                          description: 'Change detection for this content update: detection status, the categories of detected changes, and whether a before/after diff is available. On a single-update fetch it also carries a nested `changes` array (the before/after diff). Null when change detection has not run for the update, including workspaces where it is not enabled.'
+                        metadata_entries:
+                          type:
+                          - array
+                          - 'null'
+                          description: Included metadata_entries collection (when requested via includes param)
+                          items:
+                            type: object
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      per_page:
+                        type: integer
+                      total_count:
+                        type: integer
+                      total_pages:
+                        type: integer
+                required:
+                - data
+                - meta
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                workspace_id:
+                  type: integer
+                  description: ID of the workspace to retrieve results from. If not provided, returns results from all workspaces the user belongs to.
+                brand_kit_id:
+                  type: integer
+                  description: Optional Brand Kit ID to filter content updates by
+                filters:
+                  type: array
+                  description: 'Filter results. Nested fields (e.g. `writing_rules.text`) filter within an included association and require that association in `includes`.
+
+
+                    **Available fields:**
+
+                    - **url** (EQUALS, CONTAINS): Filter by content update URL
+
+                    - **type** (EQ, IN): Filter by content update type
+
+                    - **source** (EQ, IN): Filter by content update source
+
+                    - **brand_kit_id** (EQ): Filter by Brand Kit ID
+
+                    - **created_at** (GT, LT, GEQ, LEQ): Filter by creation date
+
+                    - **has_changes** (EQ): Filter to content updates where change detection found at least one confirmed change (true) or found none / has no detection run (false)'
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                        enum:
+                        - url
+                        - type
+                        - source
+                        - brand_kit_id
+                        - created_at
+                        - has_changes
+                        description: 'Field to filter on. url: Filter by content update URL; type: Filter by content update type (values: page_published, page_refreshed); source: Filter by content update source (values: track_event_step, wordpress_native_cms_integration, webflow_native_cms_integration, shopify_native_cms_integration, ghost_native_cms_integration, webflow_grid_export, wordpress_grid_export, mcp, api, web_page_change_tracking); brand_kit_id: Filter by Brand Kit ID; created_at: Filter by creation date; has_changes: Filter to content updates where change detection found at least one confirmed change (true) or found none / has no detection run (false)'
+                      operator:
+                        type: string
+                        enum:
+                        - EQUALS
+                        - CONTAINS
+                        - EQ
+                        - IN
+                        - GT
+                        - LT
+                        - GEQ
+                        - LEQ
+                        description: 'Filter operator.
+
+
+                          - **EQ/EQUALS**: Exact match
+
+                          - **NEQ**: Not equal
+
+                          - **GT/GEQ/LT/LEQ**: Numeric/date comparisons
+
+                          - **CONTAINS**: Partial text match
+
+                          - **STARTS_WITH**: Text prefix match
+
+                          - **IN**: Match any value in array
+
+                          - **HAS_ALL**: (tags filter) match only items having every listed value
+
+                          - **NOT_IN**: (tags filter) match only items having none of the listed values'
+                      value:
+                        description: Filter value (type depends on field and operator)
+                    required:
+                    - field
+                    - operator
+                    - value
+                includes:
+                  type: array
+                  description: 'Include related resources.
+
+
+                    **Available includes:**
+
+                    - **metadata_entries**: Include metadata key-value pairs for each event'
+                  items:
+                    type: string
+                    enum:
+                    - metadata_entries
+                fields:
+                  type: array
+                  description: 'Select additional fields to return.
+
+
+                    **Optional fields:**
+
+                    - **id**: Unique identifier for the content update
+
+                    - **url**: The URL associated with the content update
+
+                    - **type**: Type of content update
+
+                    - **source**: Source that created the content update
+
+                    - **brand_kit_id**: ID of the associated Brand Kit
+
+                    - **workspace_id**: ID of the associated workspace
+
+                    - **created_at**: When the content update was created
+
+                    - **updated_at**: When the content update was last updated
+
+                    - **change_detection**: Change detection for this content update: detection status, the categories of detected changes, and whether a before/after diff is available. On a single-update fetch it also carries a nested `changes` array (the before/after diff). Null when change detection has not run for the update, including workspaces where it is not enabled.'
+                  items:
+                    type: string
+                    enum:
+                    - id
+                    - url
+                    - type
+                    - source
+                    - brand_kit_id
+                    - workspace_id
+                    - created_at
+                    - updated_at
+                    - change_detection
+                sort:
+                  type: string
+                  enum:
+                  - created_at
+                  - -created_at
+                  - updated_at
+                  - -updated_at
+                  - url
+                  - -url
+                  description: 'Sort field. Prefix with - for descending.
+
+
+                    **Available sort fields:**
+
+                    - **created_at/-created_at**: Sort by creation date
+
+                    - **updated_at/-updated_at**: Sort by last update date
+
+                    - **url/-url**: Sort alphabetically by URL'
+                  default: -created_at
+                page:
+                  type: integer
+                  default: 1
+                  description: Page number
+                per_page:
+                  type: integer
+                  default: 25
+                  maximum: 100
+                  description: Items per page
+  /public_api/brand_kits/{brand_kit_id}/content_updates:
+    post:
+      summary: Create Content Updates
+      description: Track content updates.
+      tags:
+      - Content Updates
+      operationId: createBrandKitsContentUpdates
+      security:
+      - bearer: []
+      responses:
+        '201':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Unique identifier for the content update
+                      url:
+                        type:
+                        - string
+                        - 'null'
+                        description: The URL associated with the content update
+                      type:
+                        type:
+                        - string
+                        - 'null'
+                        description: Type of content update
+                        enum:
+                        - page_published
+                        - page_refreshed
+                        - null
+                      source:
+                        type:
+                        - string
+                        - 'null'
+                        description: Source that created the content update
+                        enum:
+                        - track_event_step
+                        - wordpress_native_cms_integration
+                        - webflow_native_cms_integration
+                        - shopify_native_cms_integration
+                        - ghost_native_cms_integration
+                        - webflow_grid_export
+                        - wordpress_grid_export
+                        - mcp
+                        - api
+                        - web_page_change_tracking
+                        - null
+                      brand_kit_id:
+                        type:
+                        - integer
+                        - 'null'
+                        description: ID of the associated Brand Kit
+                      workspace_id:
+                        type:
+                        - integer
+                        - 'null'
+                        description: ID of the associated workspace
+                      created_at:
+                        type:
+                        - string
+                        - 'null'
+                        description: When the content update was created
+                      updated_at:
+                        type:
+                        - string
+                        - 'null'
+                        description: When the content update was last updated
+                      change_detection:
+                        type:
+                        - object
+                        - 'null'
+                        description: 'Change detection for this content update: detection status, the categories of detected changes, and whether a before/after diff is available. On a single-update fetch it also carries a nested `changes` array (the before/after diff). Null when change detection has not run for the update, including workspaces where it is not enabled.'
+                      metadata_entries:
+                        type:
+                        - array
+                        - 'null'
+                        description: Included metadata_entries collection (when requested via includes param)
+                        items:
+                          type: object
+                required:
+                - data
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+        '422':
+          description: Unprocessable entity - validation failed
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                url:
+                  type: string
+                  description: The page URL to track
+                type:
+                  type: string
+                  enum:
+                  - page_published
+                  - page_refreshed
+                  description: Type of content update
+                custom_attributes:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                        description: Attribute key
+                      value:
+                        type: string
+                        description: Attribute value
+                    required:
+                    - key
+                    - value
+                  description: Optional custom metadata key-value pairs
+              required:
+              - url
+              - type
+  /public_api/brand_kits/{brand_kit_id}/content_updates/{id}:
+    get:
+      summary: Get Content Update
+      description: Track content updates.
+      tags:
+      - Content Updates
+      operationId: getBrandKitsContentUpdate
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Unique identifier for the content update
+                      url:
+                        type:
+                        - string
+                        - 'null'
+                        description: The URL associated with the content update
+                      type:
+                        type:
+                        - string
+                        - 'null'
+                        description: Type of content update
+                        enum:
+                        - page_published
+                        - page_refreshed
+                        - null
+                      source:
+                        type:
+                        - string
+                        - 'null'
+                        description: Source that created the content update
+                        enum:
+                        - track_event_step
+                        - wordpress_native_cms_integration
+                        - webflow_native_cms_integration
+                        - shopify_native_cms_integration
+                        - ghost_native_cms_integration
+                        - webflow_grid_export
+                        - wordpress_grid_export
+                        - mcp
+                        - api
+                        - web_page_change_tracking
+                        - null
+                      brand_kit_id:
+                        type:
+                        - integer
+                        - 'null'
+                        description: ID of the associated Brand Kit
+                      workspace_id:
+                        type:
+                        - integer
+                        - 'null'
+                        description: ID of the associated workspace
+                      created_at:
+                        type:
+                        - string
+                        - 'null'
+                        description: When the content update was created
+                      updated_at:
+                        type:
+                        - string
+                        - 'null'
+                        description: When the content update was last updated
+                      change_detection:
+                        type:
+                        - object
+                        - 'null'
+                        description: 'Change detection for this content update: detection status, the categories of detected changes, and whether a before/after diff is available. On a single-update fetch it also carries a nested `changes` array (the before/after diff). Null when change detection has not run for the update, including workspaces where it is not enabled.'
+                      metadata_entries:
+                        type:
+                        - array
+                        - 'null'
+                        description: Included metadata_entries collection (when requested via includes param)
+                        items:
+                          type: object
+                required:
+                - data
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The resource ID
+    delete:
+      summary: Destroy Content Updates
+      description: Track content updates.
+      tags:
+      - Content Updates
+      operationId: destroyBrandKitsContentUpdates
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema: {}
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The resource ID
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

@@ -1,0 +1,490 @@
+openapi: 3.2.0
+info:
+  title: V1 Executions API
+  version: v1
+  description: An execution is a single run of an app, it contains the inputs, outputs, and status of the run, and can be used to check the status of the run.
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Executions
+  description: An execution is a single run of an app, it contains the inputs, outputs, and status of the run, and can be used to check the status of the run.
+  externalDocs:
+    url: https://docs.airops.com/getting-started/welcome/workflow-quick-start
+paths:
+  /public_api/airops_apps/executions/{execution_uuid}:
+    get:
+      summary: Retrieve an execution
+      description: ' Returns the **execution** with the given uuid. You can use this endpoint to check the status of the execution. '
+      tags:
+      - Executions
+      operationId: getExecution
+      parameters:
+      - $ref: '#/components/parameters/execution_uuid'
+        description: The execution uuid
+      security:
+      - bearer: []
+      responses:
+        '401':
+          description: Authentication error
+        '200':
+          description: Execution found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Execution'
+              example:
+                $ref: '#/components/examples/Execution/value'
+  /public_api/airops_apps/{app_uuid}/execute:
+    post:
+      summary: Execute
+      description: " This endpoint allows you to execute an app. You can use this endpoint to execute an app and get the output of the execution.\n\n Preconditions: the app must be **published**.\n\n\n> This endpoint executes the app immediately and returns the result, unless you are at your current capacity, or your app takes more than 10 minutes to run, in which case it will fail.\n\n If you want to execute an app asynchronously, use the [async_execute](#/paths/~1public_api~1airops_apps~1{app_uuid}~1async_execute/post) endpoint.\n\n "
+      tags:
+      - Executions
+      operationId: executeApp
+      parameters:
+      - $ref: '#/components/parameters/app_uuid'
+        description: The app uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                version_slug:
+                  type: integer
+                  example: '12'
+                  description: The version of the app (will use the default version if not provided)
+                inputs:
+                  type: object
+                  example:
+                    name: John Doe
+                  description: The inputs of the app
+              required:
+              - inputs
+            example:
+              inputs:
+                name: John Doe
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Execution created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  airops_app_execution:
+                    $ref: '#/components/schemas/Execution'
+              example:
+                $ref: '#/components/examples/Execution/value'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: name_input_value can't be blank
+        '401':
+          description: Authentication error
+  /public_api/airops_apps/{app_uuid}/async_execute:
+    post:
+      summary: Async Execute
+      description: " This endpoint allows you to execute an app asynchronously. You can use this endpoint to execute an app and get the execution id to check the status of the execution.\n\n Preconditions: the app must be **published**.\n\n\n> Executions created through this endpoint will be queued and executed at your workspace's capacity.\n\n If you want to execute an app immediately, use the [execute](#/paths/~1public_api~1airops_apps~1{app_uuid}~1execute/post) endpoint.\n\n "
+      tags:
+      - Executions
+      operationId: asyncExecuteApp
+      parameters:
+      - $ref: '#/components/parameters/app_uuid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                version_slug:
+                  type: integer
+                  example: '12'
+                  description: The version of the app (will use the default version if not provided)
+                inputs:
+                  type: object
+                  example:
+                    name: John Doe
+                  description: The inputs of the app
+              required:
+              - inputs
+            example:
+              inputs:
+                name: John Doe
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Execution created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  airops_app_execution:
+                    $ref: '#/components/schemas/Execution'
+              example:
+                id: 22
+                status: pending
+                airops_apps_version_id: 21
+                conversation_id: null
+                credits_used: 34
+                error_code: null
+                error_message: null
+                feedback: null
+                inputs:
+                  name: John Doe
+                output: null
+                runtime: null
+                source: null
+                uuid: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
+                workspace_id: 1
+                createdAt: 2024-02-01 16:39:28.161000+00:00
+                updatedAt: 2024-02-01 16:39:28.161000+00:00
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: name_input_value can't be blank
+        '401':
+          description: Authentication error
+  /public_api/airops_apps/{app_uuid}/webhook_async_execute:
+    post:
+      summary: Webhook Async Execute
+      description: " This endpoint allows you to execute an app asynchronously as a webhook for an external service.\n\n The payload of the request will be mapped to the first input of your app.\n\n Preconditions: the app must be **published**.\n\n More information on how to use this endpoint can be found [here](https://airops.gitbook.io/docs/execute/advanced/incoming-webhook). "
+      tags:
+      - Executions
+      operationId: WebhookAsyncExecuteApp
+      parameters:
+      - $ref: '#/components/parameters/app_uuid'
+      - name: auth_token
+        in: query
+        required: true
+        schema:
+          type: string
+          example: 23iu3h23-34n43yib4-3243n34b4-34n434h
+          description: Your workspace API key
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                version_slug:
+                  type: integer
+                  example: '12'
+                  description: The version of the app (will use the default version if not provided)
+                inputs:
+                  type: object
+                  example:
+                    name: John Doe
+                  description: The inputs of the app
+              required:
+              - inputs
+            example:
+              inputs:
+                name: John Doe
+      responses:
+        '200':
+          description: Execution created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  airops_app_execution:
+                    $ref: '#/components/schemas/Execution'
+              example:
+              - $ref: '#/components/examples/Execution/value'
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: name_input_value can't be blank
+        '401':
+          description: Authentication error
+  /public_api/airops_apps/executions/{execution_uuid}/cancel:
+    patch:
+      summary: Cancel an execution
+      description: " This endpoint allows you to cancel an execution.\n\n Preconditions: the execution must be in the **pending** or **running** status.\n\n "
+      tags:
+      - Executions
+      parameters:
+      - $ref: '#/components/parameters/execution_uuid'
+      security:
+      - bearer: []
+      responses:
+        '204':
+          description: Execution cancelled
+        '401':
+          description: Authentication error
+  /public_api/airops_apps/executions/{execution_uuid}/retry:
+    post:
+      summary: Retry an execution
+      description: " This endpoint allows you to retry an execution from the last failed step.\n\n Preconditions: the execution must be in the **error** status.\n\n "
+      tags:
+      - Executions
+      parameters:
+      - $ref: '#/components/parameters/execution_uuid'
+      security:
+      - bearer: []
+      responses:
+        '204':
+          description: Execution retried
+        '401':
+          description: Authentication error
+        '400':
+          description: Execution is not in error status
+  /public_api/airops_apps/executions/{execution_uuid}/feedback:
+    patch:
+      summary: Rate an execution
+      description: " This endpoint allows you to rate an execution.\n\n Preconditions: the execution must be in the **success** status.\n\n "
+      tags:
+      - Executions
+      parameters:
+      - $ref: '#/components/parameters/execution_uuid'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                feedback:
+                  type: string
+                  enum:
+                  - positive
+                  - neutral
+                  - negative
+                  example: positive
+                  description: The feedback of the execution
+              required:
+              - feedback
+            example:
+              feedback: positive
+      security:
+      - bearer: []
+      responses:
+        '204':
+          description: Feedback sent
+        '401':
+          description: Authentication error
+  /public_api/airops_apps/:airops_app_id/executions:
+    get:
+      summary: Retrieve all executions for an Airops app
+      description: 'Returns all the **executions** for a given Airops app. You can use this endpoint to check the status/input/output of all the executions.
+
+        '
+      tags:
+      - Executions
+      parameters:
+      - name: airops_app_id
+        in: query
+        required: true
+        description: The Airops app ID to fetch executions from
+        schema:
+          type: integer
+      - name: cursor
+        in: query
+        required: false
+        description: The cursor value to use for pagination
+        schema:
+          type: string
+      - name: items
+        in: query
+        required: false
+        description: The amount of items to fetch
+        schema:
+          type: integer
+          example: 10
+          minimum: 1
+          maximum: 100
+      security:
+      - bearer: []
+      responses:
+        '401':
+          description: Authentication error
+        '200':
+          description: Executions found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: The list of executions returned
+                    items:
+                      $ref: '#/components/schemas/Execution'
+                  meta:
+                    type: object
+                    description: Pagination information
+                    properties:
+                      count:
+                        type: integer
+                        description: Total amount of records in all pages
+                      has_more:
+                        type: boolean
+                        description: Whether there are more records to fetch
+                      cursor:
+                        type: string
+                        description: Cursor value to use in the next request
+              example:
+              - $ref: '#/components/examples/AiropsAppExecutions/value'
+components:
+  examples:
+    AiropsAppExecutions:
+      value:
+        data:
+        - id: 22
+          status: success
+          airops_apps_version_id: 21
+          conversation_id: 23
+          credits_used: 34
+          error_code: null
+          error_message: null
+          feedback: positive
+          inputs:
+            name: John Doe
+          output:
+            greet: Hello John Doe!
+          runtime: 34
+          source: null
+          uuid: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
+          workspace_id: 1
+          createdAt: 2024-02-01 16:39:28.161000+00:00
+          updatedAt: 2024-02-01 16:39:28.161000+00:00
+        meta:
+          count: 2
+          has_more: true
+          cursor: 22
+    Execution:
+      value:
+        id: 22
+        status: success
+        airops_apps_version_id: 21
+        conversation_id: 23
+        credits_used: 34
+        error_code: null
+        error_message: null
+        feedback: positive
+        inputs:
+          name: John Doe
+        output:
+          greet: Hello John Doe!
+        runtime: 34
+        source: null
+        uuid: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
+        workspace_id: 1
+        createdAt: 2024-02-01 16:39:28.161000+00:00
+        updatedAt: 2024-02-01 16:39:28.161000+00:00
+  parameters:
+    execution_uuid:
+      name: execution_uuid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The execution uuid
+    app_uuid:
+      name: app_uuid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The app uuid, you can find the app uuid by going to the App => Integrate
+  schemas:
+    Execution:
+      type: object
+      properties:
+        id:
+          type: string
+        status:
+          type: string
+          enum:
+          - pending
+          - running
+          - error
+          - success
+          - cancelled
+          - review_needed
+          example: success
+        airops_apps_version_id:
+          type: integer
+          example: 21
+        conversation_id:
+          type: string
+          example: 23
+        credits_used:
+          type: integer
+          example: 34
+        error_code:
+          type: string
+          example: null
+        error_message:
+          example: null
+        feedback:
+          type: string
+          enum:
+          - positive
+          - neutral
+          - negative
+        inputs:
+          type: object
+          example:
+            name: John Doe
+        output:
+          type: object
+          example:
+            greet: Hello John Doe!
+        runtime:
+          type: integer
+          example: 34
+          description: The time it took to execute the app in seconds
+        source:
+          type: string
+        uuid:
+          type: string
+          maxLength: 36
+          minLength: 36
+          example: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
+        workspace_id:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          format: date-time
+          example: 2024-02-01 16:39:28.161000+00:00
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2024-02-01 16:39:28.161000+00:00
+      required:
+      - id
+      - status
+      - createdAt
+      - updatedAt
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer

@@ -1,0 +1,267 @@
+openapi: 3.2.0
+info:
+  title: V1 Competitors API
+  version: v1
+servers:
+- url: https://api.airops.com
+  variables:
+    defaultHost:
+      default: api.airops.com
+tags:
+- name: Competitors
+  x-parent: Brand Kits
+paths:
+  /public_api/brand_kits/{brand_kit_id}/competitors/list:
+    post:
+      summary: List Competitors
+      description: Competitors are the companies that are competing with the brand. They are used to track the performance of the brand against its competitors.
+      tags:
+      - Competitors
+      operationId: listBrandKitsCompetitors
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Unique identifier for the competitor
+                        aeo_domain_id:
+                          type:
+                          - integer
+                          - 'null'
+                          description: Domain ID used for filtering citations by competitor
+                        name:
+                          type:
+                          - string
+                          - 'null'
+                          description: Name of the competitor
+                        domain_url:
+                          type:
+                          - string
+                          - 'null'
+                          description: Domain URL of the competitor
+                        created_at:
+                          type:
+                          - string
+                          - 'null'
+                          description: When the competitor was created
+                  meta:
+                    type: object
+                    properties:
+                      page:
+                        type: integer
+                      per_page:
+                        type: integer
+                      total_count:
+                        type: integer
+                      total_pages:
+                        type: integer
+                required:
+                - data
+                - meta
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                brand_kit_id:
+                  type: integer
+                  description: The ID of the Brand Kit
+                filters:
+                  type: array
+                  description: 'Filter results. Nested fields (e.g. `writing_rules.text`) filter within an included association and require that association in `includes`.
+
+
+                    **Available fields:**
+
+                    - **name** (EQUALS, CONTAINS): Filter by competitor name'
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                        enum:
+                        - name
+                        description: 'Field to filter on. name: Filter by competitor name'
+                      operator:
+                        type: string
+                        enum:
+                        - EQUALS
+                        - CONTAINS
+                        description: 'Filter operator.
+
+
+                          - **EQ/EQUALS**: Exact match
+
+                          - **NEQ**: Not equal
+
+                          - **GT/GEQ/LT/LEQ**: Numeric/date comparisons
+
+                          - **CONTAINS**: Partial text match
+
+                          - **STARTS_WITH**: Text prefix match
+
+                          - **IN**: Match any value in array
+
+                          - **HAS_ALL**: (tags filter) match only items having every listed value
+
+                          - **NOT_IN**: (tags filter) match only items having none of the listed values'
+                      value:
+                        description: Filter value (type depends on field and operator)
+                    required:
+                    - field
+                    - operator
+                    - value
+                fields:
+                  type: array
+                  description: 'Select additional fields to return.
+
+
+                    **Optional fields:**
+
+                    - **id**: Unique identifier for the competitor
+
+                    - **aeo_domain_id**: Domain ID used for filtering citations by competitor
+
+                    - **name**: Name of the competitor
+
+                    - **domain_url**: Domain URL of the competitor
+
+                    - **created_at**: When the competitor was created'
+                  items:
+                    type: string
+                    enum:
+                    - id
+                    - aeo_domain_id
+                    - name
+                    - domain_url
+                    - created_at
+                sort:
+                  type: string
+                  enum:
+                  - name
+                  - -name
+                  - created_at
+                  - -created_at
+                  description: 'Sort field. Prefix with - for descending.
+
+
+                    **Available sort fields:**
+
+                    - **name/-name**: Sort alphabetically by competitor name
+
+                    - **created_at/-created_at**: Sort by creation date'
+                page:
+                  type: integer
+                  default: 1
+                  description: Page number
+                per_page:
+                  type: integer
+                  default: 25
+                  maximum: 100
+                  description: Items per page
+              required:
+              - brand_kit_id
+  /public_api/brand_kits/{brand_kit_id}/competitors/{id}:
+    get:
+      summary: Get Competitor
+      description: Competitors are the companies that are competing with the brand. They are used to track the performance of the brand against its competitors.
+      tags:
+      - Competitors
+      operationId: getBrandKitsCompetitor
+      security:
+      - bearer: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Unique identifier for the competitor
+                      aeo_domain_id:
+                        type:
+                        - integer
+                        - 'null'
+                        description: Domain ID used for filtering citations by competitor
+                      name:
+                        type:
+                        - string
+                        - 'null'
+                        description: Name of the competitor
+                      domain_url:
+                        type:
+                        - string
+                        - 'null'
+                        description: Domain URL of the competitor
+                      created_at:
+                        type:
+                        - string
+                        - 'null'
+                        description: When the competitor was created
+                required:
+                - data
+        '400':
+          description: Bad request - invalid parameters, filters, or sort options
+        '401':
+          description: Unauthorized - invalid or missing authentication token
+        '404':
+          description: Not found - resource does not exist
+        '412':
+          description: Precondition failed - AEO not configured for this brand kit
+      parameters:
+      - name: brand_kit_id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The Brand Kit ID
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+        description: The resource ID
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
