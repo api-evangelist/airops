@@ -87,6 +87,8 @@ apis:
   humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
   baseURL: https://api.airops.com
   tags:
+  - Agents
+  tags_raw:
   - Agent
   properties:
   - type: OpenAPI
@@ -183,6 +185,8 @@ apis:
   humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
   baseURL: https://api.airops.com
   tags:
+  - Application
+  tags_raw:
   - Apps
   properties:
   - type: OpenAPI
@@ -345,6 +349,8 @@ apis:
   humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
   baseURL: https://api.airops.com
   tags:
+  - Execution
+  tags_raw:
   - Executions
   properties:
   - type: OpenAPI
@@ -377,6 +383,8 @@ apis:
   humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
   baseURL: https://api.airops.com
   tags:
+  - File
+  tags_raw:
   - Files
   properties:
   - type: OpenAPI
