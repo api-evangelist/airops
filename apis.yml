@@ -1,18 +1,14 @@
 aid: airops
 name: AirOps
-description: >-
-  AirOps is a growth platform for AI search and answer engine optimization (AEO)
-  that helps brands measure and improve their visibility across AI assistants and
-  search engines including ChatGPT, Perplexity, Gemini, Claude, and Google. The
-  platform pairs Insights (citation tracking, share-of-voice, sentiment, and
-  competitor intelligence) with Action (Playbooks, Workflows, Grids, and Campaigns
-  that draft and ship content at scale) and Context (Brand Kits and Knowledge
-  Bases). AirOps exposes a public REST API at api.airops.com for executing
-  Workflows/Apps, managing Knowledge Bases, and pulling AEO analytics, a hosted
-  Model Context Protocol (MCP) server at app.airops.com/mcp with roughly ninety
-  tools, incoming webhook triggers, and first-party JavaScript and Python SDKs. It
-  was surfaced as a portfolio company of Greylock and enriched into the API
-  Evangelist network.
+description: AirOps is a growth platform for AI search and answer engine optimization (AEO) that helps
+  brands measure and improve their visibility across AI assistants and search engines including ChatGPT,
+  Perplexity, Gemini, Claude, and Google. The platform pairs Insights (citation tracking, share-of-voice,
+  sentiment, and competitor intelligence) with Action (Playbooks, Workflows, Grids, and Campaigns that
+  draft and ship content at scale) and Context (Brand Kits and Knowledge Bases). AirOps exposes a public
+  REST API at api.airops.com for executing Workflows/Apps, managing Knowledge Bases, and pulling AEO analytics,
+  a hosted Model Context Protocol (MCP) server at app.airops.com/mcp with roughly ninety tools, incoming
+  webhook triggers, and first-party JavaScript and Python SDKs. It was surfaced as a portfolio company
+  of Greylock and enriched into the API Evangelist network.
 url: https://raw.githubusercontent.com/api-evangelist/airops/refs/heads/main/apis.yml
 deliveryModel:
   model: saas
@@ -45,7 +41,7 @@ x-tier: enriched
 x-tier-reason: full-artifact-pass-2026-08-13
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-08-13'
+modified: '2026-09-16'
 tags:
 - Company
 - Application
@@ -343,9 +339,8 @@ apis:
     url: rate-limits/airops-rate-limits.yml
 - aid: airops:airops-executions-api
   name: AirOps Executions API
-  description: >-
-    An execution is a single run of an app, it contains the inputs, outputs, and status of the run, and
-    can be used to check the status of the run.
+  description: An execution is a single run of an app, it contains the inputs, outputs, and status of
+    the run, and can be used to check the status of the run.
   humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
   baseURL: https://api.airops.com
   tags:
@@ -541,8 +536,7 @@ apis:
     url: rate-limits/airops-rate-limits.yml
 - aid: airops:airops-sentiment-theme-answers-api
   name: AirOps Sentiment Theme Answers API
-  description: >-
-    The Sentiment Theme Answers API from AirOps — 1 operation(s) for sentiment theme answers.
+  description: The Sentiment Theme Answers API from AirOps — 1 operation(s) for sentiment theme answers.
   humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
   baseURL: https://api.airops.com
   tags:
@@ -719,7 +713,7 @@ common:
 - type: Conformance
   url: conformance/airops-conformance.yml
 - type: OpenAPI
-  url: openapi/airops-api-openapi.yml
+  url: openapi/_original/airops-api-openapi.yml
 - type: Overlay
   url: overlays/airops-api-overlay.yaml
 - type: DataModel
@@ -759,9 +753,7 @@ x-enrichment:
   status: enriched
   artifacts_added: 12
   pass: local-v1
-  note: >-
-    Contract discovery beat the round-1 "no spec" result: the published OpenAPI
-    3.0.1 was live at https://api.airops.com/public_api/openapi.yaml (under
-    /public_api/, not the host root, which is why the earlier root probes missed
-    it). Seven first-party Agent Skills were also found published in the
-    airopshq GitHub org and saved verbatim.
+  note: 'Contract discovery beat the round-1 "no spec" result: the published OpenAPI 3.0.1 was live at
+    https://api.airops.com/public_api/openapi.yaml (under /public_api/, not the host root, which is why
+    the earlier root probes missed it). Seven first-party Agent Skills were also found published in the
+    airopshq GitHub org and saved verbatim.'
