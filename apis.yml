@@ -42,6 +42,9 @@ x-tier-reason: full-artifact-pass-2026-08-13
 specificationVersion: '0.23'
 created: '2026-07-17'
 modified: '2026-09-16'
+x-docs-platform: gitbook
+x-docs-platform-confidence: high
+x-docs-platform-checked: 2026-09-17
 tags:
 - Company
 - Application
@@ -604,6 +607,8 @@ apis:
   humanURL: https://docs.airops.com/api-reference/using-the-api/authentication
   baseURL: https://api.airops.com
   tags:
+  - Topic
+  tags_raw:
   - Topics
   properties:
   - type: OpenAPI
