@@ -41,6 +41,8 @@ paths:
                 id: 230
         '401':
           description: Authentication error
+      operationId: postPublicApiGridsByGridIdSheetsBySheetIdGenerateCsv
+      x-operation-id-source: derived
   /public_api/grids/{grid_id}/sheets/{sheet_id}/download_csv/latest:
     get:
       summary: Download Latest CSV
@@ -71,15 +73,10 @@ paths:
                 error: We could not find the latest CSV for this grid.
         '401':
           description: Authentication error
+      operationId: getPublicApiGridsByGridIdSheetsBySheetIdDownloadCsvLatest
+      x-operation-id-source: derived
 components:
   parameters:
-    sheet_id:
-      name: sheet_id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The Sheet id
     grid_id:
       name: grid_id
       in: path
@@ -87,6 +84,13 @@ components:
       schema:
         type: string
       description: The Grid id
+    sheet_id:
+      name: sheet_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The Sheet id
   securitySchemes:
     bearer:
       type: http

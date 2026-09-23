@@ -15,9 +15,7 @@ paths:
   /public_api/agent_apps/{app_uuid}/chat:
     post:
       summary: Chat
-      description: 'This endpoint allows you to send a message (chat) to an Agent app. You can include inputs with your message which will be passed to the app.
-
-        '
+      description: This endpoint allows you to send a message (chat) to an Agent app. You can include inputs with your message which will be passed to the app.
       tags:
       - Agent
       operationId: chatWithAgent
@@ -58,9 +56,7 @@ paths:
   /public_api/agent_apps/{app_uuid}/async_chat:
     post:
       summary: Async Chat
-      description: 'This endpoint allows you to send a message (chat) to an Agent app asynchronously, without waiting for the response. You can include inputs with your message which will be passed to the app.
-
-        '
+      description: This endpoint allows you to send a message (chat) to an Agent app asynchronously, without waiting for the response. You can include inputs with your message which will be passed to the app.
       tags:
       - Agent
       operationId: asyncChatWithAgent
@@ -110,39 +106,17 @@ paths:
                 airops_app_execution:
                   $ref: '#/components/examples/Execution/value'
 components:
-  examples:
-    ChatResponse:
-      value:
-        result:
-          message: Hello, how are you?.
-          session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
-    ChatPayload:
-      value:
-        message: Hello, how are you?.
-        session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
-        inputs:
-          name: John Doe
-    Execution:
-      value:
-        id: 22
-        status: success
-        airops_apps_version_id: 21
-        conversation_id: 23
-        credits_used: 34
-        error_code: null
-        error_message: null
-        feedback: positive
-        inputs:
-          name: John Doe
-        output:
-          greet: Hello John Doe!
-        runtime: 34
-        source: null
-        uuid: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
-        workspace_id: 1
-        createdAt: 2024-02-01 16:39:28.161000+00:00
-        updatedAt: 2024-02-01 16:39:28.161000+00:00
   schemas:
+    ChatResponse:
+      type: object
+      properties:
+        result:
+          type: object
+          additionalProperties: true
+          description: The result from calling the agent
+          example:
+            response: How can I help you?
+            session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
     ChatPayload:
       type: object
       properties:
@@ -230,16 +204,38 @@ components:
       - status
       - createdAt
       - updatedAt
+  examples:
+    ChatPayload:
+      value:
+        message: Hello, how are you?.
+        session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
+        inputs:
+          name: John Doe
     ChatResponse:
-      type: object
-      properties:
+      value:
         result:
-          type: object
-          additionalProperties: true
-          description: The result from calling the agent
-          example:
-            response: How can I help you?
-            session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
+          message: Hello, how are you?.
+          session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
+    Execution:
+      value:
+        id: 22
+        status: success
+        airops_apps_version_id: 21
+        conversation_id: 23
+        credits_used: 34
+        error_code: null
+        error_message: null
+        feedback: positive
+        inputs:
+          name: John Doe
+        output:
+          greet: Hello John Doe!
+        runtime: 34
+        source: null
+        uuid: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
+        workspace_id: 1
+        createdAt: 2024-02-01 16:39:28.161000+00:00
+        updatedAt: 2024-02-01 16:39:28.161000+00:00
   parameters:
     app_uuid:
       name: app_uuid

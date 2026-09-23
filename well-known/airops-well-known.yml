@@ -1,12 +1,16 @@
-generated: '2026-08-13'
+generated: '2026-09-19'
 method: searched
 source: live probes of AirOps hosts
 last_probed: '2026-08-13'
-note: >-
-  AirOps serves a REAL /.well-known/ discovery surface on app.airops.com — an
-  RFC 9116 security.txt plus OIDC discovery and RFC 8414 OAuth authorization
-  server metadata, which is what makes the hosted MCP server independently
-  discoverable. Recorded 404s below are honest absences, not untried paths.
+note: 'AirOps serves a REAL /.well-known/ discovery surface on app.airops.com — an RFC 9116 security.txt
+  plus OIDC discovery and RFC 8414 OAuth authorization server metadata, which is what makes the hosted
+  MCP server independently discoverable. Recorded 404s below are honest absences, not untried paths.
+
+
+  MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s primary
+  hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed and
+  were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'
 hosts:
 - host: https://app.airops.com
   documents:
@@ -22,16 +26,19 @@ hosts:
   - path: /.well-known/oauth-protected-resource
     status: 404
     checked: '2026-08-13'
-    note: >-
-      RFC 9728 protected-resource metadata is NOT served, so an MCP client cannot
-      discover the authorization server from the resource itself; it must be told
-      out of band.
+    note: RFC 9728 protected-resource metadata is NOT served, so an MCP client cannot discover the authorization
+      server from the resource itself; it must be told out of band.
   - path: /.well-known/agent-card.json
     status: 404
     checked: '2026-08-13'
   - path: /.well-known/agent.json
     status: 404
     checked: '2026-08-13'
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: airops-app-oauth-protected-resource.json
+    bytes: 230
+  path_echo_control: passed
 - host: https://api.airops.com
   documents:
   - path: /.well-known/security.txt
@@ -75,6 +82,14 @@ summary:
   api_catalog: false
   ai_plugin: false
   agent_card: false
-  note: >-
-    No A2A Agent Card on any AirOps host — nothing was written to a2a/, per the
-    search-only rule. No /.well-known/api-catalog (RFC 9727) is served either.
+  note: No A2A Agent Card on any AirOps host — nothing was written to a2a/, per the search-only rule.
+    No /.well-known/api-catalog (RFC 9727) is served either.
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://app.airops.com
+    path: /.well-known/oauth-protected-resource
+    file: airops-app-oauth-protected-resource.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host

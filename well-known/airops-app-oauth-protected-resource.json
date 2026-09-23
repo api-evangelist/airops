@@ -1,0 +1,1 @@
+{"resource":"https://app.airops.com/mcp","authorization_servers":["https://app.airops.com"],"scopes_supported":["api"],"bearer_methods_supported":["header"],"resource_documentation":"https://docs.airops.com/developers/mcp-server"}

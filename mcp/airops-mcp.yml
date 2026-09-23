@@ -124,32 +124,14 @@ tool_groups:
 deployment:
   mode: remote
   endpoint: https://app.airops.com/mcp
-  auth: oauth
   verified: probed
-  probe:
-    method: 'POST tools/list (JSON-RPC 2.0)'
-    date: '2026-08-13'
-    http_status: 401
-    body: '{"error":"Invalid or missing access token"}'
-    result: gated
-    note: >-
-      The endpoint is live and answers JSON-RPC, but tools/list requires an OAuth
-      access token, so the live inputSchema set could not be introspected
-      anonymously. The tool inventory below is transcribed from the provider's
-      published tools reference; input schemas need authenticated introspection.
-  install: null
-  package: null
-  note: >-
-    Remote-only. AirOps ships a hosted HTTP MCP endpoint and no stdio package —
-    an agent can reach it directly with no local install. AirOps additionally
-    publishes a Claude Code plugin (github.com/airopshq/airops-claude-plugin)
-    whose bundled .mcp.json wires this same remote endpoint; the plugin
-    distributes SKILLS, not a local MCP server. See skills/_index.yml.
+  probe: gated
+  checked: '2026-08-12'
+  source: catalog MCP census
 tool_count:
   documented: 76
   source: https://docs.airops.com/developers/tools
   checked: '2026-08-13'
-  note: >-
-    Counted from the provider's tools reference on 2026-08-13. An earlier profile
-    described "roughly ninety" tools; the documented figure is 76.
+  note: Counted from the provider's tools reference on 2026-08-13. An earlier profile described "roughly
+    ninety" tools; the documented figure is 76.
 crosswalk: mcp/airops-tool-crosswalk.yml

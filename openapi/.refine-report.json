@@ -1,0 +1,56 @@
+{
+  "provider": "airops",
+  "sources": [
+    "_original/airops-api-openapi.yml"
+  ],
+  "outputs": [
+    "airops-agent-api-openapi.yml",
+    "airops-analytics-api-openapi.yml",
+    "airops-answers-api-openapi.yml",
+    "airops-apps-api-openapi.yml",
+    "airops-brand-kits-api-openapi.yml",
+    "airops-citations-api-openapi.yml",
+    "airops-competitors-api-openapi.yml",
+    "airops-content-updates-api-openapi.yml",
+    "airops-executions-api-openapi.yml",
+    "airops-files-api-openapi.yml",
+    "airops-grids-api-openapi.yml",
+    "airops-memory-stores-api-openapi.yml",
+    "airops-personas-api-openapi.yml",
+    "airops-prompts-api-openapi.yml",
+    "airops-sentiment-theme-answers-api-openapi.yml",
+    "airops-tags-api-openapi.yml",
+    "airops-topics-api-openapi.yml",
+    "airops-web-pages-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "1 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "airops-api-openapi.yml: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/airops-openapi.yaml: archived document superseded by a larger archived document",
+    "airops-agent-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-answers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-apps-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-brand-kits-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-citations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-competitors-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-content-updates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-executions-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-files-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-grids-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-memory-stores-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-personas-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-prompts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-sentiment-theme-answers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-tags-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-topics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "airops-web-pages-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}

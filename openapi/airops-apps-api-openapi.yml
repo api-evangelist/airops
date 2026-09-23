@@ -15,7 +15,7 @@ paths:
   /public_api/airops_apps:
     get:
       summary: Retrieve all apps
-      description: ' Returns all the **apps**. '
+      description: Returns all the **apps**.
       tags:
       - Apps
       security:
@@ -33,10 +33,12 @@ paths:
               - $ref: '#/components/examples/App/value'
         '401':
           description: Authentication error
+      operationId: getPublicApiAiropsApps
+      x-operation-id-source: derived
   /public_api/airops_apps/{app_uuid}:
     get:
       summary: Retrieve an app
-      description: ' Returns the **app** with the given uuid. '
+      description: Returns the **app** with the given uuid.
       tags:
       - Apps
       operationId: getApp

@@ -17,7 +17,7 @@ paths:
   /public_api/airops_apps/executions/{execution_uuid}:
     get:
       summary: Retrieve an execution
-      description: ' Returns the **execution** with the given uuid. You can use this endpoint to check the status of the execution. '
+      description: Returns the **execution** with the given uuid. You can use this endpoint to check the status of the execution.
       tags:
       - Executions
       operationId: getExecution
@@ -40,7 +40,16 @@ paths:
   /public_api/airops_apps/{app_uuid}/execute:
     post:
       summary: Execute
-      description: " This endpoint allows you to execute an app. You can use this endpoint to execute an app and get the output of the execution.\n\n Preconditions: the app must be **published**.\n\n\n> This endpoint executes the app immediately and returns the result, unless you are at your current capacity, or your app takes more than 10 minutes to run, in which case it will fail.\n\n If you want to execute an app asynchronously, use the [async_execute](#/paths/~1public_api~1airops_apps~1{app_uuid}~1async_execute/post) endpoint.\n\n "
+      description: 'This endpoint allows you to execute an app. You can use this endpoint to execute an app and get the output of the execution.
+
+
+        Preconditions: the app must be **published**.
+
+
+        > This endpoint executes the app immediately and returns the result, unless you are at your current capacity, or your app takes more than 10 minutes to run, in which case it will fail.
+
+
+        If you want to execute an app asynchronously, use the async_execute endpoint.'
       tags:
       - Executions
       operationId: executeApp
@@ -96,7 +105,16 @@ paths:
   /public_api/airops_apps/{app_uuid}/async_execute:
     post:
       summary: Async Execute
-      description: " This endpoint allows you to execute an app asynchronously. You can use this endpoint to execute an app and get the execution id to check the status of the execution.\n\n Preconditions: the app must be **published**.\n\n\n> Executions created through this endpoint will be queued and executed at your workspace's capacity.\n\n If you want to execute an app immediately, use the [execute](#/paths/~1public_api~1airops_apps~1{app_uuid}~1execute/post) endpoint.\n\n "
+      description: 'This endpoint allows you to execute an app asynchronously. You can use this endpoint to execute an app and get the execution id to check the status of the execution.
+
+
+        Preconditions: the app must be **published**.
+
+
+        > Executions created through this endpoint will be queued and executed at your workspace''s capacity.
+
+
+        If you want to execute an app immediately, use the execute endpoint.'
       tags:
       - Executions
       operationId: asyncExecuteApp
@@ -167,7 +185,16 @@ paths:
   /public_api/airops_apps/{app_uuid}/webhook_async_execute:
     post:
       summary: Webhook Async Execute
-      description: " This endpoint allows you to execute an app asynchronously as a webhook for an external service.\n\n The payload of the request will be mapped to the first input of your app.\n\n Preconditions: the app must be **published**.\n\n More information on how to use this endpoint can be found [here](https://airops.gitbook.io/docs/execute/advanced/incoming-webhook). "
+      description: 'This endpoint allows you to execute an app asynchronously as a webhook for an external service.
+
+
+        The payload of the request will be mapped to the first input of your app.
+
+
+        Preconditions: the app must be **published**.
+
+
+        More information on how to use this endpoint can be found here.'
       tags:
       - Executions
       operationId: WebhookAsyncExecuteApp
@@ -227,7 +254,10 @@ paths:
   /public_api/airops_apps/executions/{execution_uuid}/cancel:
     patch:
       summary: Cancel an execution
-      description: " This endpoint allows you to cancel an execution.\n\n Preconditions: the execution must be in the **pending** or **running** status.\n\n "
+      description: 'This endpoint allows you to cancel an execution.
+
+
+        Preconditions: the execution must be in the **pending** or **running** status.'
       tags:
       - Executions
       parameters:
@@ -239,10 +269,15 @@ paths:
           description: Execution cancelled
         '401':
           description: Authentication error
+      operationId: patchPublicApiAiropsAppsExecutionsByExecutionUuidCancel
+      x-operation-id-source: derived
   /public_api/airops_apps/executions/{execution_uuid}/retry:
     post:
       summary: Retry an execution
-      description: " This endpoint allows you to retry an execution from the last failed step.\n\n Preconditions: the execution must be in the **error** status.\n\n "
+      description: 'This endpoint allows you to retry an execution from the last failed step.
+
+
+        Preconditions: the execution must be in the **error** status.'
       tags:
       - Executions
       parameters:
@@ -256,10 +291,15 @@ paths:
           description: Authentication error
         '400':
           description: Execution is not in error status
+      operationId: postPublicApiAiropsAppsExecutionsByExecutionUuidRetry
+      x-operation-id-source: derived
   /public_api/airops_apps/executions/{execution_uuid}/feedback:
     patch:
       summary: Rate an execution
-      description: " This endpoint allows you to rate an execution.\n\n Preconditions: the execution must be in the **success** status.\n\n "
+      description: 'This endpoint allows you to rate an execution.
+
+
+        Preconditions: the execution must be in the **success** status.'
       tags:
       - Executions
       parameters:
@@ -289,12 +329,12 @@ paths:
           description: Feedback sent
         '401':
           description: Authentication error
+      operationId: patchPublicApiAiropsAppsExecutionsByExecutionUuidFeedback
+      x-operation-id-source: derived
   /public_api/airops_apps/:airops_app_id/executions:
     get:
       summary: Retrieve all executions for an Airops app
-      description: 'Returns all the **executions** for a given Airops app. You can use this endpoint to check the status/input/output of all the executions.
-
-        '
+      description: Returns all the **executions** for a given Airops app. You can use this endpoint to check the status/input/output of all the executions.
       tags:
       - Executions
       parameters:
@@ -351,6 +391,8 @@ paths:
                         description: Cursor value to use in the next request
               example:
               - $ref: '#/components/examples/AiropsAppExecutions/value'
+      operationId: getPublicApiAiropsApps:airopsAppIdExecutions
+      x-operation-id-source: derived
 components:
   examples:
     AiropsAppExecutions:

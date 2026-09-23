@@ -15,9 +15,9 @@ paths:
   /public_api/workspace_files:
     post:
       summary: Upload
-      description: ' This endpoint allows you to upload a file to the workspace.
+      description: 'This endpoint allows you to upload a file to the workspace.
 
-        You can use this endpoint to upload a file and get the id of the file to use as an input in an app. '
+        You can use this endpoint to upload a file and get the id of the file to use as an input in an app.'
       operationId: workspaceFileUpload
       tags:
       - Files
