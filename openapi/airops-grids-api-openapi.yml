@@ -77,13 +77,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    grid_id:
-      name: grid_id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The Grid id
     sheet_id:
       name: sheet_id
       in: path
@@ -91,6 +84,13 @@ components:
       schema:
         type: string
       description: The Sheet id
+    grid_id:
+      name: grid_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The Grid id
   securitySchemes:
     bearer:
       type: http

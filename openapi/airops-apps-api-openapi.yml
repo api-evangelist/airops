@@ -58,14 +58,6 @@ paths:
               example:
                 $ref: '#/components/examples/App/value'
 components:
-  parameters:
-    app_uuid:
-      name: app_uuid
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The app uuid, you can find the app uuid by going to the App => Integrate
   examples:
     App:
       value:
@@ -121,6 +113,14 @@ components:
         readme:
           type: string
           example: ''
+  parameters:
+    app_uuid:
+      name: app_uuid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The app uuid, you can find the app uuid by going to the App => Integrate
   securitySchemes:
     bearer:
       type: http
