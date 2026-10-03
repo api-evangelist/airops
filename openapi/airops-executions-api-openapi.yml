@@ -395,13 +395,6 @@ paths:
       x-operation-id-source: derived
 components:
   parameters:
-    execution_uuid:
-      name: execution_uuid
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The execution uuid
     app_uuid:
       name: app_uuid
       in: path
@@ -409,52 +402,13 @@ components:
       schema:
         type: string
       description: The app uuid, you can find the app uuid by going to the App => Integrate
-  examples:
-    Execution:
-      value:
-        id: 22
-        status: success
-        airops_apps_version_id: 21
-        conversation_id: 23
-        credits_used: 34
-        error_code: null
-        error_message: null
-        feedback: positive
-        inputs:
-          name: John Doe
-        output:
-          greet: Hello John Doe!
-        runtime: 34
-        source: null
-        uuid: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
-        workspace_id: 1
-        createdAt: 2024-02-01 16:39:28.161000+00:00
-        updatedAt: 2024-02-01 16:39:28.161000+00:00
-    AiropsAppExecutions:
-      value:
-        data:
-        - id: 22
-          status: success
-          airops_apps_version_id: 21
-          conversation_id: 23
-          credits_used: 34
-          error_code: null
-          error_message: null
-          feedback: positive
-          inputs:
-            name: John Doe
-          output:
-            greet: Hello John Doe!
-          runtime: 34
-          source: null
-          uuid: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
-          workspace_id: 1
-          createdAt: 2024-02-01 16:39:28.161000+00:00
-          updatedAt: 2024-02-01 16:39:28.161000+00:00
-        meta:
-          count: 2
-          has_more: true
-          cursor: 22
+    execution_uuid:
+      name: execution_uuid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The execution uuid
   schemas:
     Execution:
       type: object
@@ -526,6 +480,52 @@ components:
       - status
       - createdAt
       - updatedAt
+  examples:
+    Execution:
+      value:
+        id: 22
+        status: success
+        airops_apps_version_id: 21
+        conversation_id: 23
+        credits_used: 34
+        error_code: null
+        error_message: null
+        feedback: positive
+        inputs:
+          name: John Doe
+        output:
+          greet: Hello John Doe!
+        runtime: 34
+        source: null
+        uuid: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
+        workspace_id: 1
+        createdAt: 2024-02-01 16:39:28.161000+00:00
+        updatedAt: 2024-02-01 16:39:28.161000+00:00
+    AiropsAppExecutions:
+      value:
+        data:
+        - id: 22
+          status: success
+          airops_apps_version_id: 21
+          conversation_id: 23
+          credits_used: 34
+          error_code: null
+          error_message: null
+          feedback: positive
+          inputs:
+            name: John Doe
+          output:
+            greet: Hello John Doe!
+          runtime: 34
+          source: null
+          uuid: c3405f16-d0e8-4d5c-8ad9-85ef332c44ee
+          workspace_id: 1
+          createdAt: 2024-02-01 16:39:28.161000+00:00
+          updatedAt: 2024-02-01 16:39:28.161000+00:00
+        meta:
+          count: 2
+          has_more: true
+          cursor: 22
   securitySchemes:
     bearer:
       type: http

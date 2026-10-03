@@ -107,23 +107,16 @@ paths:
                   $ref: '#/components/examples/Execution/value'
 components:
   schemas:
-    ChatPayload:
+    ChatResponse:
       type: object
       properties:
-        message:
-          type: string
-          example: Hello, I need help with this.
-          description: The message to send to the agent
-        session_id:
-          type: string
-          example: 23iu3h23-34n43yib4-3243n34b4-34n434h
-          description: The session id of the chat. Use the session_id to send a message to an existing conversation. If not present, a new session will be created after sending the first message.
-        inputs:
+        result:
           type: object
           additionalProperties: true
-          description: Optional inputs to send along with the message.
+          description: The result from calling the agent
           example:
-            name: John Doe
+            response: How can I help you?
+            session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
     Execution:
       type: object
       properties:
@@ -194,16 +187,31 @@ components:
       - status
       - createdAt
       - updatedAt
-    ChatResponse:
+    ChatPayload:
       type: object
       properties:
-        result:
+        message:
+          type: string
+          example: Hello, I need help with this.
+          description: The message to send to the agent
+        session_id:
+          type: string
+          example: 23iu3h23-34n43yib4-3243n34b4-34n434h
+          description: The session id of the chat. Use the session_id to send a message to an existing conversation. If not present, a new session will be created after sending the first message.
+        inputs:
           type: object
           additionalProperties: true
-          description: The result from calling the agent
+          description: Optional inputs to send along with the message.
           example:
-            response: How can I help you?
-            session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
+            name: John Doe
+  parameters:
+    app_uuid:
+      name: app_uuid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The app uuid, you can find the app uuid by going to the App => Integrate
   examples:
     Execution:
       value:
@@ -225,25 +233,17 @@ components:
         workspace_id: 1
         createdAt: 2024-02-01 16:39:28.161000+00:00
         updatedAt: 2024-02-01 16:39:28.161000+00:00
+    ChatResponse:
+      value:
+        result:
+          message: Hello, how are you?.
+          session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
     ChatPayload:
       value:
         message: Hello, how are you?.
         session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
         inputs:
           name: John Doe
-    ChatResponse:
-      value:
-        result:
-          message: Hello, how are you?.
-          session_id: 23iu3h23-34n43yib4-3243n34b4-34n434h
-  parameters:
-    app_uuid:
-      name: app_uuid
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The app uuid, you can find the app uuid by going to the App => Integrate
   securitySchemes:
     bearer:
       type: http
