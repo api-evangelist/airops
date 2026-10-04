@@ -1,31 +1,29 @@
-# Kin Score artifact — airops — 2026-08-30T220315
+# Kin Score artifact — airops — 2026-09-24T090406
 # The API Evangelist rating (https://github.com/api-evangelist/kin-score). Generated; do not edit.
 ---
 kin_score:
   slug: airops
-  schema_version: 0.17.2
-  scored_at: '2026-08-30'
-  run_ts: 2026-08-30T220315
-  composite: 60.2
+  schema_version: 0.22.0
+  scored_at: '2026-09-24'
+  run_ts: 2026-09-24T090406
+  composite: 60.4
   band: strong
   facets:
     discoverability: 75.9
-    contract_quality: 61.3
-    governance: 18.2
-    operational_transparency: 31.6
-    developer_ergonomics: 78.6
-    commercial_clarity: 76.3
+    contract_quality: 60.9
     contract_governance: 18.2
+    operational_transparency: 39.5
+    developer_ergonomics: 78.6
     access_clarity: 76.3
   agent_readiness:
-    score: 46.5
+    score: 55.3
     band: agent-ready
     band_gated_from: agent-native
     dimensions:
       spec_presence: true
       agentic_access: derived
       reversibility_documented: documented
-      mcp_server: documented
+      mcp_server: verified
       auth_clarity: served
       idempotency: false
       error_semantics: documented
@@ -38,7 +36,7 @@ kin_score:
       agent_card: false
       dry_run_mode: false
       delegated_identity: served
-      protected_resource_metadata: false
+      protected_resource_metadata: verified
       dynamic_client_registration: false
       agentic_commerce: false
   provenance:
@@ -47,7 +45,7 @@ kin_score:
     agentic_access: derived
     conformance: first-party
     contracts:
-      total: 1
+      total: 18
       derived: 0
       coverage: 0.0
       callable: 100.0
