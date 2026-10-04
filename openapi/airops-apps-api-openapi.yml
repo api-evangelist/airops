@@ -66,20 +66,6 @@ components:
       schema:
         type: string
       description: The app uuid, you can find the app uuid by going to the App => Integrate
-  examples:
-    App:
-      value:
-        id: 297
-        name: my draft
-        description: draft
-        background_color: '#fea'
-        created_at: 2023-06-20 00:49:56.696000+00:00
-        updated_at: 2023-10-24 11:26:21.820000+00:00
-        active_version_id: 44
-        emoji: ''
-        public: false
-        uuid: 6d2f4e0b-1a1d-49ae-8034-ba56f932119e
-        readme: ''
   schemas:
     App:
       type: object
@@ -121,6 +107,20 @@ components:
         readme:
           type: string
           example: ''
+  examples:
+    App:
+      value:
+        id: 297
+        name: my draft
+        description: draft
+        background_color: '#fea'
+        created_at: 2023-06-20 00:49:56.696000+00:00
+        updated_at: 2023-10-24 11:26:21.820000+00:00
+        active_version_id: 44
+        emoji: ''
+        public: false
+        uuid: 6d2f4e0b-1a1d-49ae-8034-ba56f932119e
+        readme: ''
   securitySchemes:
     bearer:
       type: http

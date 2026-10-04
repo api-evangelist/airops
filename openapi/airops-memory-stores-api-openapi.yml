@@ -167,26 +167,21 @@ paths:
         '200':
           description: Document deleted
 components:
+  parameters:
+    memory_store_document_id:
+      name: memory_store_document_id
+      in: path
+      required: true
+      schema:
+        type: string
+    memory_store_id:
+      name: memory_store_id
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The Memory Store id
   schemas:
-    MemoryStoreSearchResultItem:
-      type: object
-      properties:
-        id:
-          type: string
-        score:
-          type: number
-        content:
-          type: string
-        document_name:
-          type: string
-        metadata:
-          type: object
-      required:
-      - id
-      - score
-      - content
-      - document_name
-      - metadata
     MemoryStoreDocument:
       type: object
       properties:
@@ -210,20 +205,25 @@ components:
           format: date-time
         vector_store_id:
           type: number
-  parameters:
-    memory_store_document_id:
-      name: memory_store_document_id
-      in: path
-      required: true
-      schema:
-        type: string
-    memory_store_id:
-      name: memory_store_id
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The Memory Store id
+    MemoryStoreSearchResultItem:
+      type: object
+      properties:
+        id:
+          type: string
+        score:
+          type: number
+        content:
+          type: string
+        document_name:
+          type: string
+        metadata:
+          type: object
+      required:
+      - id
+      - score
+      - content
+      - document_name
+      - metadata
   securitySchemes:
     bearer:
       type: http
