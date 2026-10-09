@@ -135,3 +135,19 @@ tool_count:
   note: Counted from the provider's tools reference on 2026-08-13. An earlier profile described "roughly
     ninety" tools; the documented figure is 76.
 crosswalk: mcp/airops-tool-crosswalk.yml
+rfc9728:
+  endpoint: https://app.airops.com/mcp
+  metadata_url: https://app.airops.com/.well-known/oauth-protected-resource/mcp
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://app.airops.com/mcp
+    authorization_servers:
+    - https://app.airops.com
+    scopes_supported:
+    - api
+    bearer_methods_supported:
+    - header
+    resource_documentation: https://docs.airops.com/developers/mcp-server

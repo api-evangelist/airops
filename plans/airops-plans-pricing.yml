@@ -150,3 +150,33 @@ legacy_plan_names:
     The pricing FAQ still references "Scale" and "Agency" plans, which no longer
     appear in the plan table. Recorded as an observed inconsistency on the
     provider's own page, not as current tiers.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - free
+  - metered
+  - negotiated
+  units: []
+  plans:
+  - name: Solo
+    access: other
+    model: metered
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Pro
+    access: other
+    model: free
+    model_how: derived
+    units: []
+    periods:
+    - month
+  - name: Enterprise
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods:
+    - month
