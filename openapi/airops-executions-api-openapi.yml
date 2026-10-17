@@ -394,6 +394,21 @@ paths:
       operationId: getPublicApiAiropsApps:airopsAppIdExecutions
       x-operation-id-source: derived
 components:
+  parameters:
+    execution_uuid:
+      name: execution_uuid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The execution uuid
+    app_uuid:
+      name: app_uuid
+      in: path
+      required: true
+      schema:
+        type: string
+      description: The app uuid, you can find the app uuid by going to the App => Integrate
   schemas:
     Execution:
       type: object
@@ -511,21 +526,6 @@ components:
         workspace_id: 1
         createdAt: 2024-02-01 16:39:28.161000+00:00
         updatedAt: 2024-02-01 16:39:28.161000+00:00
-  parameters:
-    app_uuid:
-      name: app_uuid
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The app uuid, you can find the app uuid by going to the App => Integrate
-    execution_uuid:
-      name: execution_uuid
-      in: path
-      required: true
-      schema:
-        type: string
-      description: The execution uuid
   securitySchemes:
     bearer:
       type: http
