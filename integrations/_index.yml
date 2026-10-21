@@ -136,3 +136,31 @@
     detected: '2026-10-20'
   status: not-a-workflow
   arazzo: null
+- slug: airops-pypi-organization-accounts
+  label: PyPI organization accounts
+  partner: pypi
+  partner_name: PyPI organization accounts
+  category: PyPI organization
+  type: register
+  channel: package-registry
+  evidence: https://pypi.org/org/airops/
+  source: edge
+  relationship: distribution-channel
+  contract_reference:
+    register: PyPI organization accounts
+    spec_file: null
+    role: pypi-organization
+    registered_name: airops
+    register_id: https://pypi.org/org/airops/
+    org_display_name: AirOps
+    matched_by: verified-package
+    packages_verified:
+    - airops
+    org_projects: 1
+    identity_note: the org is reached through packages sweep-official-sdks / official-clis verified as the provider's
+      own (domain / org leg AND publisher leg); never by the org name
+    signal_note: 'participation only (python): an organization account on PyPI, not a package count'
+    detected_by: sweep-ide-extension-marketplaces.py
+    detected: '2026-10-20'
+  status: not-a-workflow
+  arazzo: null
